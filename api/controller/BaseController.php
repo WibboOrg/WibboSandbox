@@ -19,7 +19,7 @@ class BaseController
         
         $this->requireData($input, $data);
 
-        return $data;
+        return $input;
     }
 
     public function getAuth()

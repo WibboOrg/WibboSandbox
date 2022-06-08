@@ -16,7 +16,7 @@ class UserDto extends BaseDto
     {
         $model = self::getModel(self::$modelName);
 
-        $stmt = $model->select(`id`, `username`, `password`)->where('id', $id)->first();
+        $stmt = $model->select(['id', 'username', 'password'])->where('id', $id)->first();
 
         return $stmt;
     }
@@ -25,7 +25,7 @@ class UserDto extends BaseDto
     {
         $model = self::getModel(self::$modelName);
 
-        $stmt = $model->select('id')->where('username', $name)->first();
+        $stmt = $model->select(['id'])->where('username', $name)->first();
 
         return $stmt;
     }
