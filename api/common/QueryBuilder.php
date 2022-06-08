@@ -12,9 +12,10 @@ class QueryBuilder
         $this->limit = 0;
     }
 
-    public function select(array $selects)
+    public function select(string ...$selects)
     {
         $this->selects = $selects;
+        
         return $this;
     }
 
@@ -34,12 +35,14 @@ class QueryBuilder
             'value' => $value,
             'index' => $index
         ];
+
         return $this;
     }
 
     public function limit(int $limit)
     {
         $this->limit = $limit;
+
         return $this;
     }
 
@@ -52,6 +55,7 @@ class QueryBuilder
                 return '`' . $where['column'] . '` ' . $where['operator'] . ' :' . $where['column'] . $where['index'];
             }, $this->wheres));
         }
+
         return $query;
     }
 
@@ -61,6 +65,7 @@ class QueryBuilder
         if($this->limit > 0) {
             $query .= " LIMIT " . $this->limit;
         }
+
         return $query;
     }
 
@@ -82,6 +87,7 @@ class QueryBuilder
     {
         $params = [];
         $params = array_merge($params, $this->getWhereParams());
+
         return $params;
     }
 
@@ -90,6 +96,15 @@ class QueryBuilder
         $query = "INSERT INTO `" . $this->tableName . "` (" . implode(', ', array_map(function($key) { return '`' . $key . '`'; }, array_keys($params))) . ") VALUES (" . implode(', ', array_map(function($key) {
             return ':' . $key;
         }, array_keys($params))) . ")";
+
+        return $query;
+    }
+
+    public function getDeleteQuery()
+    {
+        $query = "DELETE FROM `" . $this->tableName . "`";
+        $query .= $this->getWhereQuery();
+        $query .= $this->getLimitQuery();
 
         return $query;
     }
@@ -109,9 +124,9 @@ class QueryBuilder
     public function getSelectQuery()
     {
         $query = "SELECT ";
-        $query .= implode(', ', array_map(function($value) { 
+        $query .= count($this->selects) > 0 ? implode(', ', array_map(function($value) { 
             return '`' . $value . '`'; 
-        }, $this->selects));
+        }, $this->selects)) : '*';
         $query .= " FROM `" . $this->tableName . "`";
         $query .= $this->getWhereQuery();
         $query .= $this->getLimitQuery();

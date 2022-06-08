@@ -1,27 +1,28 @@
 <?php
 class TestController extends BaseController
 {
-    public function get()
+    public function get() //Read
     {
-        $this->send(["Hello" => "get"]);
+        $users = UserDto::getAll();
+        $this->send(["Hello" => "get", "users" => $users]);
     }
     
-    public function post()
+    public function post() //Create
     {
         $this->send(["Hello" => "post"]);
     }
     
-    public function put()
+    public function put() //Update/Replace
     {
         $this->send(["Hello" => "put"]);
     }
     
-    public function patch()
+    public function patch() //Update/Modify
     {
         $this->send(["Hello" => "patch"]);
     }
     
-    public function delete()
+    public function delete() //Delete
     {
         $this->send(["Hello" => "delete"]);
     }

@@ -30,30 +30,30 @@
         }
     </style>
 </head>
-<body class="w-screen h-screen overflow-hidden antialiased bg-gray-900 text-white">
+<body class="w-screen h-screen overflow-hidden antialiased text-white bg-gray-900">
     <div id="app">
         <div v-if="auth.logged === false">
-            <div class="bg-red-800 text-center p-2 rounded absolute top-0 left-0 right-0" v-if="errors.length">
+            <div class="absolute top-0 left-0 right-0 p-2 text-center bg-red-800 rounded" v-if="errors.length">
                 <div v-for="error in errors">{{ error }}</div>
             </div>
 
             <div class="flex items-center justify-center min-h-screen">
-                <div class="px-8 py-6 mt-4 text-left bg-gray-800 shadow-lg rounded">
+                <div class="px-8 py-6 mt-4 text-left bg-gray-800 rounded shadow-lg">
                     <h3 class="text-2xl font-bold text-center">SandBox</h3>
                     <form @submit="postLogin">
                         <div class="mt-4">
                             <div>
                                 <label class="block" for="email">Pseudo<label>
                                 <input type="text" placeholder="Pseudo" v-model="loginForm.username"
-                                    class="w-full px-4 py-2 mt-2 border rounded-md bg-gray-600 border-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-600">
+                                    class="w-full px-4 py-2 mt-2 bg-gray-600 border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
                             </div>
                             <div class="mt-4">
                                 <label class="block">Mot de passe<label>
                                 <input type="password" placeholder="Mot de passe" v-model="loginForm.password"
-                                    class="w-full px-4 py-2 mt-2 border rounded-md bg-gray-600 border-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-600">
+                                    class="w-full px-4 py-2 mt-2 bg-gray-600 border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
                             </div>
                             <div class="flex items-baseline justify-between">
-                                <button class="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900 transition-colors">Connexion</button>
+                                <button class="w-full px-6 py-2 mt-4 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-900">Connexion</button>
                             </div>
                         </div>
                     </form>
@@ -61,9 +61,9 @@
             </div>
         </div>
         <div v-else>
-            <iframe class="absolute top-0 left-0 right-0 bottom-0 h-full w-full z-0" :src="'https://nitro.wibbo.io/?sso=' + auth.ssoticket" v-if="auth.ssoticket !== ''"></iframe>
+            <iframe class="absolute top-0 bottom-0 left-0 right-0 z-0 w-full h-full" :src="'https://nitro.wibbo.io/?sso=' + auth.ssoticket" v-if="auth.ssoticket !== ''"></iframe>
             
-            <div class="absolute z-10 top-1 left-1 w-auto p-2 border-2 rounded bg-gray-800 border-gray-700 hover:bg-gray-700 cursor-pointer" @click="openMenu = !openMenu">
+            <div class="absolute z-10 w-auto p-2 bg-gray-800 border-2 border-gray-700 rounded cursor-pointer top-1 left-1 hover:bg-gray-700" @click="openMenu = !openMenu">
                 <div class="space-y-1">
                     <div class="w-4 h-0.5 bg-white"></div>
                     <div class="w-4 h-0.5 bg-white"></div>
@@ -72,19 +72,19 @@
             </div>
 
             <transition enter-active-class="duration-300" enter-from-class="-translate-x-full" enter-to-class="translate-x-0" leave-active-class="duration-300" leave-from-class="translate-x-0" leave-to-class="-translate-x-full">
-                <nav class="absolute z-10 top-0 left-0 bottom-0 flex flex-col gap-1 bg-gray-800 h-full p-4 shadow shadow-gray-600" v-show="openMenu" :key="openMenu">
+                <nav class="absolute top-0 bottom-0 left-0 z-10 flex flex-col h-full gap-1 p-4 bg-gray-800 shadow shadow-gray-600" v-show="openMenu" :key="openMenu">
                     <div class="flex justify-between py-2">
                         <span class="font-bold">SandBox</span>
 
                         <div class="cursor-pointer" @click="openMenu = false">
-                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </div>
                     </div>
 
                     <ul>
-                        <li class="w-full p-2 border-2 border-gray-700 hover:bg-gray-600 cursor-pointer" @click="logout">Déconnexion</li>
+                        <li class="w-full p-2 border-2 border-gray-700 cursor-pointer hover:bg-gray-600" @click="logout">Déconnexion</li>
                     </ul>
                 </nav>
             </transition>

@@ -5,9 +5,9 @@ class RegisterController extends BaseController
     {
         $data = $this->getData(['username', 'password']);
 
-        $userLogin = UserDto::getIdByName($data["username"]);
+        $userExist = UserDto::getIdByName($data["username"]);
 
-        if($userLogin) throw new HttpException("User name exist", 400);
+        if($userExist) throw new HttpException("User name exist", 400);
 
         $userId = UserDto::create($data["username"], $data["password"]);
 

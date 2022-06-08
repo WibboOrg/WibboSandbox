@@ -3,31 +3,47 @@ class UserDto extends BaseDto
 {
     private static string $modelName = "User";
 
+    public static function getAll()
+    {
+        $model = self::getModel(self::$modelName);
+
+        $data = $model->select('username', 'id')->get();
+
+        return $data;
+    }
+
     public static function getOneByName($name)
     {
         $model = self::getModel(self::$modelName);
 
-        $stmt = $model->select(['id', 'username', 'password'])->where('username', $name)->first();
+        $data = $model->select('id', 'username', 'password')->where('username', $name)->first();
 
-        return $stmt;
+        return $data;
     }
 
     public static function getOne($id)
     {
         $model = self::getModel(self::$modelName);
 
-        $stmt = $model->select(['id', 'username', 'password'])->where('id', $id)->first();
+        $data = $model->select('id', 'username', 'password')->where('id', $id)->first();
 
-        return $stmt;
+        return $data;
+    }
+
+    public static function delete($id)
+    {
+        $model = self::getModel(self::$modelName);
+
+        $model->where('id', $id)->delete();
     }
 
     public static function getIdByName($name)
     {
         $model = self::getModel(self::$modelName);
 
-        $stmt = $model->select(['id'])->where('username', $name)->first();
+        $data = $model->select('id')->where('username', $name)->first();
 
-        return $stmt;
+        return $data;
     }
 
     public static function updatePassword($userId, $password)
