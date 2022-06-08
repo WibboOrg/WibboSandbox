@@ -3,26 +3,26 @@ class TestController extends BaseController
 {
     public function get()
     {
-        $this->send(["Hello" => "Word"]);
+        $this->send(["Hello" => "get"]);
     }
     
     public function post()
     {
-        $this->send(["Hello" => "Word"]);
+        $this->send(["Hello" => "post"]);
     }
     
     public function put()
     {
-        $this->send(["Hello" => "Word"]);
+        $this->send(["Hello" => "put"]);
     }
     
     public function patch()
     {
-        $this->send(["Hello" => "Word"]);
+        $this->send(["Hello" => "patch"]);
     }
     
     public function delete()
     {
-        $this->send(["Hello" => "Word"]);
+        $this->send(["Hello" => "delete"]);
     }
 }

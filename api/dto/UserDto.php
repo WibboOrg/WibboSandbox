@@ -1,59 +1,55 @@
 <?php 
 class UserDto extends BaseDto
 {
+    private static string $modelName = "User";
+
     public static function getOneByName($name)
     {
-        $model = self::getModel();
+        $model = self::getModel(self::$modelName);
 
-        $stmt = $model->conn->prepare("SELECT `id`, `username`, `password` FROM `user` WHERE username = :name LIMIT 1");
-        $stmt->execute(['name' => $name]);
+        $stmt = $model->select(['id', 'username', 'password'])->where('username', $name)->first();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt;
     }
 
     public static function getOne($id)
     {
-        $model = self::getModel();
+        $model = self::getModel(self::$modelName);
 
-        $stmt = $model->conn->prepare("SELECT `id`, `username`, `password` FROM `user` WHERE id = :id LIMIT 1");
-        $stmt->execute(['id' => $id]);
+        $stmt = $model->select(`id`, `username`, `password`)->where('id', $id)->first();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt;
     }
 
     public static function getIdByName($name)
     {
-        $model = self::getModel();
+        $model = self::getModel(self::$modelName);
 
-        $stmt = $model->conn->prepare("SELECT `id` FROM `user` WHERE username = :name LIMIT 1");
-        $stmt->execute(['name' => $name]);
+        $stmt = $model->select('id')->where('username', $name)->first();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt;
     }
 
     public static function updatePassword($userId, $password)
     {
-        $model = self::getModel();
+        $model = self::getModel(self::$modelName);
 
-        $stmt = $model->conn->prepare("UPDATE `user` SET `password` = :password WHERE `id` = :id LIMIT 1");
-        $stmt->execute(['id' => $userId, 'password' => password_hash($password, PASSWORD_DEFAULT)]);
+        $model->where('id', $userId)->update(['password' => password_hash($password, PASSWORD_DEFAULT)]);
     }
 
     public static function updateTicket($userId, $ticket)
     {
-        $model = self::getModel();
+        $model = self::getModel(self::$modelName);
 
-        $stmt = $model->conn->prepare("UPDATE `user` SET `auth_ticket` = :ticket WHERE `id` = :id LIMIT 1");
-        $stmt->execute(['id' => $userId, 'ticket' => $ticket]);
+        $model->where('id', $userId)->limit(1)->update(['auth_ticket' => $ticket]);
     }
 
     public static function create($user_name, $password)
     {
-        $model = self::getModel();
+        $model = self::getModel(self::$modelName);
 
-        $stmt = $model->conn->prepare("INSERT INTO `user` (`username`, `password`) VALUES (:name, :password)");
-        $stmt->execute(['name' => $user_name, 'password' => password_hash($password, PASSWORD_DEFAULT)]);
+        $model->insert(['username' => $user_name, 'password' => password_hash($password, PASSWORD_DEFAULT)]);
 
-        return $model->conn->lastInsertId();
+        return $model->getLastInsertId();
     }
 }

@@ -3,11 +3,12 @@ class BaseDto
 {
     public static ?BaseModel $model = null;
 
-    public static function getModel()
+    public static function getModel($modelName)
     {
         if (is_null(self::$model))
         {
-            self::$model = new BaseModel();
+            $className = $modelName . "Model";
+            self::$model = new $className();
         }
         return self::$model;
     }
