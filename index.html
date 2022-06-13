@@ -32,14 +32,16 @@
 </head>
 <body class="w-screen h-screen overflow-hidden antialiased text-white bg-gray-900">
     <div id="app">
-        <div class="absolute top-0 left-0 right-0 z-50 p-2 text-center bg-red-800 rounded" v-if="errors.length">
-            <span v-for="error in errors">{{ error }}</span>
-            <div class="absolute -translate-y-1/2 cursor-pointer top-1/2 right-4" @click="errors = []">
-                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+        <transition enter-active-class="duration-300" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-active-class="duration-300" leave-from-class="opacity-100" leave-to-class="opacity-0">
+            <div class="absolute top-0 left-0 right-0 z-50 p-2 text-center bg-red-800 rounded" v-if="errors.length">
+                <div v-for="error in errors">{{ error }}</div>
+                <div class="absolute -translate-y-1/2 cursor-pointer top-1/2 right-4" @click="errors = []">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
             </div>
-        </div>
+        </transition>
         <div v-if="auth.logged === false">
             <div class="flex items-center justify-center min-h-screen">
                 <div class="px-8 py-6 mt-4 text-left bg-gray-800 rounded shadow-lg">
@@ -67,7 +69,7 @@
         <div v-else>
             <iframe class="absolute top-0 bottom-0 left-0 right-0 z-0 w-full h-full" :src="'https://nitro.wibbo.io/?sso=' + auth.ssoticket" v-if="auth.ssoticket !== ''"></iframe>
             
-            <div class="absolute z-10 w-auto p-2 transition-colors bg-gray-800 border-2 border-gray-700 rounded cursor-pointer top-1 left-1 hover:bg-gray-700" @click="openMenu = !openMenu">
+            <div class="absolute z-10 w-auto p-2 transition-colors bg-gray-800 border-2 border-gray-700 rounded cursor-pointer top-1 left-1 hover:bg-gray-700" @click="route.path = 'index'">
                 <div class="space-y-1">
                     <div class="w-4 h-0.5 bg-white"></div>
                     <div class="w-4 h-0.5 bg-white"></div>
@@ -76,11 +78,11 @@
             </div>
 
             <transition enter-active-class="duration-300" enter-from-class="-translate-x-full" enter-to-class="translate-x-0" leave-active-class="duration-300" leave-from-class="translate-x-0" leave-to-class="-translate-x-full">
-                <nav class="absolute top-0 bottom-0 left-0 z-10 flex flex-col h-full gap-1 p-4 bg-gray-800 shadow shadow-gray-600" v-show="openMenu" :key="openMenu">
+                <nav class="absolute top-0 bottom-0 left-0 z-10 flex flex-col h-full gap-1 p-4 bg-gray-800 shadow shadow-gray-600" v-show="route.path !== ''" :key="route.path !== ''">
                     <div class="flex justify-between py-2">
                         <span class="font-bold">SandBox</span>
 
-                        <div class="cursor-pointer" @click="openMenu = false; route.path = ''">
+                        <div class="cursor-pointer" @click="route.path = ''">
                             <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
@@ -88,7 +90,7 @@
                     </div>
 
                     <ul class="flex flex-col gap-1">
-                        <li class="w-full p-2 text-center transition-colors border-2 border-gray-700 cursor-pointer hover:bg-gray-600" @click="route.path = ''">Acceuil</li>
+                        <li class="w-full p-2 text-center transition-colors border-2 border-gray-700 cursor-pointer hover:bg-gray-600" @click="route.path = 'index'">Acceuil</li>
                         <li class="w-full p-2 text-center transition-colors border-2 border-gray-700 cursor-pointer hover:bg-gray-600" @click="route.path = 'upload-furni'">Ajouter des mobiliers</li>
                         <li class="w-full p-2 text-center transition-colors border-2 border-gray-700 cursor-pointer hover:bg-gray-600" @click="logout">Déconnexion</li>
                     </ul>
@@ -96,13 +98,15 @@
             </transition>
             
             <transition enter-active-class="duration-300" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-active-class="duration-300" leave-from-class="opacity-100" leave-to-class="opacity-0">
-                <div class="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-black bg-opacity-75" v-show="openMenu" :key="openMenu">
+                <div class="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-black bg-opacity-75" v-show="route.path !== ''" :key="route.path !== ''">
                     
-                       <div v-if="route.path == ''" :key="''">
+                    <transition enter-active-class="absolute duration-300" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-active-class="absolute duration-300" leave-from-class="opacity-100" leave-to-class="opacity-0">
+                       <div :key="route.path">
+                        <div v-if="route.path == 'index'">
                             <h1 class="text-4xl">Bienvenue sur la SandBox!</h1>
                         </div>
                             
-                        <div v-if="route.path == 'upload-furni'" :key="'upload-furni'">
+                        <div v-if="route.path == 'upload-furni'">
                             <div class="flex flex-col gap-2 p-4 bg-gray-900 rounded">
                                 <h1 class="font-bold text-center">Importer des mobiliers</h1>
                                     <div class="flex items-center justify-center w-full">
@@ -134,7 +138,8 @@
                                 <button class="w-full p-2 text-center transition-colors border-2 border-gray-700 cursor-pointer hover:bg-gray-600" @click="postUpload">Importer</button>
                             </div>
                         </div>
-                    
+                    </div>
+                    </transition>
                 </div>
             </transition>
         </div>
@@ -161,8 +166,7 @@
                     uploadForm: {
                         files: [],
                         inDrag: false,
-                    },
-                    openMenu: false
+                    }
                 }
             },
             async created() {
