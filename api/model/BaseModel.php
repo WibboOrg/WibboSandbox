@@ -6,8 +6,10 @@ class BaseModel extends QueryBuilder
     public static ?Database $database = null;
     public ?PDO $conn = null;
 
-    public function __construct()
+    public function __construct($name)
     {
+        $this->tableName = $name;
+
         parent::__construct();
 
         if(self::$database == null) self::$database = new Database();
@@ -63,7 +65,7 @@ class BaseModel extends QueryBuilder
         return $this->conn->lastInsertId();
     }
 
-    private function execute($query, $params = [])
+    public function execute($query, $params = [])
     {
         $stmt = $this->conn->prepare($query);
         $stmt->execute($params);

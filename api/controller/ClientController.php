@@ -7,7 +7,7 @@ class ClientController extends BaseController
 
         $user = UserDto::getOne($auth->id);
 
-        if(!$user) throw new HttpException("User not found", 404);
+        if(!$user) throw new HttpException("Utilisateur non trouver", 404);
         
         $ticket = Helper::generateTicket();
 

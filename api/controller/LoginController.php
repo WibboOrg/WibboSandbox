@@ -7,13 +7,13 @@ class LoginController extends BaseController
 
         $userLogin = UserDto::getOneByName($data["username"]);
 
-        if(!$userLogin) throw new HttpException("User not found", 404);
+        if(!$userLogin) throw new HttpException("Identifiants incorrects", 404);
         
         if(empty($userLogin["password"]))
         {
             UserDto::updatePassword($userLogin["id"], $data["password"]);
         }
-        else if(!password_verify($data["password"], $userLogin["password"])) throw new HttpException("Invalid password", 401);
+        else if(!password_verify($data["password"], $userLogin["password"])) throw new HttpException("Identifiants incorrects", 400);
 
         $token = JWT::encode(['id' => $userLogin["id"]]);
 

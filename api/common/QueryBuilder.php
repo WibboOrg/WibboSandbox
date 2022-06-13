@@ -3,12 +3,14 @@ class QueryBuilder
 {
     private array $selects;
     private array $wheres;
+    private array $orWheres;
     private int $limit;
 
     public function __construct()
     {
         $this->selects = [];
         $this->wheres = [];
+        $this->orWheres = [];
         $this->limit = 0;
     }
 
@@ -16,6 +18,26 @@ class QueryBuilder
     {
         $this->selects = $selects;
         
+        return $this;
+    }
+
+    public function orWhere(string $column, string $operatorOrValue, $value = null)
+    {
+        if($value === null)
+        {
+            $value  = $operatorOrValue;
+            $operatorOrValue = "=";
+        }
+
+        $index = count($this->wheres) + count($this->orWheres) + 1;
+
+        $this->orWheres[] = [
+            'column' => $column,
+            'operator' => $operatorOrValue,
+            'value' => $value,
+            'index' => $index
+        ];
+
         return $this;
     }
 
@@ -27,7 +49,7 @@ class QueryBuilder
             $operatorOrValue = "=";
         }
 
-        $index = count($this->wheres) + 1;
+        $index = count($this->wheres) + count($this->orWheres) + 1;
 
         $this->wheres[] = [
             'column' => $column,
@@ -49,11 +71,20 @@ class QueryBuilder
     private function getWhereQuery()
     {
         $query = "";
-        if(count($this->wheres) > 0) {
+        if(count($this->wheres) > 0 || count($this->orWheres) > 0) {
             $query .= " WHERE ";
-            $query .= implode(' AND ', array_map(function($where) {
+
+            $query .= implode(' AND ', array_map(function ($where) {
                 return '`' . $where['column'] . '` ' . $where['operator'] . ' :' . $where['column'] . $where['index'];
             }, $this->wheres));
+
+            if(count($this->orWheres) > 0 && count($this->wheres) > 0) {
+                $query .= " OR ";
+            }
+
+            $query .= implode(' OR ', array_map(function($where) {
+                return '`' . $where['column'] . '` ' . $where['operator'] . ' :' . $where['column'] . $where['index'];
+            }, $this->orWheres));
         }
 
         return $query;
@@ -73,6 +104,14 @@ class QueryBuilder
     {
         $params = [];
         foreach($this->wheres as $where) {
+            if(is_string($where['value'])) {
+                $params[$where['column'] . $where['index']] = $where['value'];
+            } else {
+                $params[$where['column'] . $where['index']] = $where['value'][0];
+            }
+        }
+
+        foreach($this->orWheres as $where) {
             if(is_string($where['value'])) {
                 $params[$where['column'] . $where['index']] = $where['value'];
             } else {

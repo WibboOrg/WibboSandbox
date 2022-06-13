@@ -7,8 +7,7 @@ class BaseDto
     {
         if (is_null(self::$model))
         {
-            $className = $modelName . "Model";
-            self::$model = new $className();
+            self::$model = new BaseModel($modelName);
         }
         return self::$model;
     }

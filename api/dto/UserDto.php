@@ -1,7 +1,7 @@
 <?php 
 class UserDto extends BaseDto
 {
-    private static string $modelName = "User";
+    private static string $modelName = "user";
 
     public static function getAll()
     {

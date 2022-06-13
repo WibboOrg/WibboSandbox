@@ -3,8 +3,8 @@ class TestController extends BaseController
 {
     public function get() //Read
     {
-        $users = UserDto::getAll();
-        $this->send(["Hello" => "get", "users" => $users]);
+        $item = ItemBaseDto::getOneByIdOrName(1, 'spotlight_v2_1');
+        $this->send(["Hello" => "get", "item" => $item]);
     }
     
     public function post() //Create

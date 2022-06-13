@@ -33,6 +33,11 @@ class BaseController
         return JWT::decode($token);
     }
 
+    public function getAuthUser()
+    {
+        return UserDto::getOne($this->getAuth()->id);
+    }
+
     public function get() 
     {
         throw new HttpException("Method get not found", 404);
