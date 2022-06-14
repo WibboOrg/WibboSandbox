@@ -42,6 +42,16 @@
                 </div>
             </div>
         </transition>
+        <transition enter-active-class="duration-300" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-active-class="duration-300" leave-from-class="opacity-100" leave-to-class="opacity-0">
+            <div class="absolute top-0 left-0 right-0 z-50 p-2 text-center bg-green-800 rounded" v-if="sucesses.length">
+                <div v-for="sucesse in sucesses">{{ sucesse }}</div>
+                <div class="absolute -translate-y-1/2 cursor-pointer top-1/2 right-4" @click="sucesses = []">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+        </transition>
         <div v-if="auth.logged === false">
             <div class="flex items-center justify-center min-h-screen">
                 <div class="px-8 py-6 mt-4 text-left bg-gray-800 rounded shadow-lg">
@@ -151,6 +161,7 @@
             data() {
                 return {
                     errors: [],
+                    sucesses: [],
                     loginForm: {
                         username: '',
                         password: '',
@@ -192,6 +203,9 @@
                         return;
                     }
 
+                    this.errors = [];
+                    this.sucesses = [];
+
                     if(this.uploadForm.files.length == 0) {
                         this.errors.push('Aucun fichier à importer');
                         return;
@@ -209,6 +223,7 @@
                     } catch(e) {
                         
                     } finally {
+                        this.sucesses.push('Fichiers importés');
                         this.loading = false;
                     }
                 },
