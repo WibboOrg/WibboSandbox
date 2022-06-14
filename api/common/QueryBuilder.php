@@ -68,7 +68,7 @@ class QueryBuilder
         return $this;
     }
 
-    private function getWhereQuery()
+    private function getWhereQuery(): string
     {
         $query = "";
         if(count($this->wheres) > 0 || count($this->orWheres) > 0) {
@@ -90,7 +90,7 @@ class QueryBuilder
         return $query;
     }
 
-    private function getLimitQuery()
+    private function getLimitQuery(): string
     {
         $query = "";
         if($this->limit > 0) {
@@ -100,7 +100,7 @@ class QueryBuilder
         return $query;
     }
 
-    private function getWhereParams()
+    private function getWhereParams(): array
     {
         $params = [];
         foreach($this->wheres as $where) {
@@ -122,7 +122,7 @@ class QueryBuilder
         return $params;
     }
 
-    public function getParams()
+    public function getParams(): array
     {
         $params = [];
         $params = array_merge($params, $this->getWhereParams());
@@ -130,7 +130,7 @@ class QueryBuilder
         return $params;
     }
 
-    public function getInsertQuery(array $params)
+    public function getInsertQuery(array $params): string
     {
         $query = "INSERT INTO `" . $this->tableName . "` (" . implode(', ', array_map(function($key) { return '`' . $key . '`'; }, array_keys($params))) . ") VALUES (" . implode(', ', array_map(function($key) {
             return ':' . $key;
@@ -139,7 +139,7 @@ class QueryBuilder
         return $query;
     }
 
-    public function getDeleteQuery()
+    public function getDeleteQuery(): string
     {
         $query = "DELETE FROM `" . $this->tableName . "`";
         $query .= $this->getWhereQuery();
@@ -148,7 +148,7 @@ class QueryBuilder
         return $query;
     }
 
-    public function getUpdateQuery(array $params)
+    public function getUpdateQuery(array $params): string
     {
         $query = "UPDATE `" . $this->tableName . "` SET ";
         $query .= implode(', ', array_map(function($key) {
@@ -160,7 +160,7 @@ class QueryBuilder
         return $query;
     }
 
-    public function getSelectQuery()
+    public function getSelectQuery(): string
     {
         $query = "SELECT ";
         $query .= count($this->selects) > 0 ? implode(', ', array_map(function($value) { 

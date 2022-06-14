@@ -1,7 +1,7 @@
 <?php
 class Helper
 {
-    public static function emptyArray(array $array)
+    public static function emptyArray(array $array): bool
     {
         foreach ($array as $key => $value) {
             if (empty($value)) {

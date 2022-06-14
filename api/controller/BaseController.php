@@ -13,7 +13,7 @@ class BaseController
         }
     }
 
-    public function getData(array $data)
+    public function getData(array $data): object
     {
         $input = json_decode(file_get_contents('php://input'), true);
         
@@ -22,7 +22,7 @@ class BaseController
         return $input;
     }
 
-    public function getAuth()
+    public function getAuth(): object
     {
         $headers = apache_request_headers();
         $authorization = $headers['Authorization'] ?? null;
@@ -33,7 +33,7 @@ class BaseController
         return JWT::decode($token);
     }
 
-    public function getAuthUser()
+    public function getAuthUser(): array
     {
         $user = UserDto::getOne($this->getAuth()->id);
 

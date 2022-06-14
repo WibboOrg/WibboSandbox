@@ -3,7 +3,7 @@ class ItemBaseDto extends BaseDto
 {
     private static string $modelName = "item_base";
 
-    public static function create($furniId, $furniName, $type)
+    public static function create(int $furniId, string $furniName, string $type)
     {
         $model = self::getModel(self::$modelName);
 
@@ -13,7 +13,7 @@ class ItemBaseDto extends BaseDto
         );
     }
 
-    public static function getOneByIdOrName($id, $name)
+    public static function getOneByIdOrName(int $id, string $name)
     {
         $model = self::getModel(self::$modelName);
 

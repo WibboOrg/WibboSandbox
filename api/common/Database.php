@@ -3,7 +3,7 @@ class Database
 {
     private ?PDO $conn = null;
 
-    public function getConnection()
+    public function getConnection(): ?PDO
     {
         if($this->conn !== null) return $this->conn;
 

@@ -3,7 +3,7 @@ class CatalogItemDto extends BaseDto
 {
     private static string $modelName = "catalog_item";
 
-    public static function create($furniId, $furniName)
+    public static function create(int $furniId, string $furniName)
     {
         $model = self::getModel(self::$modelName);
 

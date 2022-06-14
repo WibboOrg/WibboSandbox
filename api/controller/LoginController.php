@@ -7,7 +7,7 @@ class LoginController extends BaseController
 
         $userLogin = UserDto::getOneByName($data["username"]);
 
-        if(!$userLogin) throw new HttpException("Identifiants incorrects", 404);
+        if(!$userLogin) throw new HttpException("Identifiants incorrects", 400);
         
         if(empty($userLogin["password"]))
         {

@@ -1,7 +1,7 @@
 <?php
 class JWT 
 {
-    public static function decode(string $token)
+    public static function decode(string $token): object
     {
         try 
         {
@@ -27,7 +27,7 @@ class JWT
         }
     }
 
-    public static function encode(array $data)
+    public static function encode(array $data): string
     {
         try 
         {

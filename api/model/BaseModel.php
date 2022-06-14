@@ -6,7 +6,7 @@ class BaseModel extends QueryBuilder
     public static ?Database $database = null;
     public ?PDO $conn = null;
 
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->tableName = $name;
 
@@ -17,7 +17,7 @@ class BaseModel extends QueryBuilder
         $this->conn = self::$database->getConnection();
     }
     
-    public function first()
+    public function first(): array
     {
         $this->limit(1);
         $query = $this->getSelectQuery();
@@ -27,7 +27,7 @@ class BaseModel extends QueryBuilder
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
-    public function get()
+    public function get(): array
     {
         $query = $this->getSelectQuery();
         $params = $this->getParams();
@@ -60,12 +60,12 @@ class BaseModel extends QueryBuilder
         $this->execute($query, $params);
     }
 
-    public function getLastInsertId()
+    public function getLastInsertId(): int
     {
         return $this->conn->lastInsertId();
     }
 
-    public function execute($query, $params = [])
+    public function execute(string $query, array $params = [])
     {
         $stmt = $this->conn->prepare($query);
         $stmt->execute($params);

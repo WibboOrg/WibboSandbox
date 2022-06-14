@@ -12,7 +12,7 @@ class UserDto extends BaseDto
         return $data;
     }
 
-    public static function getOneByName($name)
+    public static function getOneByName(string $name)
     {
         $model = self::getModel(self::$modelName);
 
@@ -21,7 +21,7 @@ class UserDto extends BaseDto
         return $data;
     }
 
-    public static function getOne($id)
+    public static function getOne(int $id)
     {
         $model = self::getModel(self::$modelName);
 
@@ -30,14 +30,14 @@ class UserDto extends BaseDto
         return $data;
     }
 
-    public static function delete($id)
+    public static function delete(int $id)
     {
         $model = self::getModel(self::$modelName);
 
         $model->where('id', $id)->delete();
     }
 
-    public static function getIdByName($name)
+    public static function getIdByName(string $name)
     {
         $model = self::getModel(self::$modelName);
 
@@ -46,25 +46,25 @@ class UserDto extends BaseDto
         return $data;
     }
 
-    public static function updatePassword($userId, $password)
+    public static function updatePassword(int $userId, string$password)
     {
         $model = self::getModel(self::$modelName);
 
         $model->where('id', $userId)->update(['password' => password_hash($password, PASSWORD_DEFAULT)]);
     }
 
-    public static function updateTicket($userId, $ticket)
+    public static function updateTicket(string $userId, string $ticket)
     {
         $model = self::getModel(self::$modelName);
 
         $model->where('id', $userId)->limit(1)->update(['auth_ticket' => $ticket]);
     }
 
-    public static function create($user_name, $password)
+    public static function create(string $name, string $password)
     {
         $model = self::getModel(self::$modelName);
 
-        $model->insert(['username' => $user_name, 'password' => password_hash($password, PASSWORD_DEFAULT)]);
+        $model->insert(['username' => $name, 'password' => password_hash($password, PASSWORD_DEFAULT)]);
 
         return $model->getLastInsertId();
     }
