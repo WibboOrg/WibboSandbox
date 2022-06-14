@@ -220,10 +220,11 @@
                         this.loading = true;
                         
                         const data = await this.fetchAPI('uploadfurni', 'POST', formData, true);
+                        this.sucesses.push('Fichiers importés');
                     } catch(e) {
                         
                     } finally {
-                        this.sucesses.push('Fichiers importés');
+                        
                         this.loading = false;
                     }
                 },
@@ -326,7 +327,11 @@
                         throw new Error();
                     }
 
-                    if(response.status !== 200) throw new Error(response.message);
+                    if(response.status !== 200) 
+                    {
+                        this.errors.push('Une erreur est survenue');
+                        throw new Error(response.message);
+                    }
                     
                     return data;
                 }

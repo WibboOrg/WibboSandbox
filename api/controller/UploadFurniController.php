@@ -5,7 +5,7 @@ class UploadFurniController extends BaseController
     {
         $user = $this->getAuthUser();
 
-        if($user->rank < 13) throw new HttpException("Vous n'avez pas les permissions requis", 400);
+        if($user["rank"] < 13) throw new HttpException("Vous n'avez pas les permissions requis", 400);
 
         $data = array();
 
