@@ -35,7 +35,11 @@ class BaseController
 
     public function getAuthUser()
     {
-        return UserDto::getOne($this->getAuth()->id);
+        $user = UserDto::getOne($this->getAuth()->id);
+
+        if(!$user) throw new HttpException("Utilisateur non trouver", 404);
+
+        return $user;
     }
 
     public function get() 

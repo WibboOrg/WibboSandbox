@@ -3,6 +3,10 @@ class UploadFurniController extends BaseController
 {
     public function post()
     {
+        $user = $this->getAuthUser();
+
+        if($user->rank < 13) throw new HttpException("Vous n'avez pas les permissions requis", 400);
+
         $data = array();
 
         $file_names = $_FILES["file"]["name"];
@@ -33,7 +37,7 @@ class UploadFurniController extends BaseController
             }
 
             if (ItemBaseDto::getOneByIdOrName($furniId, $furniName) !== null) {
-                throw new HttpException('Mobilier déjà existant', 400);
+                throw new HttpException('Mobilier déjà existant: '. $furniName, 400);
             }
 
             ItemBaseDto::create($furniId, $furniName, $type);
