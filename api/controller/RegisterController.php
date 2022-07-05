@@ -7,7 +7,7 @@ class RegisterController extends BaseController
 
         $userExist = UserDto::getIdByName($data["username"]);
 
-        if($userExist) throw new HttpException("Nom d'utilisateur déjà pris", 400);
+        if($userExist) throw new HttpException("Nom d'utilisateur déjà occupé", 400);
 
         $userId = UserDto::create($data["username"], $data["password"]);
 

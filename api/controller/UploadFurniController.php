@@ -15,11 +15,11 @@ class UploadFurniController extends BaseController
             $fileTmp = $_FILES["file"]["tmp_name"][$i];
 
             if (!$file) {
-                throw new HttpException("Fichier pas trouver", 400);
+                throw new HttpException("Fichier introuvable", 400);
             }
 
             if (!preg_match('/^[a-z0-9_]+\.nitro$/', $file)) {
-                throw new HttpException('Nom du fichier incorrect', 400);
+                throw new HttpException('Nom du fichier incorrecte', 400);
             }
 
             $furniName = explode(".nitro", $file)[0];
