@@ -193,12 +193,10 @@
                         await this.loadSSOTicket();
 
                         this.auth.logged = true;
-                    } catch(e) {
-                    }
+                    } catch(e) { }
                 }
             },
             methods: {
-
                 async postUpload(e) {
                     e.preventDefault();
 
@@ -224,12 +222,10 @@
                         
                         const data = await this.fetchAPI('uploadfurni', 'POST', formData, true);
                         this.sucesses.push('Fichiers importés');
-                    } catch(e) {
-                        
-                    } finally {
-                        
-                        this.loading = false;
-                    }
+                    } 
+                    catch(e) { } 
+                    
+                    this.loading = false;
                 },
 
                 onUploadChange(e) {
@@ -286,9 +282,9 @@
                             password: '',
                         }
                         this.logout();
-                    } finally {
-                        this.loading = false;
                     }
+                    
+                    this.loading = false;
 				},
 
                 async loadSSOTicket() {
@@ -308,7 +304,6 @@
                 },
 
                 async fetchAPI(url, method = "GET", body = null, formData = false) {
-                    
                     const response = await fetch('/api/index.php?' + url, {
                         method: method,
                         headers: {

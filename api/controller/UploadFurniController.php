@@ -19,7 +19,7 @@ class UploadFurniController extends BaseController
             }
 
             if (!preg_match('/^[a-z0-9_]+\.nitro$/', $file)) {
-                throw new HttpException('Nom du fichier incorrecte', 400);
+                throw new HttpException('Nom du fichier ou extension incorrecte (.nitro)', 400);
             }
 
             $furniName = explode(".nitro", $file)[0];
