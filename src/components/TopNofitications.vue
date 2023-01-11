@@ -15,7 +15,7 @@
 			<div v-for="message in messages">{{ message }}</div>
 			<div
 				class="absolute -translate-y-1/2 cursor-pointer top-1/2 right-4"
-				@click=""
+				@click="onClose"
 			>
 				<svg
 					class="w-6 h-6"
@@ -38,5 +38,14 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{ messages: string[], isError?: boolean }>();
+import { computed } from "vue";
+import { errors, sucesses } from "../composables/notifications";
+
+const isError = computed(() => errors.value.length);
+const messages = computed(() => [...sucesses.value, ...errors.value]);
+
+const onClose = () => {
+	sucesses.value = [];
+	errors.value = [];
+};
 </script>
