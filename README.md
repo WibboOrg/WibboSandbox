@@ -1,2 +1,2 @@
 # WibboSandBox
- CMS Sandbox of Wibbo
+CMS Sandbox of Wibbo
