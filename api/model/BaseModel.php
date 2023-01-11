@@ -1,16 +1,12 @@
 <?php
 class BaseModel extends QueryBuilder
 {
-    public string $tableName;
-
     public static ?Database $database = null;
     public ?PDO $conn = null;
 
     public function __construct(string $name)
     {
-        $this->tableName = $name;
-
-        parent::__construct();
+        parent::__construct($name);
 
         if(self::$database == null) self::$database = new Database();
 

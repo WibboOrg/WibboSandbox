@@ -78,5 +78,3 @@ function require_all(array $directory)
         }
     }
 }
-
-

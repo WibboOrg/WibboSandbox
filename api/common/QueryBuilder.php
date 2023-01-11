@@ -1,13 +1,16 @@
 <?php
 class QueryBuilder
 {
+    private string $tableName;
+
     private array $selects;
     private array $wheres;
     private array $orWheres;
     private int $limit;
 
-    public function __construct()
+    public function __construct(string $name)
     {
+        $this->tableName = $name;
         $this->selects = [];
         $this->wheres = [];
         $this->orWheres = [];
