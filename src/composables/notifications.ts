@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref } from 'vue'
 
-export const errors = ref<string[]>([]);
-export const sucesses = ref<string[]>([]);
+export const errors = ref<string[]>([])
+export const sucesses = ref<string[]>([])

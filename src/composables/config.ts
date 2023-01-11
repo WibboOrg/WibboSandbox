@@ -1,2 +1,3 @@
-//@ts-ignore
-export const getConfig = <T>(key: string): T => SandboxConfig[key];
+declare let SandboxConfig: Record<string, string>
+
+export const getConfig = (key: string) => SandboxConfig[key]
