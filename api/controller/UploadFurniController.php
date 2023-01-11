@@ -110,11 +110,8 @@ class UploadFurniController extends BaseController
             );
         }
 
-        $options = array('http' => array('header' => "Content-type: application/x-www-form-urlencoded\r\n", 'method' => 'POST', 'content' => http_build_query($data)));
-        $context = stream_context_create($options);
-        $result = file_get_contents(UPLOAD_URL_ASSETS . UPLOAD_API, false, $context);
-        if ($result === false || $result !== 'ok') {
-            throw new HttpException('Problème lors de l\'importation: ' . $result, 400);
+        if (Helper::uploadApi('assets', $data)) {
+            throw new HttpException('Problème lors de l\'importation: ', 400);
         }
     }
 }

@@ -13,7 +13,7 @@ class BaseController
         }
     }
 
-    public function getData(array $data): object
+    public function getData(array $data): array
     {
         $input = json_decode(file_get_contents('php://input'), true);
         
