@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts" setup>
-import ButtonClose from "../components/ButtonClose.vue";
+import ButtonClose from "./ButtonClose.vue";
 import { logout } from "../composables/auth";
 import { route } from "../composables/route";
 </script>
