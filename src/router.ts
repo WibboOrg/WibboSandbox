@@ -15,7 +15,6 @@ export const router = createRouter({
     ],
 })
 
-const DEFAULT_TITLE = 'Sandbox'
 router.afterEach((to) => {
-    document.title = 'Wibbo: ' + (to.meta?.title as string) || DEFAULT_TITLE
+    document.title = 'Wibbo: ' + (to.meta?.title as string) || 'Sandbox'
 })
