@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { fetchAPI } from './apiFetch'
+import { useFetchAPI } from './apiFetch'
 
 export const auth = ref({ logged: false, token: '', ssoticket: '' })
 
@@ -14,7 +14,7 @@ export const logout = () => {
 }
 
 export const loadSSOTicket = async () => {
-    const data = await fetchAPI('client')
+    const data = await useFetchAPI<{ ticket: string }>('client')
 
     auth.value.ssoticket = data.ticket
 }

@@ -1,33 +1,38 @@
 import { auth, logout } from './auth'
 import { getConfig } from './config'
-import { errors } from './notifications'
+import { useNotification } from '../composables/notifications'
 
-export const fetchAPI = async (url: string, method = 'GET', body: BodyInit | string | null = null) => {
+const { notifications, isError } = useNotification()
+
+export const useFetchAPI = async <T>(url: string, method = 'GET', body: BodyInit | string | null = null) => {
     const response = await fetch(getConfig('api.path') + url, {
-        method: method,
+        method,
         headers: {
             Authorization: 'Bearer ' + auth.value.token,
         },
-        body: body,
+        body,
     })
 
     const data = await response.json()
 
     if (response.status === 401) {
         logout()
-        errors.value.push('Vous avez été déconnecté')
+        isError.value = true
+        notifications.value.push('Vous avez été déconnecté')
         throw new Error()
     }
 
     if (response.status === 400 || response.status === 404) {
-        errors.value.push(data.message)
+        isError.value = true
+        notifications.value.push(data.message)
         throw new Error()
     }
 
     if (response.status !== 200) {
-        errors.value.push('Une erreur est survenue')
-        throw new Error(data.message)
+        isError.value = true
+        notifications.value.push('Une erreur est survenue')
+        throw new Error()
     }
 
-    return data
+    return data as T
 }

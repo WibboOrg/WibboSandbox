@@ -6,8 +6,8 @@
         <div v-else>
             <iframe class="absolute top-0 bottom-0 left-0 right-0 z-0 w-full h-full" :src="'https://sandbox.wibbo.org/nitro/?local=true&sso=' + auth.ssoticket" v-if="auth.ssoticket !== ''"></iframe>
 
-            <ButtonReturn />
-            <TheNavBar />
+            <TheButtonReturn />
+            <TheNavbar />
 
             <transition
                 enter-active-class="duration-300"
@@ -38,17 +38,6 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-import TheTopNofitications from './components/TheTopNofitications.vue'
-import TheNavBar from './components/TheNavbar.vue'
-import ButtonReturn from './components/ButtonReturn.vue'
-import PageUploadFurni from './pages/PageUploadFurni.vue'
-import PageLogin from './pages/PageLogin.vue'
-import PageIndex from './pages/PageLogin.vue'
-import { auth, checkAuth } from './composables/auth'
-import { getConfig } from './composables/config'
-import { route } from './composables/route'
-
 const isLocal = ref(false)
 
 onMounted(async () => {

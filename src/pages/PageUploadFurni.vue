@@ -25,7 +25,7 @@
             <li v-for="(file, index) in uploadForm.files" :key="'file' + index" class="flex justify-between p-2 rounded even:bg-gray-700 odd:bg-gray-800">
                 {{ file.name }}
                 <div class="cursor-pointer" @click="removeUpload(file.name)">
-                    <ButtonClose class="w-6 h-6" />
+                    <IconClose />
                 </div>
             </li>
         </ul>
@@ -34,10 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { errors, sucesses } from '../composables/notifications'
-import { fetchAPI } from '../composables/apiFetch'
-import ButtonClose from '../components/ButtonClose.vue'
+const { notifications, isError } = useNotification()
 
 const uploadForm = ref<{ files: { name: string; file: File }[] }>({
     files: [],
@@ -50,11 +47,9 @@ const postUpload = async () => {
         return
     }
 
-    errors.value = []
-    sucesses.value = []
-
     if (uploadForm.value.files.length == 0) {
-        errors.value.push('Aucun fichier à importer')
+        isError.value = true
+        notifications.value.push('Aucun fichier à importer')
         return
     }
 
@@ -66,8 +61,9 @@ const postUpload = async () => {
     try {
         loading.value = true
 
-        await fetchAPI('uploadfurni', 'POST', formData)
-        sucesses.value.push('Fichiers importés')
+        await useFetchAPI('uploadfurni', 'POST', formData)
+        isError.value = false
+        notifications.value.push('Fichiers importés')
     } catch (e: unknown) {
         console.error(e)
     }

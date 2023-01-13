@@ -7,7 +7,3 @@
         </div>
     </div>
 </template>
-
-<script lang="ts" setup>
-import { route } from '../composables/route'
-</script>

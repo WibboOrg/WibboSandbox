@@ -12,7 +12,7 @@
                 <span class="font-bold">SandBox</span>
 
                 <div class="cursor-pointer" @click="route.path = ''">
-                    <ButtonClose class="w-6 h-6" />
+                    <IconClose />
                 </div>
             </div>
 
@@ -24,9 +24,3 @@
         </nav>
     </transition>
 </template>
-
-<script lang="ts" setup>
-import ButtonClose from './ButtonClose.vue'
-import { logout } from '../composables/auth'
-import { route } from '../composables/route'
-</script>
