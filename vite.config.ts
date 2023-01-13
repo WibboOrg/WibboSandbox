@@ -19,7 +19,7 @@ export default defineConfig({
                 /\.vue\?vue/, // .vue
                 /\.md$/, // .md
             ],
-            imports: ['vue'],
+            imports: ['vue', 'vue-router'],
             dirs: ['./src/composables'],
             vueTemplate: true,
             eslintrc: {

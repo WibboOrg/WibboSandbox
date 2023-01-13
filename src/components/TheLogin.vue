@@ -22,6 +22,8 @@
 </template>
 
 <script lang="ts" setup>
+import { router } from '../router'
+
 const { notifications, isError } = useNotification()
 
 const loginForm = ref({ username: '', password: '' })
@@ -52,6 +54,8 @@ const postLogin = async () => {
         await loadSSOTicket()
 
         auth.value.logged = true
+
+        router.push('/hotel')
     } catch (e) {
         loginForm.value = {
             username: '',
