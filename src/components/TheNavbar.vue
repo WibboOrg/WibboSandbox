@@ -17,11 +17,25 @@
             </div>
 
             <ul class="flex flex-col gap-1 overflow-y-overlay">
-                <li class="w-full p-2 text-center transition-colors border-2 border-gray-700 cursor-pointer hover:bg-gray-600" @click="$router.push('/')">Acceuil</li>
-                <li class="w-full p-2 text-center transition-colors border-2 border-gray-700 cursor-pointer hover:bg-gray-600" @click="$router.push('/upload-furni')">Ajouter des mobiliers</li>
-                <li class="w-full p-2 text-center transition-colors border-2 border-gray-700 cursor-pointer hover:bg-gray-600" @click="$router.push('/furnidata')">Modifier furnidata</li>
+                <li
+                    class="w-full p-2 text-center transition-colors border-2 border-gray-700 cursor-pointer hover:bg-gray-600"
+                    @click="$router.push(nav.path)"
+                    v-for="(nav, index) of navList"
+                    :key="index"
+                >
+                    {{ nav.name }}
+                </li>
                 <li class="w-full p-2 text-center transition-colors border-2 border-gray-700 cursor-pointer hover:bg-gray-600" @click="logout">Déconnexion</li>
             </ul>
         </nav>
     </transition>
 </template>
+
+<script lang="ts" setup>
+const navList = ref<{ name: string; path: string }[]>([])
+
+navList.value.push({ name: 'Acceuil', path: '/' })
+navList.value.push({ name: 'Ajouter des mobiliers', path: '/upload-furni' })
+navList.value.push({ name: 'Modifier furnidata', path: '/furnidata' })
+navList.value.push({ name: 'Catalogue', path: '/catalog' })
+</script>

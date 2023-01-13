@@ -23,6 +23,7 @@ declare module '@vue/runtime-core' {
     IconClose: typeof import('./components/icon/IconClose.vue')['default']
     PageFurnidata: typeof import('./pages/PageFurnidata.vue')['default']
     PageIndex: typeof import('./pages/PageIndex.vue')['default']
+    PageNotFound: typeof import('./pages/PageNotFound.vue')['default']
     PageUploadFurni: typeof import('./pages/PageUploadFurni.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
