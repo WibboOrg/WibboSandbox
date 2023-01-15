@@ -7,11 +7,11 @@ class UploadFurniController extends BaseController
 
         if($user["rank"] < 13) throw new HttpException("Vous n'avez pas les permissions requis", 400);
 
-        $data = array();
+        $uploadData = array();
 
-        $file_names = $_FILES["file"]["name"];
-        for ($i = 0; $i < count($file_names); $i++) {
-            $file = $file_names[$i];
+        $fileNames = $_FILES["file"]["name"];
+        for ($i = 0; $i < count($fileNames); $i++) {
+            $file = $fileNames[$i];
             $fileTmp = $_FILES["file"]["tmp_name"][$i];
 
             if (!$file) {
@@ -27,9 +27,9 @@ class UploadFurniController extends BaseController
             $furniTitle = $furniName . " title";
             $furniDesc = $furniName . " desc";
 
-            $nb_min = 10000000;
-            $nb_max = 99999999;
-            $furniId = mt_rand($nb_min, $nb_max);
+            $nbMin = 10000000;
+            $nbMax = 99999999;
+            $furniId = mt_rand($nbMin, $nbMax);
             $type = 's';
 
             if ($type !== 's' && $type !== 'i') {
@@ -91,7 +91,7 @@ class UploadFurniController extends BaseController
                 ),
             );
 
-            array_push($data, 
+            array_push($uploadData, 
                 array(
                     'action' => 'json',
                     'path' => 'gamedata/FurnitureData.json',
@@ -110,7 +110,7 @@ class UploadFurniController extends BaseController
             );
         }
 
-        if (Helper::uploadApi('assets', $data)) {
+        if (Helper::uploadApi('assets', $uploadData)) {
             throw new HttpException('Problème lors de l\'importation: ', 400);
         }
     }

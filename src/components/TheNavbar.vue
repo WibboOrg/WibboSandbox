@@ -7,7 +7,11 @@
         leave-from-class="translate-x-0"
         leave-to-class="-translate-x-full"
     >
-        <nav class="absolute top-0 bottom-0 left-0 z-10 flex flex-col h-full gap-1 p-4 bg-gray-800 shadow shadow-gray-600" v-show="$route.path !== '/hotel'" :key="$route.path !== '' ? 'yes' : 'no'">
+        <nav
+            class="absolute top-0 bottom-0 left-0 z-10 flex flex-col h-full gap-1 p-4 bg-gray-800 shadow shadow-gray-600"
+            v-show="$route.path !== '/hotel'"
+            :key="$route.path !== '/hotel' ? 'yes' : 'no'"
+        >
             <div class="flex justify-between py-2">
                 <span class="font-bold">SandBox</span>
 

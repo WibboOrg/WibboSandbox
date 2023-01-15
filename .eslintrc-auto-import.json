@@ -55,6 +55,7 @@
     "useCssModule": true,
     "useCssVars": true,
     "useFetchAPI": true,
+    "useFetchData": true,
     "useLink": true,
     "useNotification": true,
     "useRoute": true,

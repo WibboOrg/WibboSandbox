@@ -1,9 +1,9 @@
 <template>
     <div class="flex items-center justify-center min-h-screen">
-        <div class="px-8 py-6 mt-4 text-left bg-gray-800 rounded shadow-lg">
-            <h3 class="text-2xl font-bold text-center">SandBox</h3>
-            <form @submit.prevent="postLogin">
-                <div class="mt-4">
+        <BaseCard>
+            <template #title>SandBox</template>
+            <template #body>
+                <form @submit.prevent="postLogin">
                     <div>
                         <label class="block" for="email">Pseudo</label>
                         <BaseInput type="text" placeholder="Pseudo" v-model="loginForm.username" />
@@ -13,11 +13,11 @@
                         <BaseInput type="password" placeholder="Mot de passe" v-model="loginForm.password" />
                     </div>
                     <div class="flex items-baseline justify-between">
-                        <button class="w-full px-6 py-2 mt-4 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-900">Connexion</button>
+                        <BaseButton class="mt-4 mb-2">Connexion</BaseButton>
                     </div>
-                </div>
-            </form>
-        </div>
+                </form>
+            </template>
+        </BaseCard>
     </div>
 </template>
 

@@ -7,33 +7,34 @@
             <iframe class="absolute top-0 bottom-0 left-0 right-0 z-0 w-full h-full" :src="'https://sandbox.wibbo.org/nitro/?local=true&sso=' + auth.ssoticket" v-if="auth.ssoticket !== ''"></iframe>
 
             <TheButtonReturn />
-            <TheNavbar />
 
-            <transition
-                enter-active-class="duration-300"
-                enter-from-class="opacity-0"
-                enter-to-class="opacity-100"
-                leave-active-class="duration-300"
-                leave-from-class="opacity-100"
-                leave-to-class="opacity-0"
-            >
-                <div
-                    class="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-black bg-opacity-75"
-                    v-show="$route.path !== '/hotel'"
-                    :key="$route.path !== '/hotel' ? 'true' : 'false'"
+            <TheNavbar />
+            <router-view v-slot="{ Component, route }">
+                <transition
+                    enter-active-class="duration-300"
+                    enter-from-class="opacity-0"
+                    enter-to-class="opacity-100"
+                    leave-active-class="duration-300"
+                    leave-from-class="opacity-100"
+                    leave-to-class="opacity-0"
                 >
-                    <transition
-                        enter-active-class="absolute duration-300"
-                        enter-from-class="opacity-0"
-                        enter-to-class="opacity-100"
-                        leave-active-class="absolute duration-300"
-                        leave-from-class="opacity-100"
-                        leave-to-class="opacity-0"
-                    >
-                        <router-view></router-view>
-                    </transition>
-                </div>
-            </transition>
+                    <div class="absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-75 overflow-y-overlay flex" v-show="route.path !== '/hotel'">
+                        <div class="container py-2 pl-[200px]">
+                            <transition
+                                enter-active-class="duration-300"
+                                enter-from-class="opacity-0"
+                                enter-to-class="opacity-100"
+                                leave-active-class="duration-300"
+                                leave-from-class="opacity-100"
+                                leave-to-class="opacity-0"
+                                mode="out-in"
+                            >
+                                <component :is="Component" :key="route.path" />
+                            </transition>
+                        </div>
+                    </div>
+                </transition>
+            </router-view>
         </div>
     </div>
 </template>

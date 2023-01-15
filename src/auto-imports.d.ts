@@ -56,6 +56,7 @@ declare global {
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
   const useFetchAPI: typeof import('./composables/apiFetch')['useFetchAPI']
+  const useFetchData: typeof import('./composables/fetchData')['useFetchData']
   const useLink: typeof import('vue-router')['useLink']
   const useNotification: typeof import('./composables/notifications')['useNotification']
   const useRoute: typeof import('vue-router')['useRoute']
@@ -125,6 +126,7 @@ declare module 'vue' {
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useFetchAPI: UnwrapRef<typeof import('./composables/apiFetch')['useFetchAPI']>
+    readonly useFetchData: UnwrapRef<typeof import('./composables/fetchData')['useFetchData']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
     readonly useNotification: UnwrapRef<typeof import('./composables/notifications')['useNotification']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>

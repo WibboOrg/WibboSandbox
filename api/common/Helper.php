@@ -51,4 +51,30 @@ class Helper
 
         return true;
     }
+
+    public static function getSslPage(string $url, bool $isJson = false): string | object
+    {
+        $headers[] = 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:13.0) Gecko/20100101 Firefox/13.0.1';
+        $headers[] = 'Accept: application/json, text/javascript, */*; q=0.01';
+        $headers[] = 'Accept-Language: ar,en;q=0.5';
+        $headers[] = 'Connection: keep-alive';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_REFERER, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, "User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/535.36 (KHTML, like Gecko) Chrome/36.0.1985.49 Safari/537.36");
+        $result = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if($httpcode != 200 || $httpcode != 201) throw new HttpException('Erreur serveur getSslPage: ' . $url, 500);
+
+        return ($isJson) ? json_decode($result) : $result;
+    }
 }
