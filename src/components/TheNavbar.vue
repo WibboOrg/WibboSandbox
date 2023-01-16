@@ -15,21 +15,25 @@
             <div class="flex justify-between py-2">
                 <span class="font-bold">SandBox</span>
 
-                <div class="cursor-pointer" @click="$router.push('/hotel')">
-                    <IconClose />
+                <div class="flex gap-1 items-center">
+                    <div class="cursor-pointer" @click="logout()">
+                        <IconLogout class="w-4 h-4" />
+                    </div>
+                    <div class="cursor-pointer" @click="$router.push('/hotel')">
+                        <IconClose class="w-4 h-4" />
+                    </div>
                 </div>
             </div>
 
             <ul class="flex flex-col gap-1 overflow-y-overlay">
                 <li
-                    class="w-full p-2 text-center transition-colors border-2 border-gray-700 cursor-pointer hover:bg-gray-600"
+                    class="w-full px-2 py-1 text-center rounded transition-colors border-2 border-gray-700 cursor-pointer hover:bg-gray-600"
                     @click="$router.push(nav.path)"
                     v-for="(nav, index) of navList"
                     :key="index"
                 >
                     {{ nav.name }}
                 </li>
-                <li class="w-full p-2 text-center transition-colors border-2 border-gray-700 cursor-pointer hover:bg-gray-600" @click="logout">Déconnexion</li>
             </ul>
         </nav>
     </transition>
