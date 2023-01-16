@@ -1,5 +1,3 @@
-import { ref } from 'vue'
-
 const isError = ref<boolean>(false)
 const notifications = ref<string[]>([])
 

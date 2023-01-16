@@ -6,7 +6,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
-        vue(),
+        vue({ reactivityTransform: true }),
         Components({
             dts: './src/components.d.ts',
             dirs: ['./src/pages', './src/components'],

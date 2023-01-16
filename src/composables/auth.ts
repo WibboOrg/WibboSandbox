@@ -1,5 +1,3 @@
-import { ref } from 'vue'
-import { useFetchAPI } from './apiFetch'
 import { router } from '../router'
 
 export const auth = ref({ logged: false, token: '', ssoticket: '' })
@@ -32,10 +30,10 @@ export const checkAuth = async () => {
             await loadSSOTicket()
 
             auth.value.logged = true
-
-            router.push('/hotel')
         } catch (e: unknown) {
             console.log(e)
         }
+    } else {
+        router.push('/')
     }
 }

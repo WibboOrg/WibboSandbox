@@ -1,28 +1,38 @@
 <template>
-    <div class="grid grid-cols-1 gap-4 h-full items-center">
+    <div class="grid grid-cols-1 gap-4">
+        <div class="col-span-1">
+            <label class="text-xl font-bold">Recherche</label>
+            <BaseInput placeholder="Filter les resultats" v-model="pageSearch" />
+        </div>
         <div class="col-span-1">
             <BaseCard>
                 <template #title>Importer des mobiliers</template>
                 <template #body>
-                    <div v-if="isLoading">Chargement... <BaseSpinner /></div>
-                    <div class="table-responsive-md" v-else>
-                        <table class="w-full text-center table-auto">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Nom</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(file, index) in filesPage" :key="index">
-                                    <td class="align-middle">{{ file.id }}</td>
-                                    <td class="align-middle"><BaseInput v-model="file.name" :value="file.name"></BaseInput></td>
-                                    <td class="align-middle"><BaseInput v-model="file.description" :value="file.description"></BaseInput></td>
-                                    <td class="align-middle"><BaseButton>Sauvegarder</BaseButton></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <BaseSpinner :loading="isLoading" v-if="isLoading" />
+                    <div v-if="filesPage.length">
+                        <div class="table-responsive-sm">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">#</th>
+                                        <th scope="col" class="px-6 py-3">Nom</th>
+                                        <th scope="col" class="px-6 py-3">Description</th>
+                                        <th scope="col" class="px-6 py-3">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(file, index) in filesPage" :key="index" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <td class="align-middle">{{ file.classname }} ({{ file.id }})</td>
+                                        <td class="align-middle"><BaseInput v-model="file.name" :value="file.name" :text-to-edit="true"></BaseInput></td>
+                                        <td class="align-middle">
+                                            <BaseInput v-model="file.description" :value="file.description" :text-to-edit="true"></BaseInput>
+                                        </td>
+                                        <td class="align-middle"><BaseButton @click="patchFile(file)">Sauvegarder</BaseButton></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <BasePagination :page-id="pageId" :page-count="pageCount" @pageCurrent="updatePageCurrent" class="float-right" />
                     </div>
                 </template>
             </BaseCard>
@@ -31,8 +41,10 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, loadFiles, filesPage } = useFetchData<IFurnitureType>('https://assets.wibbo.org/gamedata/FurnitureData.json')
-loadFiles()
+const { isLoading, getFiles, patchFile, filesPage, pageCurrent, pageCount, pageId, pageSearch } = useFetchData<IFurnitureType>('furnidata')
+getFiles()
+
+const updatePageCurrent = (pageId: number) => (pageCurrent.value = pageId)
 
 interface IFurnitureType {
     id?: number

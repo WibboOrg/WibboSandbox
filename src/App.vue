@@ -18,8 +18,8 @@
                     leave-from-class="opacity-100"
                     leave-to-class="opacity-0"
                 >
-                    <div class="absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-75 overflow-y-overlay flex" v-show="route.path !== '/hotel'">
-                        <div class="container py-2 pl-[200px]">
+                    <div class="absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-75 overflow-y-overlay" id="main" v-show="route.path !== '/hotel'">
+                        <div class="container my-8 pl-[200px]">
                             <transition
                                 enter-active-class="duration-300"
                                 enter-from-class="opacity-0"

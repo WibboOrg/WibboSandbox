@@ -55,7 +55,7 @@ declare global {
   const useAttrs: typeof import('vue')['useAttrs']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
-  const useFetchAPI: typeof import('./composables/apiFetch')['useFetchAPI']
+  const useFetchAPI: typeof import('./composables/fetchAPI')['useFetchAPI']
   const useFetchData: typeof import('./composables/fetchData')['useFetchData']
   const useLink: typeof import('vue-router')['useLink']
   const useNotification: typeof import('./composables/notifications')['useNotification']
@@ -125,7 +125,7 @@ declare module 'vue' {
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
-    readonly useFetchAPI: UnwrapRef<typeof import('./composables/apiFetch')['useFetchAPI']>
+    readonly useFetchAPI: UnwrapRef<typeof import('./composables/fetchAPI')['useFetchAPI']>
     readonly useFetchData: UnwrapRef<typeof import('./composables/fetchData')['useFetchData']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
     readonly useNotification: UnwrapRef<typeof import('./composables/notifications')['useNotification']>

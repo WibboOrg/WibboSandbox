@@ -1,7 +1,3 @@
-import { auth, logout } from './auth'
-import { getConfig } from './config'
-import { useNotification } from '../composables/notifications'
-
 const { notifications, isError } = useNotification()
 
 export const useFetchAPI = async <T>(url: string, method = 'GET', body: BodyInit | string | null = null) => {

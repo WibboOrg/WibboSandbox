@@ -1,29 +1,73 @@
+import { Ref } from 'vue'
+
 export const useFetchData = <T>(url: string) => {
     const isLoading = ref(true)
     const pageCurrent = ref(0)
     const pageCountItem = ref(100)
-    const files = ref<T[]>([])
+    const pageSearch = ref('')
+    const files = ref([]) as Ref<T[]>
 
-    const loadFiles = async () => {
-        const furniData = await (await fetch(url)).json()
-        files.value = Object.values({ ...furniData?.roomitemtypes?.furnitype, ...furniData?.wallitemtypes?.furnitype })
-
+    const getFiles = async () => {
+        isLoading.value = true
+        try {
+            files.value = await useFetchAPI<T[]>(url)
+        } catch (e) {
+            console.error(e)
+        }
         isLoading.value = false
     }
 
-    const goTo = (pageId: number) => {
-        if (pageId == pageId) return
-
-        if (pageId > pageCount.value) pageCurrent.value = pageCount.value
-        else if (pageId <= 1) pageCurrent.value = 1
-        else pageCurrent.value = pageId
-
-        document.getElementById('app')?.scrollTo({ top: 0, behavior: 'smooth' })
+    const deleteFile = async (id: number) => {
+        isLoading.value = true
+        try {
+            await useFetchAPI(url, 'DELETE', JSON.stringify({ id }))
+        } catch (e) {
+            console.error(e)
+        }
+        isLoading.value = false
     }
 
-    const pageId = computed(() => (pageCurrent.value > pageCount.value ? pageCount.value : pageCurrent.value < 1 ? 1 : pageCurrent.value))
-    const pageCount = computed(() => (files.value.length > pageCountItem.value ? Math.floor(files.value.length / pageCountItem.value) : 1))
-    const filesPage = computed(() => files.value.slice((pageId.value - 1) * pageCountItem.value, pageId.value * pageCountItem.value))
+    const patchFile = async (file: T) => {
+        isLoading.value = true
+        try {
+            await useFetchAPI(url, 'PATCH', JSON.stringify(file))
+        } catch (e) {
+            console.error(e)
+        }
+        isLoading.value = false
+    }
 
-    return { isLoading, loadFiles, pageCurrent, pageCountItem, files, goTo, pageId, pageCount, filesPage }
+    const putFile = async (file: T) => {
+        isLoading.value = true
+        try {
+            await useFetchAPI(url, 'PUT', JSON.stringify(file))
+        } catch (e) {
+            console.error(e)
+        }
+        isLoading.value = false
+    }
+
+    const createFile = async (file: T) => {
+        isLoading.value = true
+        try {
+            await useFetchAPI(url, 'POST', JSON.stringify(file))
+        } catch (e) {
+            console.error(e)
+        }
+        isLoading.value = false
+    }
+
+    const filesSearch = computed(() =>
+        files.value.filter((x) =>
+            typeof x == 'object'
+                ? Object.values(x as Record<string, string>).some((k) => k.toString().toLowerCase().includes(pageSearch.value.toLowerCase()))
+                : (x as string).toString().toLowerCase().includes(pageSearch.value.toLowerCase()),
+        ),
+    )
+    const pageCount = computed(() => (filesSearch.value.length > pageCountItem.value ? Math.floor(filesSearch.value.length / pageCountItem.value) : 1))
+    const pageId = computed(() => (pageCurrent.value > pageCount.value ? pageCount.value : pageCurrent.value < 1 ? 1 : pageCurrent.value))
+
+    const filesPage = computed(() => filesSearch.value.slice((pageId.value - 1) * pageCountItem.value, pageId.value * pageCountItem.value))
+
+    return { isLoading, getFiles, deleteFile, patchFile, createFile, putFile, pageCurrent, pageCountItem, files, pageSearch, pageId, pageCount, filesPage }
 }

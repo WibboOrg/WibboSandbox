@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-1 gap-4 h-full items-center">
+    <div class="grid grid-cols-1 gap-4 h-full">
         <div class="col-span-1">
             <BaseCard>
                 <template #title>Importer des mobiliers</template>
@@ -27,7 +27,7 @@
                         <li v-for="(file, index) in uploadForm.files" :key="'file' + index" class="flex justify-between p-2 rounded even:bg-gray-700 odd:bg-gray-800">
                             {{ file.name }}
                             <div class="cursor-pointer" @click="removeUpload(file.name)">
-                                <IconClose />
+                                <IconClose class="w-6 h-6" />
                             </div>
                         </li>
                     </ul>
