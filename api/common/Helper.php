@@ -44,7 +44,8 @@ class Helper
             ]
         ];
 		$context  = stream_context_create($options);
-		$result = file_get_contents(UPLOAD_URL_ASSETS . UPLOAD_API, false, $context);
+		$result = file_get_contents(UPLOAD_URL_ASSETS, false, $context);
+
 		if ($result === FALSE || $result !== 'ok') {
 			return false;
 		}
@@ -62,7 +63,7 @@ class Helper
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_REFERER, $url);
@@ -73,7 +74,7 @@ class Helper
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if($httpcode != 200 || $httpcode != 201) throw new HttpException('Erreur serveur getSslPage: ' . $url, 500);
+        if($httpcode != 200 && $httpcode != 201) throw new HttpException('Erreur serveur getSslPage: ' . $url, 500);
 
         return ($isJson) ? json_decode($result) : $result;
     }

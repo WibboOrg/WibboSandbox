@@ -13,6 +13,6 @@ class RegisterController extends BaseController
 
         $token = JWT::encode(['id' => $userId]);
 
-        $this->send(["token" => $token]);
+        return ["token" => $token];
     }
 }

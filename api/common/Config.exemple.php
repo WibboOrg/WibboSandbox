@@ -8,6 +8,6 @@ define('DB_PASSWORD', '');
 define('TOKEN_SECRET', 'SECRET');
 define('TOKEN_EXPIRE', 60 * 60 * 24);
 
-define('UPLOAD_URL_ASSETS', '');
 define('UPLOAD_API', '');
+define('UPLOAD_URL_ASSETS', '');
 */

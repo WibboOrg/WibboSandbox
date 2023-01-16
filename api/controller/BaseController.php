@@ -66,15 +66,4 @@ class BaseController
     {
         throw new HttpException("Method delete not found", 404);
     }
-
-    public function send(array $data = [])
-    {
-        http_response_code(200);
-
-        if (count($data) == 0) {
-            echo json_encode([]);
-        } else {
-            echo json_encode($data);
-        }
-    }
 }

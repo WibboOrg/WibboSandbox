@@ -1,7 +1,30 @@
 <?php
 class FurnidataController extends BaseController
 {
-    public function get()
+    public function get() 
+    {
+        $furniDataJson = Helper::getSslPage('https://assets.wibbo.org/gamedata/FurnitureData.json');
+
+        $furniData = json_decode($furniDataJson, JSON_OBJECT_AS_ARRAY);
+
+        $fullData = array_merge_recursive($furniData["wallitemtypes"]["furnitype"], $furniData["roomitemtypes"]["furnitype"]);
+
+        $data = [];
+
+        foreach ($fullData as $var) 
+        {
+            $data[] = [
+                'id' => $var['id'],
+                'classname' => $var['classname'],
+                'name' => $var['name'],
+                'description' => $var['description']
+            ];
+        }
+
+        return $data;
+    }
+
+    public function patch()
     {
         $data = $this->getData(['id', 'name', 'description']);
 
@@ -36,8 +59,8 @@ class FurnidataController extends BaseController
             'data' => base64_encode(json_encode($furniData)),
         ));
 
-        if (Helper::uploadApi('assets', $uploadData)) {
-            throw new HttpException('Problème lors de l\'importation: ', 400);
+        if (!Helper::uploadApi('assets', $uploadData)) {
+            throw new HttpException('Problème lors de l\'importation', 400);
         }
     }
 }

@@ -16,23 +16,31 @@ function parseRoute()
 
     switch ($method) {
         case 'GET':
-            $controller->get();
+            $data = $controller->get();
             break;
         case 'POST':
-            $controller->post();
+            $data = $controller->post();
             break;
         case 'DELETE':
-            $controller->delete();
+            $data = $controller->delete();
             break;
         case 'PATCH':
-            $controller->patch();
+            $data = $controller->patch();
             break;
         case 'PUT':
-            $controller->put();
+            $data = $controller->put();
             break;
         default:
             throw new HttpException("Controller method (" . $method . ") not found for path: " . $request, 404);
             break;
+    }
+
+    http_response_code(200);
+
+    if ($data == null || count($data) == 0) {
+        echo json_encode([]);
+    } else {
+        echo json_encode($data);
     }
 }
 
@@ -59,7 +67,7 @@ function headers()
     if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') 
     {    
         if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-            header("Access-Control-Allow-Methods: GET, POST, DELETE, PUT, OPTIONS");
+            header("Access-Control-Allow-Methods: GET, POST, DELETE, PUT, PATCH, OPTIONS");
         
         if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
             header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");

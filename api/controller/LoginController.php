@@ -17,6 +17,6 @@ class LoginController extends BaseController
 
         $token = JWT::encode(['id' => $userLogin["id"]]);
 
-        $this->send(["token" => $token]);
+        return ["token" => $token];
     }
 }
