@@ -9,6 +9,6 @@ class ClientController extends BaseController
 
         UserDto::updateTicket($user["id"], $ticket);
 
-        $this->send(["ticket" => $ticket]);
+        return ["ticket" => $ticket];
     }
 }
