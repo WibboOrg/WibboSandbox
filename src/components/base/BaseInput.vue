@@ -1,13 +1,24 @@
 <template>
-    <input class="w-full px-4 py-2 mt-2 bg-gray-600 border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600" type="text" v-model="message" />
+    <div v-if="!isEditing" class="w-full px-4 py-2 mt-2" @dblclick="isEditing = true">{{ message }}</div>
+    <input
+        v-else
+        class="w-full px-4 py-2 mt-2 bg-gray-600 border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+        :class="center ? 'text-center' : ''"
+        type="text"
+        v-model="message"
+    />
 </template>
 
 <script lang="ts" setup>
 const props = defineProps({
     modelValue: { type: String, default: '' },
+    textToEdit: { type: Boolean, default: false },
+    center: { type: Boolean, default: false },
 })
 
 const emit = defineEmits(['update:modelValue'])
+
+const isEditing = ref(!props.textToEdit)
 
 const message = computed({
     get: () => props.modelValue,
