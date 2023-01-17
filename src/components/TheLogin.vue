@@ -3,18 +3,16 @@
         <BaseCard>
             <template #title>SandBox</template>
             <template #body>
-                <form @submit.prevent="postLogin">
+                <form @submit.prevent="postLogin" class="flex flex-col gap-2">
                     <div>
                         <label class="block" for="email">Pseudo</label>
                         <BaseInput type="text" placeholder="Pseudo" v-model="loginForm.username" />
                     </div>
-                    <div class="mt-4">
+                    <div>
                         <label class="block">Mot de passe</label>
                         <BaseInput type="password" placeholder="Mot de passe" v-model="loginForm.password" />
                     </div>
-                    <div class="flex items-baseline justify-between">
-                        <BaseButton class="mt-4 mb-2">Connexion</BaseButton>
-                    </div>
+                    <BaseButton class="my-2">Connexion</BaseButton>
                 </form>
             </template>
         </BaseCard>
@@ -24,8 +22,6 @@
 <script lang="ts" setup>
 import { router } from '../router'
 
-const { notifications, isError } = useNotification()
-
 const loginForm = ref({ username: '', password: '' })
 const loading = ref(false)
 
@@ -34,18 +30,15 @@ const postLogin = async () => {
         return
     }
 
-    notifications.value = []
-
     if (loginForm.value.username.length < 3 || loginForm.value.password.length < 3) {
-        isError.value = true
-        notifications.value.push('Veuillez remplir tous les champs')
+        showError('Veuillez remplir tous les champs')
         return
     }
 
     try {
         loading.value = true
 
-        const dataLogin = await useFetchAPI<{ token: string }>('login', 'POST', JSON.stringify(loginForm.value))
+        const dataLogin = await useFetchAPI<{ token: string }>('login', 'POST', { body: JSON.stringify(loginForm.value) })
 
         auth.value.token = dataLogin.token
 

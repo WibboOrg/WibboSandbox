@@ -20,7 +20,7 @@ export const useFetchData = <T>(url: string) => {
     const deleteFile = async (id: number) => {
         isLoading.value = true
         try {
-            await useFetchAPI(url, 'DELETE', JSON.stringify({ id }))
+            await useFetchAPI(url, 'DELETE', { body: JSON.stringify({ id }) })
         } catch (e) {
             console.error(e)
         }
@@ -30,7 +30,7 @@ export const useFetchData = <T>(url: string) => {
     const patchFile = async (file: T) => {
         isLoading.value = true
         try {
-            await useFetchAPI(url, 'PATCH', JSON.stringify(file))
+            await useFetchAPI(url, 'PATCH', { body: JSON.stringify(file) })
         } catch (e) {
             console.error(e)
         }
@@ -40,7 +40,7 @@ export const useFetchData = <T>(url: string) => {
     const putFile = async (file: T) => {
         isLoading.value = true
         try {
-            await useFetchAPI(url, 'PUT', JSON.stringify(file))
+            await useFetchAPI(url, 'PUT', { body: JSON.stringify(file) })
         } catch (e) {
             console.error(e)
         }
@@ -50,7 +50,7 @@ export const useFetchData = <T>(url: string) => {
     const createFile = async (file: T) => {
         isLoading.value = true
         try {
-            await useFetchAPI(url, 'POST', JSON.stringify(file))
+            await useFetchAPI(url, 'POST', { body: JSON.stringify(file) })
         } catch (e) {
             console.error(e)
         }

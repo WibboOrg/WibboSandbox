@@ -1,17 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import PageIndex from './pages/PageIndex.vue'
-import PageFurnidata from './pages/PageFurnidata.vue'
-import PageUploadFurni from './pages/PageUploadFurni.vue'
-import PageNotFound from './pages/PageNotFound.vue'
 
 export const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/', component: PageIndex, meta: { title: 'Acceuil' } },
-        { path: '/hotel', component: PageIndex, meta: { title: 'Hôtel' } },
-        { path: '/upload-furni', component: PageUploadFurni, meta: { title: 'Uploader un mobilier' } },
-        { path: '/furnidata', component: PageFurnidata, meta: { title: 'Furnidata' } },
-        { path: '/:pathMatch(.*)*', component: PageNotFound, meta: { title: 'Page introuvable' } },
+        { path: '/', component: () => import('./pages/PageIndex.vue'), meta: { title: 'Acceuil' } },
+        { path: '/hotel', component: () => import('./pages/PageIndex.vue'), meta: { title: 'Hôtel' } },
+        { path: '/upload-furni', component: () => import('./pages/PageUploadFurni.vue'), meta: { title: 'Uploader un mobilier' } },
+        { path: '/furnidata', component: () => import('./pages/PageFurnidata.vue'), meta: { title: 'Furnidata' } },
+        { path: '/:pathMatch(.*)*', component: () => import('./pages/PageNotFound.vue'), meta: { title: 'Page introuvable' } },
     ],
 })
 
