@@ -39,7 +39,9 @@ const onChange = () => {
 
     fileUpload.value = file
 
-    emit('upload', fileUpload)
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => emit('upload', { base64: reader.result?.toString() || '', name: file.name })
 }
 
 const dropHandler = (ev: DragEvent) => {
@@ -51,7 +53,9 @@ const dropHandler = (ev: DragEvent) => {
 
     fileUpload.value = file
 
-    emit('upload', fileUpload)
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => emit('upload', { base64: reader.result?.toString() || '', name: file.name })
 }
 
 const isFileImage = computed(() => fileUpload.value && fileUpload.value['type'].split('/')[0] === 'image')
