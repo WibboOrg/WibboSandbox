@@ -2,19 +2,25 @@
 class QueryBuilder
 {
     private string $tableName;
-
     private array $selects;
     private array $wheres;
     private array $orWheres;
     private int $limit;
 
-    public function __construct(string $name)
+    public function __construct()
     {
-        $this->tableName = $name;
+        $this->tableName = '';
         $this->selects = [];
         $this->wheres = [];
         $this->orWheres = [];
         $this->limit = 0;
+    }
+
+    public function from(string $tableName)
+    {
+        $this->tableName = $tableName;
+        
+        return $this;
     }
 
     public function select(string ...$selects)

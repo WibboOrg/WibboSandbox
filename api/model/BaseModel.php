@@ -4,26 +4,27 @@ class BaseModel extends QueryBuilder
     public static ?Database $database = null;
     public ?PDO $conn = null;
 
-    public function __construct(string $name)
+    public function __construct()
     {
-        parent::__construct($name);
+        parent::__construct();
 
         if(self::$database == null) self::$database = new Database();
 
         $this->conn = self::$database->getConnection();
     }
     
-    public function first(): array
+    public function first(): array | bool
     {
         $this->limit(1);
         $query = $this->getSelectQuery();
         $params = $this->getParams();
 
         $stmt = $this->execute($query, $params);
+
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
-    public function get(): array
+    public function get(): array | bool
     {
         $query = $this->getSelectQuery();
         $params = $this->getParams();
@@ -63,6 +64,7 @@ class BaseModel extends QueryBuilder
 
     public function execute(string $query, array $params = [])
     {
+        echo $query . "\n";
         $stmt = $this->conn->prepare($query);
         $stmt->execute($params);
         return $stmt;
