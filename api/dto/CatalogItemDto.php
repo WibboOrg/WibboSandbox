@@ -8,9 +8,6 @@ class CatalogItemDto extends BaseDto
     {
         $model = self::getModel();
 
-        $model->execute(
-            "INSERT INTO catalog_item VALUES (:furni_id, '7529', :furni_id, :furni_name, '25', '0', '0', '0', '0', '1', '0', '0', '0', '')",
-            ['furni_id' => $furniId, 'furni_name' => $furniName]
-        );
+        $model->insert(['id' => $furniId, 'item_id' => $furniId, 'catalog_name' => $furniName, 'page_id' => '7529']);
     }
 }
