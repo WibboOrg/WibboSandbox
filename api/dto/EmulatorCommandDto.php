@@ -8,6 +8,5 @@ class EmulatorCommandDto extends BaseDto
     {
         $model = self::getModel();
 
-        
     }
 }

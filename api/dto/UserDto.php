@@ -8,27 +8,21 @@ class UserDto extends BaseDto
     {
         $model = self::getModel();
 
-        $data = $model->select('username', 'id')->get();
-
-        return $data;
+        return $model->select('username', 'id')->get();
     }
 
     public static function getOneByName(string $name)
     {
         $model = self::getModel();
 
-        $data = $model->select('id', 'username', 'password')->where('username', $name)->first();
-
-        return $data;
+        return $model->select('id', 'username', 'password')->where('username', $name)->first();
     }
 
     public static function getOne(int $id)
     {
         $model = self::getModel();
 
-        $data = $model->select('id', 'rank')->where('id', $id)->first();
-
-        return $data;
+        return $model->select('id', 'rank')->where('id', $id)->first();
     }
 
     public static function delete(int $id)
@@ -42,9 +36,7 @@ class UserDto extends BaseDto
     {
         $model = self::getModel();
 
-        $data = $model->select('id')->where('username', $name)->first();
-
-        return $data;
+        return $model->select('id')->where('username', $name)->first();
     }
 
     public static function updatePassword(int $userId, string$password)

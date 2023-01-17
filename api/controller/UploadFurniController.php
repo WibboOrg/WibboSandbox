@@ -28,13 +28,11 @@ class UploadFurniController extends BaseController
         $furniDesc = isset($data["description"]) ? $data["description"] : $furniName . " desc";
         $type =  isset($data["type"]) ? $data["type"] : 's';
 
-        $nbMin = 10000000;
-        $nbMax = 99999999;
-        $furniId = mt_rand($nbMin, $nbMax);
-
         if ($type !== 's' && $type !== 'i') {
             throw new HttpException('Type incorrect', 400);
         }
+
+        $furniId = ItemBaseDto::getLastId() + 1;
 
         if (ItemBaseDto::getOneByIdOrName($furniId, $furniName)) {
             throw new HttpException('Mobilier déjà existant: ' . $furniName, 400);

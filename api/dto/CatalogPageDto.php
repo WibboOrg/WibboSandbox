@@ -8,6 +8,5 @@ class CatalogPageDto extends BaseDto
     {
         $model = self::getModel();
 
-        
     }
 }

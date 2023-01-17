@@ -18,8 +18,13 @@ class ItemBaseDto extends BaseDto
     {
         $model = self::getModel();
 
-        $data = $model->select('id')->where('id', $id)->orWhere('sprite_id', $id)->orWhere('item_name', $name)->first();
+        return $model->select('id')->where('id', $id)->orWhere('sprite_id', $id)->orWhere('item_name', $name)->first();
+    }
 
-        return $data;
+    public static function getLastId()
+    {
+        $model = self::getModel();
+
+        return $model->select('id')->orderBy("id", "DESC")->first();
     }
 }

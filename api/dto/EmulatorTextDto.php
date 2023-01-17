@@ -8,6 +8,5 @@ class EmulatorTextDto extends BaseDto
     {
         $model = self::getModel();
 
-        
     }
 }

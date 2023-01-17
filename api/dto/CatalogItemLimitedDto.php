@@ -8,6 +8,5 @@ class CatalogItemLimitedDto extends BaseDto
     {
         $model = self::getModel();
 
-        
     }
 }

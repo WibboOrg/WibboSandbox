@@ -64,12 +64,11 @@ class BaseModel extends QueryBuilder
 
     public function execute(string $query, array $params = [])
     {
-        echo $query . "\n";
         $stmt = $this->conn->prepare($query);
         $stmt->execute($params);
 
         self::reset();
-        
+
         return $stmt;
     }
 }
