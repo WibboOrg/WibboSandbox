@@ -1,1 +1,12 @@
-[ ] Faire une page pour pouvoir modifier le furnidata.json avec une option pour rechercher
+[x] Faire une page pour pouvoir modifier le FurnitureData.json
+[ ] Faire une page pour pouvoir modifier le BadgeTexts.json
+[ ] Faire une page pour pouvoir modifier le ExternalTexts.json
+[ ] Faire une page pour pouvoir modifier le UITexts.json
+[ ] Faire une page pour uploader cdn (sounds, thumbnails, web-promo)
+[ ] Faire une page pour uploader assets (wibbopages, c_images/album1584, c_images/backgrounds, c_images/catalogue, c_images/reception, c_images/navigator)
+[x] Faire une page pour ajouter furni
+[ ] Faire une page pour ajouter effect
+[ ] Faire une page pour ajouter figure
+[ ] Faire une page pour ajouter pet
+[ ] Page pour modifier le catalogue (catalog_bot_preset, catalog_item, catalog_item_limited, catalog_page, catalog_pet_race, item_base)
+[ ] Page pour modifier les tables de l'émulateur (emulator_command, emulator_text)
