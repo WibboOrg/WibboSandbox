@@ -5,15 +5,13 @@ class QueryBuilder
     private array $selects;
     private array $wheres;
     private array $orWheres;
+    private array $order;
     private int $limit;
 
     public function __construct()
     {
         $this->tableName = '';
-        $this->selects = [];
-        $this->wheres = [];
-        $this->orWheres = [];
-        $this->limit = 0;
+        $this->reset();
     }
 
     public function reset()
@@ -21,6 +19,7 @@ class QueryBuilder
         $this->selects = [];
         $this->wheres = [];
         $this->orWheres = [];
+        $this->order = [];
         $this->limit = 0;
     }
 
@@ -62,7 +61,7 @@ class QueryBuilder
     {
         if($value === null)
         {
-            $value  = $operatorOrValue;
+            $value = $operatorOrValue;
             $operatorOrValue = "=";
         }
 
@@ -81,6 +80,17 @@ class QueryBuilder
     public function limit(int $limit)
     {
         $this->limit = $limit;
+
+        return $this;
+    }
+
+    public function orderBy(string $column, string $order)
+    {
+        $order = strtoupper($order);
+        if($order != "ASC" && $order != "DESC")
+            throw new HttpException("Sql order incorrect");
+
+        $this->order[] = ["column" => $column, "order" => $order];
 
         return $this;
     }
@@ -112,6 +122,20 @@ class QueryBuilder
         $query = "";
         if($this->limit > 0) {
             $query .= " LIMIT " . $this->limit;
+        }
+
+        return $query;
+    }
+
+    private function getOrderQuery(): string
+    {
+        $query = "";
+        if(count($this->order)> 0) {
+            $query .= " ORDER BY ";
+
+            $query .= implode(' , ', array_map(function ($order) {
+                return '`' . $order['column'] . '` ' . $order['order'];
+            }, $this->order));
         }
 
         return $query;
@@ -185,6 +209,7 @@ class QueryBuilder
         }, $this->selects)) : '*';
         $query .= " FROM `" . $this->tableName . "`";
         $query .= $this->getWhereQuery();
+        $query .= $this->getOrderQuery();
         $query .= $this->getLimitQuery();
 
         return $query;
