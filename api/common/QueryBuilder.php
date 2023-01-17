@@ -16,6 +16,14 @@ class QueryBuilder
         $this->limit = 0;
     }
 
+    public function reset()
+    {
+        $this->selects = [];
+        $this->wheres = [];
+        $this->orWheres = [];
+        $this->limit = 0;
+    }
+
     public function from(string $tableName)
     {
         $this->tableName = $tableName;

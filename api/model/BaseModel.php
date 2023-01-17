@@ -67,6 +67,9 @@ class BaseModel extends QueryBuilder
         echo $query . "\n";
         $stmt = $this->conn->prepare($query);
         $stmt->execute($params);
+
+        self::reset();
+        
         return $stmt;
     }
 }
