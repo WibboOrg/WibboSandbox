@@ -3,7 +3,7 @@ class FurnidataController extends BaseController
 {
     public function get() 
     {
-        $furniDataJson = Helper::getSslPage('https://assets.wibbo.org/gamedata/FurnitureData.json');
+        $furniDataJson = Helper::getSslPage('https://assets.wibbo.org/gamedata/FurnitureData.json?'. time());
 
         $furniData = json_decode($furniDataJson, JSON_OBJECT_AS_ARRAY);
 
@@ -34,7 +34,7 @@ class FurnidataController extends BaseController
             throw new HttpException("Vous n'avez pas les permissions requis", 400);
         }
 
-        $furniData = Helper::getSslPage('https://assets.wibbo.org/gamedata/FurnitureData.json', true);
+        $furniData = Helper::getSslPage('https://assets.wibbo.org/gamedata/FurnitureData.json?'. time(), true);
 
         foreach ($furniData->roomitemtypes->furnitype as $var) {
             if($var->id == $data["id"]) {

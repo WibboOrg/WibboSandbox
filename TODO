@@ -1,12 +1,25 @@
 [x] Faire une page pour pouvoir modifier le FurnitureData.json
-[ ] Faire une page pour pouvoir modifier le BadgeTexts.json
-[ ] Faire une page pour pouvoir modifier le ExternalTexts.json
-[ ] Faire une page pour pouvoir modifier le UITexts.json
-[ ] Faire une page pour uploader cdn (sounds, thumbnails, web-promo)
-[ ] Faire une page pour uploader assets (wibbopages, c_images/album1584, c_images/backgrounds, c_images/catalogue, c_images/reception, c_images/navigator)
+[x] Faire une page pour pouvoir modifier le BadgeTexts.json
+[x] Faire une page pour pouvoir modifier le ExternalTexts.json
+[x] Faire une page pour pouvoir modifier le UITexts.json
+[ ] Faire une page pour modifier cdn sounds
+[ ] Faire une page pour modifier cdn thumbnails
+[ ] Faire une page pour modifier cdn web-promo
+[ ] Faire une page pour modifier assets wibbopages
+[ ] Faire une page pour modifier assets c_images/album1584
+[ ] Faire une page pour modifier assets c_images/backgrounds
+[ ] Faire une page pour modifier assets c_images/catalogue
+[ ] Faire une page pour modifier assets c_images/reception
+[ ] Faire une page pour modifier assets c_images/navigator
 [x] Faire une page pour ajouter furni
 [ ] Faire une page pour ajouter effect
 [ ] Faire une page pour ajouter figure
 [ ] Faire une page pour ajouter pet
-[ ] Page pour modifier le catalogue (catalog_bot_preset, catalog_item, catalog_item_limited, catalog_page, catalog_pet_race, item_base)
-[ ] Page pour modifier les tables de l'émulateur (emulator_command, emulator_text)
+[ ] Page pour modifier le catalogue catalog_bot_preset
+[ ] Page pour modifier le catalogue catalog_item
+[ ] Page pour modifier le catalogue catalog_item_limited
+[ ] Page pour modifier le catalogue catalog_page
+[ ] Page pour modifier le catalogue catalog_pet_race
+[ ] Page pour modifier le catalogue item_base
+[ ] Page pour modifier la table emulator_command
+[ ] Page pour modifier la table emulator_text

@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ERROR | E_PARSE);
 
-require_all(['common', 'controller', 'model', 'dto']);
+require_all(['common', 'base', 'controller', 'model', 'dto']);
 
 function parseRoute()
 {
@@ -37,7 +37,7 @@ function parseRoute()
 
     http_response_code(200);
 
-    if ($data == null || count($data) == 0) {
+    if ($data == null) {
         echo json_encode([]);
     } else {
         echo json_encode($data);
