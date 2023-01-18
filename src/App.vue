@@ -4,7 +4,11 @@
 
         <TheLogin v-if="auth.logged === false" />
         <div v-else>
-            <iframe class="absolute top-0 bottom-0 left-0 right-0 z-0 w-full h-full" :src="'https://sandbox.wibbo.org/nitro/?local=true&sso=' + auth.ssoticket" v-if="auth.ssoticket !== ''"></iframe>
+            <iframe
+                class="absolute top-0 bottom-0 left-0 right-0 z-0 w-full h-full"
+                :src="'https://sandbox.wibbo.org/nitro/?local=true&sso=' + auth.ssoticket"
+                v-if="auth.ssoticket !== '' && !disabledHotel"
+            ></iframe>
 
             <TheButtonReturn />
 
@@ -41,6 +45,7 @@
 
 <script lang="ts" setup>
 const isLocal = ref(false)
+const disabledHotel = ref(getConfig('disabled.hotel') === 'true')
 
 onMounted(async () => {
     checkAuth()
