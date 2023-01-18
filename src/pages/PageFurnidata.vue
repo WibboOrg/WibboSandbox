@@ -6,7 +6,7 @@
         </div>
         <div class="col-span-1">
             <BaseCard>
-                <template #title>Importer des mobiliers</template>
+                <template #title>Modifier mobilier texte</template>
                 <template #body>
                     <BaseSpinner :loading="isLoading" v-if="isLoading" />
                     <div v-if="filesPage.length">
