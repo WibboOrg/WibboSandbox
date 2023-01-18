@@ -43,7 +43,10 @@
 const navList = ref<{ name: string; path: string }[]>([])
 
 navList.value.push({ name: 'Acceuil', path: '/' })
-navList.value.push({ name: 'Ajouter des mobiliers', path: '/upload-furni' })
-navList.value.push({ name: 'Modifier furnidata', path: '/furnidata' })
+navList.value.push({ name: 'Ajout mobilier', path: '/upload-furni' })
+navList.value.push({ name: 'Modifier mobilier texte', path: '/furnidata' })
+navList.value.push({ name: 'Modifier badge texte', path: '/badge-texts' })
+navList.value.push({ name: 'Modifier external texte', path: '/external-texts' })
+navList.value.push({ name: 'Modifier UI texte', path: '/ui-texts' })
 navList.value.push({ name: 'Catalogue', path: '/catalog' })
 </script>
