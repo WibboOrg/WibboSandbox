@@ -1,27 +1,27 @@
 <?php
 class TestController extends BaseController
 {
-    public function get() //Read
+    public function get()
     {
         return ["Hello" => "get"];
     }
     
-    public function post() //Create
+    public function post()
     {
         return ["Hello" => "post"];
     }
     
-    public function put() //Update/Replace
+    public function put()
     {
         return ["Hello" => "put"];
     }
     
-    public function patch() //Update/Modify
+    public function patch()
     {
         return ["Hello" => "patch"];
     }
     
-    public function delete() //Delete
+    public function delete()
     {
         return ["Hello" => "delete"];
     }

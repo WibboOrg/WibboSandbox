@@ -3,6 +3,12 @@ class UITextsController extends BaseController
 {
     public function get() 
     {
+        $user = $this->getAuthUser();
+
+        if ($user["rank"] < 13) {
+            throw new HttpException("Vous n'avez pas les permissions requis", 400);
+        }
+        
         $data = Helper::getSslPage('https://assets.wibbo.org/gamedata/UITexts.json?'. time(), true);
 
         $newData = [];
@@ -33,11 +39,12 @@ class UITextsController extends BaseController
         }
 
         $uploadData = array(
-        array(
-            'action' => 'upload',
-            'path' => 'gamedata/UITexts.json',
-            'data' => base64_encode(json_encode($badgeTexts)),
-        ));
+            array(
+                'action' => 'upload',
+                'path' => 'gamedata/UITexts.json',
+                'data' => base64_encode(json_encode($badgeTexts)),
+            )
+        );
 
         if (!Helper::uploadApi('assets', $uploadData)) {
             throw new HttpException('Problème lors de l\'importation', 400);

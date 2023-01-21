@@ -4,6 +4,7 @@ class UploadFurniController extends BaseController
     public function post()
     {
         $data = $this->getData(["type", "name", "description", "file"]);
+        
         $user = $this->getAuthUser();
 
         if ($user["rank"] < 13) {

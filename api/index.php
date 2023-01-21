@@ -32,7 +32,6 @@ function parseRoute()
             break;
         default:
             throw new HttpException("Controller method (" . $method . ") not found for path: " . $request, 404);
-            break;
     }
 
     http_response_code(200);

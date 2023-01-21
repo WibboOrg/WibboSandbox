@@ -3,12 +3,12 @@ class BaseController
 {
     private function requireData(?array $data, array $keyList)
     {
-        if(!$data) throw new Exception('A field is missing', 400);
+        if(!$data) throw new Exception('Un champ est manquent', 400);
 
         foreach ($keyList as $key)
         {
             if(!array_key_exists($key, $data)) {
-                throw new Exception('A field is missing', 400);
+                throw new Exception('Un champ est manquent', 400);
             }
         }
     }
@@ -26,7 +26,7 @@ class BaseController
     {
         $headers = apache_request_headers();
         $authorization = $headers['Authorization'] ?? null;
-        if(!$authorization) throw new HttpException("Unauthorized", 401);
+        if(!$authorization) throw new HttpException("Authentification échouer", 401);
 
         $token = explode(' ', $authorization)[1];
 
@@ -37,32 +37,32 @@ class BaseController
     {
         $user = UserDto::getOne($this->getAuth()->id);
 
-        if(!$user) throw new HttpException("Utilisateur non trouver", 404);
+        if(!$user) throw new HttpException("L'utilisateur n'existe pas", 401);
 
         return $user;
     }
 
-    public function get() 
+    public function get() //Read
     {
         throw new HttpException("Method get not found", 404);
     }
 
-    public function post() 
+    public function post() //Create
     {
         throw new HttpException("Method post not found", 404);
     }
 
-    public function put() 
+    public function put() //Update/Replace
     {
         throw new HttpException("Method put not found", 404);
     }
 
-    public function patch() 
+    public function patch() //Update/Modify
     {
         throw new HttpException("Method patch not found", 404);
     }
 
-    public function delete() 
+    public function delete() //Delete
     {
         throw new HttpException("Method delete not found", 404);
     }

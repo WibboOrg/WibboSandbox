@@ -3,6 +3,12 @@ class FurnidataController extends BaseController
 {
     public function get() 
     {
+        $user = $this->getAuthUser();
+
+        if ($user["rank"] < 13) {
+            throw new HttpException("Vous n'avez pas les permissions requis", 400);
+        }
+        
         $furniDataJson = Helper::getSslPage('https://assets.wibbo.org/gamedata/FurnitureData.json?'. time());
 
         $furniData = json_decode($furniDataJson, JSON_OBJECT_AS_ARRAY);
