@@ -1,9 +1,14 @@
 export const useFetchAPI = async <T>(url: string, method = 'GET', opts?: RequestInit | undefined) => {
-    const response = await fetch(getConfig('api.path') + url, {
+    if (auth.value.token)
+        opts = {
+            ...opts,
+            headers: {
+                Authorization: 'Bearer ' + auth.value.token,
+            },
+        }
+
+    const response = await fetch(getConfig<string>('api.path') + url, {
         method,
-        headers: {
-            Authorization: 'Bearer ' + auth.value.token,
-        },
         ...(opts && { ...opts }),
     })
 
@@ -11,17 +16,17 @@ export const useFetchAPI = async <T>(url: string, method = 'GET', opts?: Request
 
     if (response.status === 401) {
         logout()
-        showError('Vous avez été déconnecté')
+        showMessage('Vous avez été déconnecté')
         throw new Error()
     }
 
     if (response.status === 400 || response.status === 404) {
-        showError(data.message)
+        showMessage(data.message)
         throw new Error()
     }
 
     if (response.status !== 200) {
-        showError('Une erreur est survenue')
+        showMessage('Une erreur est survenue')
         throw new Error()
     }
 

@@ -31,7 +31,7 @@ const postLogin = async () => {
     }
 
     if (loginForm.value.username.length < 3 || loginForm.value.password.length < 3) {
-        showError('Veuillez remplir tous les champs')
+        showMessage('Veuillez remplir tous les champs')
         return
     }
 
@@ -43,10 +43,6 @@ const postLogin = async () => {
         auth.value.token = dataLogin.token
 
         localStorage.setItem('token', auth.value.token)
-
-        await loadSSOTicket()
-
-        auth.value.logged = true
 
         router.push('/hotel')
     } catch (e) {

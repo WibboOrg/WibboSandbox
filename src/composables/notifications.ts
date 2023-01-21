@@ -1,16 +1,16 @@
 const isError = ref<boolean>(false)
+const timeoutId = ref<number>(0)
 const notifications = ref<string[]>([])
 
 export const useNotification = () => {
     return { notifications, isError }
 }
 
-export const showError = (message: string) => {
-    isError.value = true
+export const showMessage = (message: string, error = true) => {
+    isError.value = error
     notifications.value.push(message)
-}
 
-export const showSuccess = (message: string) => {
-    isError.value = false
-    notifications.value.push(message)
+    clearTimeout(timeoutId.value)
+
+    timeoutId.value = window.setTimeout(() => (notifications.value = []), 30_000)
 }

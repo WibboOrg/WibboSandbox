@@ -2,15 +2,15 @@
 [x] Faire une page pour pouvoir modifier le BadgeTexts.json
 [x] Faire une page pour pouvoir modifier le ExternalTexts.json
 [x] Faire une page pour pouvoir modifier le UITexts.json
-[ ] Faire une page pour modifier cdn sounds
-[ ] Faire une page pour modifier cdn thumbnails
-[ ] Faire une page pour modifier cdn web-promo
-[ ] Faire une page pour modifier assets wibbopages
-[ ] Faire une page pour modifier assets c_images/album1584
-[ ] Faire une page pour modifier assets c_images/backgrounds
-[ ] Faire une page pour modifier assets c_images/catalogue
-[ ] Faire une page pour modifier assets c_images/reception
-[ ] Faire une page pour modifier assets c_images/navigator
+[ ] Faire une page pour importer cdn sounds
+[ ] Faire une page pour importer cdn thumbnails
+[ ] Faire une page pour importer cdn web-promo
+[ ] Faire une page pour importer assets wibbopages
+[ ] Faire une page pour importer assets c_images/album1584
+[ ] Faire une page pour importer assets c_images/backgrounds
+[ ] Faire une page pour importer assets c_images/catalogue
+[ ] Faire une page pour importer assets c_images/reception
+[ ] Faire une page pour importer assets c_images/navigator
 [x] Faire une page pour ajouter furni
 [ ] Faire une page pour ajouter effect
 [ ] Faire une page pour ajouter figure
@@ -21,5 +21,5 @@
 [ ] Page pour modifier le catalogue catalog_page
 [ ] Page pour modifier le catalogue catalog_pet_race
 [ ] Page pour modifier le catalogue item_base
-[ ] Page pour modifier la table emulator_command
-[ ] Page pour modifier la table emulator_text
+[x] Page pour modifier la table emulator_command
+[x] Page pour modifier la table emulator_text

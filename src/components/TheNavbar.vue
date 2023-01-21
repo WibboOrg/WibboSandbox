@@ -43,10 +43,11 @@
 const navList = ref<{ name: string; path: string }[]>([])
 
 navList.value.push({ name: 'Acceuil', path: '/' })
-navList.value.push({ name: 'Ajout mobilier', path: '/upload-furni' })
-navList.value.push({ name: 'Modifier mobilier texte', path: '/furnidata' })
-navList.value.push({ name: 'Modifier badge texte', path: '/badge-texts' })
-navList.value.push({ name: 'Modifier external texte', path: '/external-texts' })
-navList.value.push({ name: 'Modifier UI texte', path: '/ui-texts' })
-navList.value.push({ name: 'Catalogue', path: '/catalog' })
+navList.value.push({ name: 'Mobilier', path: '/upload-furni' })
+navList.value.push({ name: 'Mobilier texte', path: '/furnidata' })
+navList.value.push({ name: 'Badge texte', path: '/badge-text' })
+navList.value.push({ name: 'External texte', path: '/external-text' })
+navList.value.push({ name: 'UI texte', path: '/ui-text' })
+navList.value.push({ name: 'Emulator texte', path: '/emulator-text' })
+navList.value.push({ name: 'Emulateur command', path: '/emulator-command' })
 </script>

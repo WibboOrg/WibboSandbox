@@ -2,17 +2,13 @@
     <div class="w-screen h-screen overflow-hidden antialiased text-white bg-gray-900">
         <TheTopNofitications />
 
-        <TheLogin v-if="auth.logged === false" />
+        <TheLogin v-if="auth.token === ''" />
         <div v-else>
-            <iframe
-                class="absolute top-0 bottom-0 left-0 right-0 z-0 w-full h-full"
-                :src="'https://sandbox.wibbo.org/nitro/?local=true&sso=' + auth.ssoticket"
-                v-if="auth.ssoticket !== '' && !disabledHotel"
-            ></iframe>
+            <TheHotelClient />
 
             <TheButtonReturn />
-
             <TheNavbar />
+
             <router-view v-slot="{ Component, route }">
                 <transition
                     enter-active-class="duration-300"
@@ -44,12 +40,5 @@
 </template>
 
 <script lang="ts" setup>
-const isLocal = ref(false)
-const disabledHotel = ref(getConfig('disabled.hotel') === 'true')
-
-onMounted(async () => {
-    checkAuth()
-
-    isLocal.value = getConfig('local.enabled') === 'true'
-})
+onMounted(async () => await checkAuth())
 </script>

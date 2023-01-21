@@ -25,7 +25,7 @@
                                             <div class="w-full px-4 py-2">{{ file.code }}</div>
                                         </td>
                                         <td class="align-middle">
-                                            <BaseInput v-model="file.text" :value="file.text" :text-to-edit="true"></BaseInput>
+                                            <BaseInput v-model="file.text" :value="file.text" text-to-edit></BaseInput>
                                         </td>
                                         <td class="align-middle"><BaseButton @click="patchFile(file)">Sauvegarder</BaseButton></td>
                                     </tr>
@@ -41,8 +41,10 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, getFiles, patchFile, filesPage, pageCurrent, pageCount, pageId, pageSearch } = useFetchData<{ code: string; text: string }>('badgeTexts')
-getFiles()
+const { isLoading, patchFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('badgeTexts')
 
-const updatePageCurrent = (pageId: number) => (pageCurrent.value = pageId)
+interface ApiData {
+    code: string
+    text: string
+}
 </script>
