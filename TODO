@@ -2,24 +2,23 @@
 [x] Faire une page pour pouvoir modifier le BadgeTexts.json
 [x] Faire une page pour pouvoir modifier le ExternalTexts.json
 [x] Faire une page pour pouvoir modifier le UITexts.json
-[ ] Faire une page pour importer cdn sounds
-[ ] Faire une page pour importer cdn thumbnails
-[ ] Faire une page pour importer cdn web-promo
-[ ] Faire une page pour importer assets wibbopages
-[ ] Faire une page pour importer assets c_images/album1584
-[ ] Faire une page pour importer assets c_images/backgrounds
-[ ] Faire une page pour importer assets c_images/catalogue
-[ ] Faire une page pour importer assets c_images/reception
-[ ] Faire une page pour importer assets c_images/navigator
+[x] Faire une page pour gérer cdn sounds
+[x] Faire une page pour gérer cdn thumbnails
+[x] Faire une page pour gérer cdn web-promo
+[x] Faire une page pour gérer assets wibbopages
+[x] Faire une page pour gérer assets c_images/album1584
+[x] Faire une page pour gérer assets c_images/backgrounds
+[x] Faire une page pour gérer assets c_images/catalogue
+[x] Faire une page pour gérer assets c_images/reception
+[x] Faire une page pour gérer assets c_images/navigator
+[x] Faire une page pour ajouter badge
 [x] Faire une page pour ajouter furni
-[ ] Faire une page pour ajouter effect
+[x] Faire une page pour ajouter effect
 [ ] Faire une page pour ajouter figure
-[ ] Faire une page pour ajouter pet
-[ ] Page pour modifier le catalogue catalog_bot_preset
-[ ] Page pour modifier le catalogue catalog_item
-[ ] Page pour modifier le catalogue catalog_item_limited
-[ ] Page pour modifier le catalogue catalog_page
-[ ] Page pour modifier le catalogue catalog_pet_race
-[ ] Page pour modifier le catalogue item_base
+[x] Faire une page pour ajouter pet
+[x] Page pour modifier le catalogue catalog_page
+[x] Page pour modifier le catalogue catalog_item
+[x] Page pour modifier le catalogue catalog_item_limited
+[x] Page pour modifier le catalogue item_base
 [x] Page pour modifier la table emulator_command
 [x] Page pour modifier la table emulator_text

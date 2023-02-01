@@ -8,7 +8,6 @@
 
             <TheButtonReturn />
             <TheNavbar />
-
             <router-view v-slot="{ Component, route }">
                 <transition
                     enter-active-class="duration-300"
@@ -19,6 +18,9 @@
                     leave-to-class="opacity-0"
                 >
                     <div class="absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-75 overflow-y-overlay" id="main" v-show="route.path !== '/hotel'">
+                        <div class="fixed top-2 right-4 cursor-pointer" @click="$router.push('/hotel')">
+                            <IconClose class="w-8 h-8 hover:text-gray-400" />
+                        </div>
                         <div class="container my-8 pl-[200px]">
                             <transition
                                 enter-active-class="duration-300"
@@ -29,7 +31,9 @@
                                 leave-to-class="opacity-0"
                                 mode="out-in"
                             >
-                                <component :is="Component" :key="route.path" />
+                                <keep-alive>
+                                    <component :is="Component" :key="route.path" />
+                                </keep-alive>
                             </transition>
                         </div>
                     </div>

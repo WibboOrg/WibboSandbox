@@ -7,10 +7,12 @@ export const useNotification = () => {
 }
 
 export const showMessage = (message: string, error = true) => {
-    isError.value = error
+    if (isError.value !== error) isError.value = error
     notifications.value.push(message)
 
-    clearTimeout(timeoutId.value)
+    if (notifications.value.length > 5) notifications.value.shift()
 
-    timeoutId.value = window.setTimeout(() => (notifications.value = []), 30_000)
+    if (timeoutId.value) clearTimeout(timeoutId.value)
+
+    timeoutId.value = setTimeout(() => (notifications.value = []), 10_000)
 }

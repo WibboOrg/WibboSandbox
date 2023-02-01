@@ -1,29 +1,25 @@
 <?php
 class UploadFurniController extends BaseController
 {
+    public array $minRank = ['POST' => 13];
+    
     public function post()
     {
         $data = $this->getData(["type", "name", "description", "file"]);
         
-        $user = $this->getAuthUser();
-
-        if ($user["rank"] < 13) {
-            throw new HttpException("Vous n'avez pas les permissions requis", 400);
-        }
-
         $uploadData = array();
 
-        $file = $data["file"]["name"];
+        $file = $data["file"];
 
         if (!$file) {
             throw new HttpException("Fichier introuvable", 400);
         }
 
-        if (!preg_match('/^[a-z0-9_]+\.nitro$/', $file)) {
+        if (!preg_match('/^[a-z0-9_]+\.nitro$/', $file["name"])) {
             throw new HttpException('Nom du fichier ou extension incorrecte (.nitro)', 400);
         }
 
-        $furniName = explode(".nitro", $file)[0];
+        $furniName = explode(".nitro", $file["name"])[0];
 
         $furniTitle = isset($data["name"]) ? $data["name"] : $furniName . " title";
         $furniDesc = isset($data["description"]) ? $data["description"] : $furniName . " desc";
@@ -36,11 +32,8 @@ class UploadFurniController extends BaseController
         $furniId = ItemBaseDto::getLastId() + 1;
 
         if (ItemBaseDto::getOneByIdOrName($furniId, $furniName)) {
-            throw new HttpException('Mobilier déjà existant: ' . $furniName, 400);
+            throw new HttpException('Mobilier déjà existant', 400);
         }
-
-        ItemBaseDto::create($furniId, $furniName, $type);
-        CatalogItemDto::create($furniId, $furniName);
 
         $funidataCode = array(
             "id" => intval($furniId),
@@ -93,23 +86,28 @@ class UploadFurniController extends BaseController
         array_push($uploadData,
             array(
                 'action' => 'json',
-                'path' => 'gamedata/FurnitureData.json',
+                'path' => 'gamedata/FurnitureData2.json',
                 'data' => json_encode($furnidata),
             ),
             array(
                 'action' => 'json',
-                'path' => 'gamedata/ProductData.json',
+                'path' => 'gamedata/ProductData2.json',
                 'data' => json_encode($product),
             ),
             array(
                 'action' => 'upload',
-                'path' => 'bundled/furniture/' . $file,
-                'data' => $data["file"]["base64"],
+                'path' => 'bundled/furniture/' . $file["name"],
+                'data' => $file["base64"],
             ),
         );
 
-        if (Helper::uploadApi('assets', $uploadData)) {
+        if (!Helper::uploadApi('assets', $uploadData)) {
             throw new HttpException('Problème lors de l\'importation: ', 400);
         }
+
+        ItemBaseDto::create($furniId, $furniName, $type);
+        CatalogItemDto::create($furniId, $furniName);
+
+        LogSandboxDto::create($this->user['id'], 'post', 'furniture', $furniName);
     }
 }

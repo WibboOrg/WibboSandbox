@@ -5,7 +5,11 @@ class JWT
     {
         try 
         {
-            list($header, $payload, $signature) = explode('.', base64_decode($token));
+            list($header, $payload, $signature) = explode('.', $token);
+
+            $header = base64_decode($header);
+            $payload = base64_decode($payload);
+            $signature = base64_decode($signature);
 
             $signatureVerif = hash_hmac('sha256', $header . "." . $payload, TOKEN_SECRET, true);
 
@@ -34,7 +38,7 @@ class JWT
             $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
             $payload = json_encode(array_merge($data, ['iat' => time()]));
             $signature = hash_hmac('sha256', $header . "." . $payload, TOKEN_SECRET, true);
-            $token = base64_encode($header . "." . $payload . "." . $signature);
+            $token = base64_encode($header) . "." . base64_encode($payload) . "." . base64_encode($signature);
 
             return $token;
         } catch(Exception $e) {

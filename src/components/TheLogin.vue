@@ -3,16 +3,12 @@
         <BaseCard>
             <template #title>SandBox</template>
             <template #body>
-                <form @submit.prevent="postLogin" class="flex flex-col gap-2">
+                <form @submit.prevent="web3Login" class="flex flex-col gap-2">
                     <div>
-                        <label class="block" for="email">Pseudo</label>
-                        <BaseInput type="text" placeholder="Pseudo" v-model="loginForm.username" />
+                        <label class="block mb-1">Pseudo</label>
+                        <BaseInput placeholder="Pseudo" v-model="loginName" />
                     </div>
-                    <div>
-                        <label class="block">Mot de passe</label>
-                        <BaseInput type="password" placeholder="Mot de passe" v-model="loginForm.password" />
-                    </div>
-                    <BaseButton class="my-2">Connexion</BaseButton>
+                    <BaseButton class="my-2 flex gap-2 justify-center"><span>Connexion</span><img src="MetaMask_Fox.svg" class="h-6 w-6" /></BaseButton>
                 </form>
             </template>
         </BaseCard>
@@ -20,36 +16,68 @@
 </template>
 
 <script lang="ts" setup>
+import { ethers } from 'ethers'
 import { router } from '../router'
 
-const loginForm = ref({ username: '', password: '' })
+const loginName = ref('')
 const loading = ref(false)
 
-const postLogin = async () => {
+onMounted(() => {
+    const username = localStorage.getItem('username')
+
+    if (username) {
+        loginName.value = username
+    }
+})
+
+const web3Login = async () => {
     if (loading.value) {
         return
     }
 
-    if (loginForm.value.username.length < 3 || loginForm.value.password.length < 3) {
+    if (loginName.value.length < 3) {
         showMessage('Veuillez remplir tous les champs')
         return
     }
 
-    try {
-        loading.value = true
+    loading.value = true
 
-        const dataLogin = await useFetchAPI<{ token: string }>('login', 'POST', { body: JSON.stringify(loginForm.value) })
+    try {
+        if (!window.ethereum) {
+            showMessage("MetaMask non détecté. Veuillez d'abord installer MetaMask")
+            return
+        }
+
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+
+        const messageToken = await (await useFetchAPI<{ token: string }>('web3')).token
+
+        const messageSign = parseJwt<{ message: string }>(messageToken).message
+
+        await provider.send('eth_requestAccounts', [])
+        const address = await provider.getSigner().getAddress()
+        const signature = await provider.getSigner().signMessage(messageSign)
+
+        const dataLogin = await useFetchAPI<{ token: string }>('web3', 'POST', {
+            body: JSON.stringify({
+                address: address,
+                signature: signature,
+                message_token: messageToken,
+                username: loginName.value,
+            }),
+        })
 
         auth.value.token = dataLogin.token
 
+        auth.value.user = await useFetchAPI<{ id: number; rank: number; name: string; ticket: string }>('UserData')
+
         localStorage.setItem('token', auth.value.token)
+        localStorage.setItem('username', loginName.value)
 
         router.push('/hotel')
-    } catch (e) {
-        loginForm.value = {
-            username: '',
-            password: '',
-        }
+    } catch (e: unknown) {
+        showMessage("Une erreur s'est produite: " + e)
+        loginName.value = ''
         logout()
     }
 

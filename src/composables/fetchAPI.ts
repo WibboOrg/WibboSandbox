@@ -1,5 +1,5 @@
 export const useFetchAPI = async <T>(url: string, method = 'GET', opts?: RequestInit | undefined) => {
-    if (auth.value.token)
+    if (auth.value.token !== '')
         opts = {
             ...opts,
             headers: {

@@ -1,18 +1,28 @@
 <?php
-error_reporting(E_ERROR | E_PARSE);
+// error_reporting(E_ERROR | E_PARSE);
 
 require_all(['common', 'base', 'controller', 'model', 'dto']);
 
 function parseRoute()
 {
     $request = (isset($_GET["page"])) ? $_GET["page"] : explode('&', $_SERVER['QUERY_STRING'], 2)[0];
-    $method = $_SERVER["REQUEST_METHOD"];
+    $method = strtoupper($_SERVER["REQUEST_METHOD"]);
 
     $className = ucfirst(strtolower($request)) . "Controller";
 
-    if(class_exists($className, false) === false || ctype_alpha($className) === false) throw new HttpException("Controller not found for path: " . $request, 404);
+    if(class_exists($className, false) === false) throw new HttpException("Controller not found for path: " . $request, 404);
 
     $controller = new $className();
+
+    if($className !== 'AuthController' && $className !== 'Web3Controller')
+    {
+        $user = $controller->getAuthUser();
+
+        $minRank = $controller->minRank[$method];
+
+        if ($minRank > $user['rank'])
+            throw new HttpException('Permission requis', 401);
+    }
 
     switch ($method) {
         case 'GET':

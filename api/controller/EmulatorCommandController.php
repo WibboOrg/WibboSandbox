@@ -1,14 +1,10 @@
 <?php
 class EmulatorCommandController extends BaseController
 {
-    public function get() 
-    {
-        $user = $this->getAuthUser();
+    public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13, 'PATCH' => 13];
 
-        if ($user["rank"] < 13) {
-            throw new HttpException("Vous n'avez pas les permissions requis", 400);
-        }
-        
+    public function get() 
+    { 
         return EmulatorCommandDto::getAll();
     }
 
@@ -16,43 +12,30 @@ class EmulatorCommandController extends BaseController
     {
         $data = $this->getData(['id', 'minrank', 'description_fr']);
 
-        $user = $this->getAuthUser();
-
-        if ($user["rank"] < 13) {
-            throw new HttpException("Vous n'avez pas les permissions requis", 400);
-        }
-
         if(is_int($data['id']) || is_int($data['minrank'])) {
             throw new HttpException("Identifiants incorrects", 400);
         }
 
         EmulatorCommandDto::update((int)$data['id'], (int)$data['minrank'], $data['description_fr']);
+        LogSandboxDto::create($this->user['id'], 'patch', 'emulator_command', $data['id']);
     }
 
     public function delete()
     {
         $data = $this->getData(['id']);
 
-        $user = $this->getAuthUser();
-
-        if ($user["rank"] < 13) {
-            throw new HttpException("Vous n'avez pas les permissions requis", 400);
-        }
-
         EmulatorCommandDto::delete((int)$data['id']);
+
+        LogSandboxDto::create($this->user['id'], 'delete', 'emulator_command', $data['id']);
     }
 
     public function post()
     {
         $data = $this->getData(['input', 'minrank', 'description_fr']);
 
-        $user = $this->getAuthUser();
-
-        if ($user["rank"] < 13) {
-            throw new HttpException("Vous n'avez pas les permissions requis", 400);
-        }
-
         $id = EmulatorCommandDto::create($data['input'], (int)$data['minrank'], $data['description_fr']);
+
+        LogSandboxDto::create($this->user['id'], 'post', 'emulator_command', $id);
 
         return EmulatorCommandDto::getOne($id);
     }

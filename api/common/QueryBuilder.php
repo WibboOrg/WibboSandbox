@@ -3,6 +3,7 @@ class QueryBuilder
 {
     private string $tableName;
     private array $selects;
+    private array $joins;
     private array $wheres;
     private array $orWheres;
     private array $order;
@@ -18,6 +19,7 @@ class QueryBuilder
     {
         $this->selects = [];
         $this->wheres = [];
+        $this->joins = [];
         $this->orWheres = [];
         $this->order = [];
         $this->limit = 0;
@@ -30,10 +32,22 @@ class QueryBuilder
         return $this;
     }
 
-    public function select(string ...$selects)
+    public function select(string | array ...$selects)
     {
-        $this->selects = $selects;
-        
+        foreach ($selects as $select) {
+            $firstValue = is_string($select) ? $select : $select[0];
+            $firstValue = str_contains($firstValue, '.') ? explode('.', $firstValue) : $firstValue;
+            $as = is_array($select) ? ' AS ' . $select[1] : null;
+            $tableName = is_array($firstValue) ? $firstValue[0] . '.' : null;
+            $column = is_array($firstValue) ? $firstValue[1] : $firstValue;
+
+            $this->selects[] = [
+                'column' => $column,
+                'as' => $as,
+                'tableName' => $tableName
+            ];
+        }
+
         return $this;
     }
 
@@ -77,6 +91,13 @@ class QueryBuilder
         return $this;
     }
 
+    public function join(string $type, string $tableName, string $on)
+    {
+        $this->joins[] = ["type" => $type, "table" => $tableName, "on" => $on];
+
+        return $this;
+    }
+
     public function limit(int $limit)
     {
         $this->limit = $limit;
@@ -86,10 +107,6 @@ class QueryBuilder
 
     public function orderBy(string $column, string $order)
     {
-        $order = strtoupper($order);
-        if($order != "ASC" && $order != "DESC")
-            throw new HttpException("Sql order incorrect");
-
         $this->order[] = ["column" => $column, "order" => $order];
 
         return $this;
@@ -127,10 +144,23 @@ class QueryBuilder
         return $query;
     }
 
+    private function getJoinQuery(): string
+    {
+        $query = "";
+        if(count($this->joins) > 0) {
+            $query .= ' ';
+            $query .= implode(' , ', array_map(function ($join) {
+                return '' . $join['type'] . ' JOIN `' . $join['table'] . '` ON ' . $join['on'];
+            }, $this->joins));
+        }
+
+        return $query;
+    }
+
     private function getOrderQuery(): string
     {
         $query = "";
-        if(count($this->order)> 0) {
+        if(count($this->order) > 0) {
             $query .= " ORDER BY ";
 
             $query .= implode(' , ', array_map(function ($order) {
@@ -204,10 +234,11 @@ class QueryBuilder
     public function getSelectQuery(): string
     {
         $query = "SELECT ";
-        $query .= count($this->selects) > 0 ? implode(', ', array_map(function($value) { 
-            return '`' . $value . '`'; 
+        $query .= count($this->selects) > 0 ? implode(', ', array_map(function ($value) {
+            return $value['tableName'] . '`' . $value['column'] . '`' . $value['as']; 
         }, $this->selects)) : '*';
         $query .= " FROM `" . $this->tableName . "`";
+        $query .= $this->getJoinQuery();
         $query .= $this->getWhereQuery();
         $query .= $this->getOrderQuery();
         $query .= $this->getLimitQuery();

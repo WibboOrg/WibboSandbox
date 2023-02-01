@@ -8,7 +8,7 @@ class UserDto extends BaseDto
     {
         $model = self::getModel();
 
-        return $model->select('username', 'id')->get();
+        return $model->select('id', 'username', 'rank')->get();
     }
 
     public static function getOneByName(string $name)
@@ -22,7 +22,7 @@ class UserDto extends BaseDto
     {
         $model = self::getModel();
 
-        return $model->select('id', 'rank')->where('id', $id)->first();
+        return $model->select('id', 'rank')->select(['username', 'name'])->where('id', $id)->first();
     }
 
     public static function delete(int $id)
@@ -39,11 +39,18 @@ class UserDto extends BaseDto
         return $model->select('id')->where('username', $name)->first();
     }
 
-    public static function updatePassword(int $userId, string$password)
+    public static function updatePassword(int $userId, string $password)
     {
         $model = self::getModel();
 
         $model->where('id', $userId)->update(['password' => password_hash($password, PASSWORD_DEFAULT)]);
+    }
+
+    public static function updateRank(int $userId, int $rank)
+    {
+        $model = self::getModel();
+
+        $model->where('id', $userId)->update(['rank' => $rank]);
     }
 
     public static function updateTicket(string $userId, string $ticket)
@@ -53,11 +60,11 @@ class UserDto extends BaseDto
         $model->where('id', $userId)->limit(1)->update(['auth_ticket' => $ticket]);
     }
 
-    public static function create(string $name, string $password)
+    public static function create(string $name, int $rank)
     {
         $model = self::getModel();
 
-        $model->insert(['username' => $name, 'password' => password_hash($password, PASSWORD_DEFAULT)]);
+        $model->insert(['username' => $name, 'rank' => $rank]);
 
         return $model->getLastInsertId();
     }

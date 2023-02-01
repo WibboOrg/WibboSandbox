@@ -36,6 +36,7 @@
     "onServerPrefetch": true,
     "onUnmounted": true,
     "onUpdated": true,
+    "parseJwt": true,
     "provide": true,
     "reactive": true,
     "readonly": true,

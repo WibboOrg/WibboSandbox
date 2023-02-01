@@ -1,6 +1,9 @@
 <?php
 class BaseController
 {
+    public array $user;
+    public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13, 'PATCH' => 13, 'PUT' => 13];
+    
     private function requireData(?array $data, array $keyList)
     {
         if(!$data) throw new Exception('Un champ est manquent', 400);
@@ -22,7 +25,7 @@ class BaseController
         return $input;
     }
 
-    public function getAuth(): object
+    private function getAuth(): object
     {
         $headers = apache_request_headers();
         $authorization = $headers['Authorization'] ?? null;
@@ -33,11 +36,13 @@ class BaseController
         return JWT::decode($token);
     }
 
-    public function getAuthUser(): array
+    public function getAuthUser()
     {
         $user = UserDto::getOne($this->getAuth()->id);
 
         if(!$user) throw new HttpException("L'utilisateur n'existe pas", 401);
+
+        $this->user = $user;
 
         return $user;
     }

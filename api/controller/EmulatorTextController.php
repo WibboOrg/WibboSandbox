@@ -1,14 +1,10 @@
 <?php
 class EmulatorTextController extends BaseController
 {
+    public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13, 'PATCH' => 13];
+
     public function get() 
     {
-        $user = $this->getAuthUser();
-
-        if ($user["rank"] < 13) {
-            throw new HttpException("Vous n'avez pas les permissions requis", 400);
-        }
-
         return EmulatorTextDto::getAll();
     }
 
@@ -16,39 +12,27 @@ class EmulatorTextController extends BaseController
     {
         $data = $this->getData(['id', 'value_fr']);
 
-        $user = $this->getAuthUser();
-
-        if ($user["rank"] < 13) {
-            throw new HttpException("Vous n'avez pas les permissions requis", 400);
-        }
-
         EmulatorTextDto::update((int)$data['id'], $data['value_fr']);
+
+        LogSandboxDto::create($this->user['id'], 'patch', 'emulator_text', $data['id']);
     }
 
     public function delete()
     {
         $data = $this->getData(['id']);
 
-        $user = $this->getAuthUser();
-
-        if ($user["rank"] < 13) {
-            throw new HttpException("Vous n'avez pas les permissions requis", 400);
-        }
-
         EmulatorTextDto::delete((int)$data['id']);
+
+        LogSandboxDto::create($this->user['id'], 'delete', 'emulator_text', $data['id']);
     }
 
     public function post()
     {
         $data = $this->getData(['identifiant', 'value_fr']);
 
-        $user = $this->getAuthUser();
-
-        if ($user["rank"] < 13) {
-            throw new HttpException("Vous n'avez pas les permissions requis", 400);
-        }
-
         $id = EmulatorTextDto::create($data['identifiant'], $data['value_fr']);
+
+        LogSandboxDto::create($this->user['id'], 'post', 'emulator_text', $id);
 
         return EmulatorTextDto::getOne($id);
     }

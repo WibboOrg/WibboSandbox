@@ -14,20 +14,25 @@ class Helper
 
     public static function generateTicket(): string
     {
-        return "ticket-" . md5(self::generateHash(rand(8, 12))) . "-ticket";
+        return "ticket-" . hash('sha256', self::generateSalt(10)) . "-ticket";
     }
 
-    public static function generateHash(int $qtd): string
+    public static function generateSalt(int $length = 10)
     {
-        $characters = 'abcdefghijklmopqrstuvxwyzABCDEFGHIJKLMOPQRSTUVXWYZ0123456789';
-        $hash = '';
-
-        for ($x = 1; $x <= $qtd; $x++) {
-            $postChar = rand(0, strlen($characters) - 1);
-            $hash .= substr($characters, $postChar, 1);
+        //set up random characters
+        $chars = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
+        //get the length of the random characters
+        $char_len = strlen($chars) - 1;
+        //store output
+        $output = '';
+        //iterate over $chars
+        while (strlen($output) < $length) {
+            /* get random characters and append to output till the length of the output
+            is greater than the length provided */
+            $output .= $chars[rand(0, $char_len)];
         }
-
-        return $hash;
+        //return the result
+        return hash('sha256', NONCE_SECRET . $output);
     }
 
     public static function uploadApi(string $type, array $data): bool
@@ -44,7 +49,7 @@ class Helper
             ]
         ];
 		$context  = stream_context_create($options);
-		$result = file_get_contents(UPLOAD_URL_ASSETS, false, $context);
+		$result = file_get_contents($type === 'assets' ? UPLOAD_URL_ASSETS : UPLOAD_URL_CDN, false, $context);
 
 		if ($result === FALSE || $result !== 'ok') {
 			return false;
@@ -53,7 +58,7 @@ class Helper
         return true;
     }
 
-    public static function getSslPage(string $url, bool $isJson = false): string | object
+    public static function getSslPage(string $url, bool $isJson = false): string | object | array
     {
         $headers[] = 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:13.0) Gecko/20100101 Firefox/13.0.1';
         $headers[] = 'Accept: application/json, text/javascript, */*; q=0.01';
