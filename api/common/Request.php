@@ -36,6 +36,16 @@ class Request
         return $inputs['file'];
     }
 
+    public function getBoolean(array $keyList): array
+    {
+        $inputs = $this->requireData($keyList);
+
+        foreach ($inputs as &$input)
+            $input = is_numeric($input) ? ($input === 1 ? 1 : 0) : 0;
+
+        return $inputs;
+    }
+
     public function getNumber(array $keyList): array
     {
         $inputs = $this->requireData($keyList);

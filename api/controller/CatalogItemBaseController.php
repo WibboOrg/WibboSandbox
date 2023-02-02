@@ -15,7 +15,8 @@ class CatalogItemBaseController extends BaseController
 
     public function patch(Request $request)
     {
-        $dataInt = $request->getNumber(['id', 'width', 'length', 'stack_height', 'can_stack', 'can_sit', 'is_walkable', 'interaction_modes_count', 'vending_ids', 'effect_id']);
+        $dataInt = $request->getNumber(['id', 'width', 'length', 'stack_height', 'interaction_modes_count', 'vending_ids', 'effect_id']);
+        $dataBool = $request->getBoolean(['can_stack', 'can_sit', 'is_walkable']);
         $dataStr = $request->getString(['item_name', 'interaction_type', 'height_adjustable']);
 
         CatalogItemBaseDto::update(
@@ -24,9 +25,9 @@ class CatalogItemBaseController extends BaseController
             $dataInt['width'],
             $dataInt['length'],
             $dataInt['stack_height'],
-            $dataInt['can_stack'],
-            $dataInt['can_sit'],
-            $dataInt['is_walkable'],
+            $dataBool['can_stack'],
+            $dataBool['can_sit'],
+            $dataBool['is_walkable'],
             $dataStr['interaction_type'],
             $dataInt['interaction_modes_count'],
             $dataInt['vending_ids'],
@@ -46,17 +47,18 @@ class CatalogItemBaseController extends BaseController
 
     public function post(Request $request)
     {
+        $dataInt = $request->getNumber(['width', 'length', 'stack_height', 'interaction_modes_count', 'vending_ids', 'effect_id']);
+        $dataBool = $request->getBoolean(['can_stack', 'can_sit', 'is_walkable']);
         $dataStr = $request->getString(['item_name', 'interaction_type', 'height_adjustable']);
-        $dataInt = $request->getNumber(['width', 'length', 'stack_height', 'can_stack', 'can_sit', 'is_walkable', 'interaction_modes_count', 'vending_ids', 'effect_id']);
 
         $id = CatalogItemBaseDto::create(
             $dataStr['item_name'],
             $dataInt['width'],
             $dataInt['length'],
             $dataInt['stack_height'],
-            $dataInt['can_stack'],
-            $dataInt['can_sit'],
-            $dataInt['is_walkable'],
+            $dataBool['can_stack'],
+            $dataBool['can_sit'],
+            $dataBool['is_walkable'],
             $dataStr['interaction_type'],
             $dataInt['interaction_modes_count'],
             $dataInt['vending_ids'],

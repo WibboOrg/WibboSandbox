@@ -6,7 +6,8 @@ class UploadEffectController extends BaseController
     public function post(Request $request)
     {
         $file = $request->getFile();
-        $dataInt = $request->getNumber(["id", "only_staff"]);
+        $dataInt = $request->getNumber(["id"]);
+        $dataBool = $request->getBoolean(["only_staff"]);
         
         $uploadData = array();
 
@@ -50,7 +51,7 @@ class UploadEffectController extends BaseController
             throw new HttpException('Problème lors de l\'importation: ', 400);
         }
 
-        EmulatorEffectDto::create($dataInt['id'], $dataInt['only_staff'] === 1 ? 1 : 0);
+        EmulatorEffectDto::create($dataInt['id'], $dataBool['only_staff']);
         LogSandboxDto::create($this->user['id'], 'post', 'effect', $fileName);
     }
 }

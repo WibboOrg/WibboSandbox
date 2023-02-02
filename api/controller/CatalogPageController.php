@@ -11,20 +11,21 @@ class CatalogPageController extends BaseController
     public function patch(Request $request)
     {
         $dataStr = $request->getString(['caption', 'page_layout', 'page_strings_1', 'page_strings_2']);
-        $dataInt = $request->getNumber(['id', 'parent_id', 'icon_image', 'enabled', 'min_rank', 'order_num', 'is_premium']);
+        $dataInt = $request->getNumber(['id', 'parent_id', 'icon_image', 'min_rank', 'order_num']);
+        $dataBool = $request->getBoolean(['enabled', 'is_premium']);
 
         CatalogPageDto::update(
             $dataInt['id'], 
             $dataInt['parent_id'],
             $dataStr['caption'],
             $dataInt['icon_image'],
-            $dataInt['enabled'],
+            $dataBool['enabled'],
             $dataInt['min_rank'],
             $dataInt['order_num'],
             $dataStr['page_layout'],
             $dataStr['page_strings_1'],
             $dataStr['page_strings_2'],
-            $dataInt['is_premium']
+            $dataBool['is_premium']
         );
 
         LogSandboxDto::create($this->user['id'], 'patch', 'catalog_page', $dataInt['id']);
@@ -42,19 +43,20 @@ class CatalogPageController extends BaseController
     public function post(Request $request)
     {
         $dataStr = $request->getString(['caption', 'page_layout', 'page_strings_1', 'page_strings_2']);
-        $dataInt = $request->getNumber(['parent_id', 'icon_image', 'enabled', 'min_rank', 'order_num', 'is_premium']);
+        $dataInt = $request->getNumber(['parent_id', 'icon_image', 'min_rank', 'order_num']);
+        $dataBool = $request->getBoolean(['enabled', 'is_premium']);
 
         $id = CatalogPageDto::create(
             $dataInt['parent_id'],
             $dataStr['caption'],
             $dataInt['icon_image'],
-            $dataInt['enabled'],
+            $dataBool['enabled'],
             $dataInt['min_rank'],
             $dataInt['order_num'],
             $dataStr['page_layout'],
             $dataStr['page_strings_1'],
             $dataStr['page_strings_2'],
-            $dataInt['is_premium']
+            $dataBool['is_premium']
         );
 
         LogSandboxDto::create($this->user['id'], 'post', 'catalog_page', $id);

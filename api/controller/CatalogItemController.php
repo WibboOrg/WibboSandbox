@@ -43,16 +43,17 @@ class CatalogItemController extends BaseController
     public function post(Request $request)
     {
         $dataStr = $request->getString(['catalog_name', 'badge']);
-        $dataInt = $request->getNumber(['page_id', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active']);
+        $dataInt = $request->getNumber(['page_id', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount']);
+        $dataBool = $request->getBoolean(['offer_active']);
 
         $id = CatalogItemDto::create(
-            (int)$dataInt['page_id'],
+            $dataInt['page_id'],
             $dataStr['catalog_name'],
-            (int)$dataInt['cost_credits'],
-            (int)$dataInt['cost_diamonds'],
-            (int)$dataInt['cost_limitcoins'],
-            (int)$dataInt['amount'],
-            (int)$dataInt['offer_active'],
+            $dataInt['cost_credits'],
+            $dataInt['cost_diamonds'],
+            $dataInt['cost_limitcoins'],
+            $dataInt['amount'],
+            $dataBool['offer_active'],
             $dataStr['badge']
         );
 
