@@ -3,7 +3,7 @@ class UserDataController extends BaseController
 {
     public array $minRank = ['GET' => 1];
 
-    public function get() 
+    public function get(Request $request) 
     {
         $ticket = Helper::generateTicket();
 

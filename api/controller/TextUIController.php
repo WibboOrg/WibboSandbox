@@ -3,9 +3,9 @@ class TextUIController extends BaseController
 {
     public array $minRank = ['GET' => 13, 'PATCH' => 13];
 
-    public function get() 
+    public function get(Request $request) 
     {
-        $data = Helper::getSslPage('https://assets.wibbo.org/gamedata/UITexts.json?'. time(), true);
+        $data = Helper::getSslPage(URL_ASSETS . 'gamedata/UITexts.json?'. time(), true);
 
         $newData = [];
 
@@ -15,15 +15,15 @@ class TextUIController extends BaseController
         return $newData;
     }
 
-    public function patch()
+    public function patch(Request $request)
     {
-        $data = $this->getData(['code', 'text']);
+        $dataStr = $request->getString(['code', 'text']);
 
-        $badgeTexts = Helper::getSslPage('https://assets.wibbo.org/gamedata/UITexts.json?'. time(), true);
+        $badgeTexts = Helper::getSslPage(URL_ASSETS . 'gamedata/UITexts.json?'. time(), true);
 
         foreach ($badgeTexts as $code => &$text) {
-            if($code == $data["code"]) {
-                $text = $data["text"];
+            if($code == $dataStr["code"]) {
+                $text = $dataStr["text"];
                 break;
             }
         }
@@ -40,6 +40,6 @@ class TextUIController extends BaseController
             throw new HttpException('Problème lors de l\'importation', 400);
         }
 
-        LogSandboxDto::create($this->user['id'], 'patch', 'FurnitureData.json', $data['code']);
+        LogSandboxDto::create($this->user['id'], 'patch', 'FurnitureData.json', $dataStr['code']);
     }
 }

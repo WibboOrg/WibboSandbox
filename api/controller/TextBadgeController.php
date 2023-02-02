@@ -3,9 +3,9 @@ class TextBadgeController extends BaseController
 {
     public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13, 'PATCH' => 13];
 
-    public function get() 
+    public function get(Request $request) 
     {
-        $data = Helper::getSslPage('https://assets.wibbo.org/gamedata/BadgeTexts.json?'. time(), true);
+        $data = Helper::getSslPage(URL_ASSETS . 'gamedata/BadgeTexts.json?'. time(), true);
 
         $newData = [];
 
@@ -15,15 +15,15 @@ class TextBadgeController extends BaseController
         return $newData;
     }
 
-    public function patch()
+    public function patch(Request $request)
     {
-        $data = $this->getData(['code', 'text']);
+        $dataStr = $request->getString(['code', 'text']);
 
-        $badgeTexts = Helper::getSslPage('https://assets.wibbo.org/gamedata/BadgeTexts.json?'. time(), true);
+        $badgeTexts = Helper::getSslPage(URL_ASSETS . 'gamedata/BadgeTexts.json?'. time(), true);
 
         foreach ($badgeTexts as $code => &$text) {
-            if($code == $data["code"]) {
-                $text = $data["text"];
+            if($code == $dataStr["code"]) {
+                $text = $dataStr["text"];
                 break;
             }
         }
@@ -40,17 +40,17 @@ class TextBadgeController extends BaseController
             throw new HttpException('Problème lors de l\'importation', 400);
         }
 
-        LogSandboxDto::create($this->user['id'], 'patch', 'BadgeTexts.json', $data['code']);
+        LogSandboxDto::create($this->user['id'], 'patch', 'BadgeTexts.json', $dataStr['code']);
     }
 
-    public function delete()
+    public function delete(Request $request)
     {
-        $data = $this->getData(['id']);
+        $dataStr = $request->getString(['id']);
 
-        $badgeTexts = Helper::getSslPage('https://assets.wibbo.org/gamedata/BadgeTexts.json?'. time(), true);
+        $badgeTexts = Helper::getSslPage(URL_ASSETS . 'gamedata/BadgeTexts.json?'. time(), true);
 
         foreach ($badgeTexts as $code => &$text) {
-            if($code == $data["id"]) {
+            if($code == $dataStr["id"]) {
                 unset($badgeTexts->{$code});
                 break;
             }
@@ -68,6 +68,6 @@ class TextBadgeController extends BaseController
             throw new HttpException('Problème lors de l\'importation', 400);
         }
 
-        LogSandboxDto::create($this->user['id'], 'delete', 'BadgeTexts.json', $data['id']);
+        LogSandboxDto::create($this->user['id'], 'delete', 'BadgeTexts.json', $dataStr['id']);
     }
 }

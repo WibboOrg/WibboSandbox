@@ -6,7 +6,7 @@ require_once "Elliptic/Keccak.php";
 
 class Web3Controller extends BaseController
 {
-    public function get()
+    public function get(Request $request)
     {
         $nonce = Helper::generateSalt(25);
 
@@ -17,24 +17,24 @@ class Web3Controller extends BaseController
         return ['token' => $tokenMessage];
     }
 
-    public function post()
+    public function post(Request $request)
     {
-        $data = $this->getData(['username', 'message_token', 'address', 'signature']);
+        $dataStr = $request->getString(['username', 'message_token', 'address', 'signature']);
 
-        $signMessage = JWT::decode($data['message_token'])->message;
+        $signMessage = JWT::decode($dataStr['message_token'])->message;
 
-        if (!$this->verifySignature($signMessage, $data['signature'], $data['address']))
+        if (!$this->verifySignature($signMessage, $dataStr['signature'], $dataStr['address']))
             throw new HttpException('Signature incorrect', 400);
 
-        $userLogin = UserDto::getOneByName($data["username"]);
+        $userLogin = UserDto::getOneByName($dataStr["username"]);
 
         if(!$userLogin) throw new HttpException("Identifiants incorrects", 400);
         
         if(empty($userLogin["password"]))
         {
-            UserDto::updatePassword($userLogin["id"], $data["address"]);
+            UserDto::updatePassword($userLogin["id"], $dataStr["address"]);
         }
-        else if(!password_verify($data["address"], $userLogin["password"])) throw new HttpException("Identifiants incorrects", 400);
+        else if(!password_verify($dataStr["address"], $userLogin["password"])) throw new HttpException("Identifiants incorrects", 400);
 
         $token = JWT::encode(['id' => $userLogin["id"]]);
 

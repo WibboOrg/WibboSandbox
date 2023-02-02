@@ -3,9 +3,9 @@ class TextFurniController extends BaseController
 {
     public array $minRank = ['GET' => 13, 'PATCH' => 13];
 
-    public function get() 
+    public function get(Request $request) 
     {
-        $furniDataJson = Helper::getSslPage('https://assets.wibbo.org/gamedata/FurnitureData.json?'. time());
+        $furniDataJson = Helper::getSslPage(URL_ASSETS . 'gamedata/FurnitureData.json?'. time());
 
         $furniData = json_decode($furniDataJson, JSON_OBJECT_AS_ARRAY);
 
@@ -26,24 +26,25 @@ class TextFurniController extends BaseController
         return $data;
     }
 
-    public function patch()
+    public function patch(Request $request)
     {
-        $data = $this->getData(['id', 'name', 'description']);
+        $dataInt = $request->getNumber(['id']);
+        $dataStr = $request->getString(['name', 'description']);
 
-        $furniData = Helper::getSslPage('https://assets.wibbo.org/gamedata/FurnitureData.json?'. time(), true);
+        $furniData = Helper::getSslPage(URL_ASSETS . 'gamedata/FurnitureData.json?'. time(), true);
 
         foreach ($furniData->roomitemtypes->furnitype as $var) {
-            if($var->id == $data["id"]) {
-                $var->name = $data["name"];
-                $var->description = $data["description"];
+            if($var->id == $dataInt["id"]) {
+                $var->name = $dataStr["name"];
+                $var->description = $dataStr["description"];
                 break;
             }
         }
 
         foreach ($furniData->wallitemtypes->furnitype as $var) {
-            if($var->id == $data["id"]) {
-                $var->name = $data["name"];
-                $var->description = $data["description"];
+            if($var->id == $dataInt["id"]) {
+                $var->name = $dataStr["name"];
+                $var->description = $dataStr["description"];
                 break;
             }
         }
@@ -60,6 +61,6 @@ class TextFurniController extends BaseController
             throw new HttpException('Problème lors de l\'importation', 400);
         }
 
-        LogSandboxDto::create($this->user['id'], 'patch', 'FurnitureData.json', $data['id']);
+        LogSandboxDto::create($this->user['id'], 'patch', 'FurnitureData.json', $dataInt['id']);
     }
 }

@@ -3,13 +3,12 @@ class UploadFurniController extends BaseController
 {
     public array $minRank = ['POST' => 13];
     
-    public function post()
+    public function post(Request $request)
     {
-        $data = $this->getData(["type", "name", "description", "file"]);
+        $file = $request->getFile();
+        $dataStr = $request->getString(["type", "name", "description"]);
         
         $uploadData = array();
-
-        $file = $data["file"];
 
         if (!$file) {
             throw new HttpException("Fichier introuvable", 400);
@@ -21,9 +20,9 @@ class UploadFurniController extends BaseController
 
         $furniName = explode(".nitro", $file["name"])[0];
 
-        $furniTitle = isset($data["name"]) ? $data["name"] : $furniName . " title";
-        $furniDesc = isset($data["description"]) ? $data["description"] : $furniName . " desc";
-        $type =  isset($data["type"]) ? $data["type"] : 's';
+        $furniTitle = isset($dataStr["name"]) ? $dataStr["name"] : $furniName . " title";
+        $furniDesc = isset($dataStr["description"]) ? $dataStr["description"] : $furniName . " desc";
+        $type =  isset($dataStr["type"]) ? $dataStr["type"] : 's';
 
         if ($type !== 's' && $type !== 'i') {
             throw new HttpException('Type incorrect', 400);
@@ -106,7 +105,7 @@ class UploadFurniController extends BaseController
         }
 
         ItemBaseDto::create($furniId, $furniName, $type);
-        CatalogItemDto::create($furniId, $furniName);
+        CatalogItemDto::create($furniId, $furniName, 3, 0, 0, 1, 1, '');
 
         LogSandboxDto::create($this->user['id'], 'post', 'furniture', $furniName);
     }

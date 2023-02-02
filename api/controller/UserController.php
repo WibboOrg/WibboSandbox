@@ -3,45 +3,40 @@ class UserController extends BaseController
 {
     public array $minRank = ['GET' => 13, 'POST' => 13, 'PATCH' => 13, 'DELETE' => 13];
 
-    public function get() 
+    public function get(Request $request) 
     {
         return UserDto::getAll();
     }
 
-    public function patch()
+    public function patch(Request $request)
     {
-        $data = $this->getData(['id', 'rank']);
+        $dataInt = $request->getNumber(['id', 'rank']);
 
-        if (!is_numeric($data['rank']))
-            throw new HttpException('Rang incorrect', 400);
-
-        if((int) $this->user['rank'] <= (int) $data['rank'])
+        if($this->user['rank'] <= $dataInt['rank'])
             throw new HttpException("Vous n'avais pas la permission", 400);
 
-        UserDto::updateRank((int) $data['id'], (int) $data['rank']);
-        LogSandboxDto::create($this->user['id'], 'patch', 'user', $data['id']);
+        UserDto::updateRank($dataInt['id'], $dataInt['rank']);
+        LogSandboxDto::create($this->user['id'], 'patch', 'user', $dataInt['id']);
     }
 
-    public function delete()
+    public function delete(Request $request)
     {
-        $data = $this->getData(['id']);
+        $dataInt = $request->getNumber(['id']);
 
-        UserDto::delete((int)$data['id']);
+        UserDto::delete($dataInt['id']);
 
-        LogSandboxDto::create($this->user['id'], 'delete', 'user', $data['id']);
+        LogSandboxDto::create($this->user['id'], 'delete', 'user', $dataInt['id']);
     }
 
-    public function post()
+    public function post(Request $request)
     {
-        $data = $this->getData(['username', 'rank']);
+        $dataStr = $request->getString(['username']);
+        $dataInt = $request->getString(['rank']);
 
-        if (!is_numeric($data['rank']))
-            throw new HttpException('Rang incorrect', 400);
-
-        if((int) $this->user['rank'] <= (int) $data['rank'])
+        if($this->user['rank'] <= $dataInt['rank'])
             throw new HttpException("Vous n'avais pas la permission", 400);
 
-        $userId = UserDto::create($data['username'], (int) $data['rank']);
+        $userId = UserDto::create($dataStr['username'], $dataInt['rank']);
 
         LogSandboxDto::create($this->user['id'], 'post', 'user', $userId);
 

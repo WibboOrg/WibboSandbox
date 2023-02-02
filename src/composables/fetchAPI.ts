@@ -3,6 +3,7 @@ export const useFetchAPI = async <T>(url: string, method = 'GET', opts?: Request
         opts = {
             ...opts,
             headers: {
+                'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + auth.value.token,
             },
         }

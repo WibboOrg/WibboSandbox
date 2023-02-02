@@ -3,7 +3,7 @@ class AssetController extends BaseController
 {
     public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13];
 
-    public function get() 
+    public function get(Request $request) 
     {
         $category = $_GET['category'] ?? '';
 
@@ -11,7 +11,7 @@ class AssetController extends BaseController
 
         $cache = date('j-n-Y');
 
-        $startUrl = 'https://' . $categoryType . '.wibbo.org/';
+        $startUrl = $categoryType === 'assets' ? URL_ASSETS : URL_CDN;
 
         $data = Helper::getSslPage($startUrl . 'scanDirApi.php?cate=' . $category . '&cache='. $cache . '&time=' . time(), true);
 
@@ -23,13 +23,11 @@ class AssetController extends BaseController
         return $newData;
     }
 
-    public function post()
+    public function post(Request $request)
     {
-        $data = $this->getData(['file']);
+        $file = $request->getFile();
 
         $category = $_GET['category'] ?? '';
-
-        $file = $data["file"];
 
         [$path, $categoryType, $ext] = $this->getCategoryAndPath($category);
 
@@ -57,21 +55,23 @@ class AssetController extends BaseController
 
         LogSandboxDto::create($this->user['id'], 'post', 'asset', $fullPath);
 
-        return ["id" => $fullPath, "link" => 'https://' . $categoryType . '.wibbo.org/' . $fullPath];
+        $startUrl = $categoryType === 'assets' ? URL_ASSETS : URL_CDN;
+
+        return ["id" => $fullPath, "link" => $startUrl . $fullPath];
     }
 
-    public function delete()
+    public function delete(Request $request)
     {
-        $data = $this->getData(['id']);
+        $dataStr = $request->getString(['id']);
 
         $category = $_GET['category'] ?? '';
 
-        if (empty($data['id']))
+        if (empty($dataStr['id']))
             throw new HttpException('Id invalide', 400);
 
         [$path, $categoryType] = $this->getCategoryAndPath($category);
 
-        $fullPath = $path . '/' . basename($data['id']);
+        $fullPath = $path . '/' . basename($dataStr['id']);
 
         $uploadData = array(
             array(

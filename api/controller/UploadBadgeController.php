@@ -3,13 +3,12 @@ class UploadBadgeController extends BaseController
 {
     public array $minRank = ['POST' => 13];
 
-    public function post()
+    public function post(Request $request)
     {
-        $data = $this->getData(["code", "name", "description", "file"]);
+        $file = $request->getFile();
+        $dataStr = $request->getString(["code", "name", "description"]);
 
         $uploadData = array();
-
-        $file = $data["file"];
 
         if (!$file) {
             throw new HttpException("Fichier introuvable", 400);
@@ -24,12 +23,12 @@ class UploadBadgeController extends BaseController
             throw new Exception('La taille du badge est trop grande', 400);
         }
 
-        $badgeJson = array("badge_name_" . $data['code'] => $data['name'], "badge_desc_" . $data['code'] => $data['description']);
+        $badgeJson = array("badge_name_" . $dataStr['code'] => $dataStr['name'], "badge_desc_" . $dataStr['code'] => $dataStr['description']);
 
         $uploadData = array(
             array(
                 'action' => 'upload',
-                'path' => 'c_images/album1584/' . $data['code'] . '.gif',
+                'path' => 'c_images/album1584/' . $dataStr['code'] . '.gif',
                 'data' => $file["base64"],
             ),
             array(
@@ -43,6 +42,6 @@ class UploadBadgeController extends BaseController
             throw new HttpException('Problème lors de l\'importation: ', 400);
         }
 
-        LogSandboxDto::create($this->user['id'], 'post', 'album1584', $data['code']);
+        LogSandboxDto::create($this->user['id'], 'post', 'album1584', $dataStr['code']);
     }
 }

@@ -3,7 +3,7 @@ class CatalogItemBaseController extends BaseController
 {
     public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13, 'PATCH' => 13];
     
-    public function get() 
+    public function get(Request $request) 
     {
         $id = $_GET["id"] ?? null;
 
@@ -13,53 +13,55 @@ class CatalogItemBaseController extends BaseController
         return CatalogItemBaseDto::getAll();
     }
 
-    public function patch()
+    public function patch(Request $request)
     {
-        $data = $this->getData(['id', 'item_name', 'width', 'length', 'stack_height', 'can_stack', 'can_sit', 'is_walkable', 'interaction_type', 'interaction_modes_count', 'vending_ids', 'height_adjustable', 'effect_id']);
+        $dataInt = $request->getNumber(['id', 'width', 'length', 'stack_height', 'can_stack', 'can_sit', 'is_walkable', 'interaction_modes_count', 'vending_ids', 'effect_id']);
+        $dataStr = $request->getString(['item_name', 'interaction_type', 'height_adjustable']);
 
         CatalogItemBaseDto::update(
-            (int)$data['id'],
-            $data['item_name'],
-            (int) $data['width'],
-            (int) $data['length'],
-            (int) $data['stack_height'],
-            (int) $data['can_stack'],
-            (int) $data['can_sit'],
-            (int) $data['is_walkable'],
-            $data['interaction_type'],
-            (int) $data['interaction_modes_count'],
-            (int) $data['vending_ids'],
-            $data['height_adjustable'],
-            (int) $data['effect_id']
+            $dataInt['id'],
+            $dataStr['item_name'],
+            $dataInt['width'],
+            $dataInt['length'],
+            $dataInt['stack_height'],
+            $dataInt['can_stack'],
+            $dataInt['can_sit'],
+            $dataInt['is_walkable'],
+            $dataStr['interaction_type'],
+            $dataInt['interaction_modes_count'],
+            $dataInt['vending_ids'],
+            $dataStr['height_adjustable'],
+            $dataInt['effect_id']
         );
-        LogSandboxDto::create($this->user['id'], 'patch', 'catalog_item_base', $data['id']);
+        LogSandboxDto::create($this->user['id'], 'patch', 'catalog_item_base', $dataInt['id']);
     }
 
-    public function delete()
+    public function delete(Request $request)
     {
-        $data = $this->getData(['id']);
+        $dataInt = $request->getNumber(['id']);
 
-        CatalogItemBaseDto::delete((int)$data['id']);
-        LogSandboxDto::create($this->user['id'], 'delete', 'catalog_item_base', $data['id']);
+        CatalogItemBaseDto::delete($dataInt['id']);
+        LogSandboxDto::create($this->user['id'], 'delete', 'catalog_item_base', $dataInt['id']);
     }
 
-    public function post()
+    public function post(Request $request)
     {
-        $data = $this->getData(['item_name', 'width', 'length', 'stack_height', 'can_stack', 'can_sit', 'is_walkable', 'interaction_type', 'interaction_modes_count', 'vending_ids', 'height_adjustable', 'effect_id']);
+        $dataStr = $request->getString(['item_name', 'interaction_type', 'height_adjustable']);
+        $dataInt = $request->getNumber(['width', 'length', 'stack_height', 'can_stack', 'can_sit', 'is_walkable', 'interaction_modes_count', 'vending_ids', 'effect_id']);
 
         $id = CatalogItemBaseDto::create(
-            $data['item_name'],
-            (int) $data['width'],
-            (int) $data['length'],
-            (int) $data['stack_height'],
-            (int) $data['can_stack'],
-            (int) $data['can_sit'],
-            (int) $data['is_walkable'],
-            $data['interaction_type'],
-            (int) $data['interaction_modes_count'],
-            (int) $data['vending_ids'],
-            $data['height_adjustable'],
-            (int) $data['effect_id']
+            $dataStr['item_name'],
+            $dataInt['width'],
+            $dataInt['length'],
+            $dataInt['stack_height'],
+            $dataInt['can_stack'],
+            $dataInt['can_sit'],
+            $dataInt['is_walkable'],
+            $dataStr['interaction_type'],
+            $dataInt['interaction_modes_count'],
+            $dataInt['vending_ids'],
+            $dataStr['height_adjustable'],
+            $dataInt['effect_id']
         );
 
         LogSandboxDto::create($this->user['id'], 'post', 'catalog_item_base', $id);

@@ -24,21 +24,23 @@ function parseRoute()
             throw new HttpException('Permission requis', 401);
     }
 
+    $request = new Request();
+
     switch ($method) {
         case 'GET':
-            $data = $controller->get();
+            $data = $controller->get($request);
             break;
         case 'POST':
-            $data = $controller->post();
+            $data = $controller->post($request);
             break;
         case 'DELETE':
-            $data = $controller->delete();
+            $data = $controller->delete($request);
             break;
         case 'PATCH':
-            $data = $controller->patch();
+            $data = $controller->patch($request);
             break;
         case 'PUT':
-            $data = $controller->put();
+            $data = $controller->put($request);
             break;
         default:
             throw new HttpException("Controller method (" . $method . ") not found for path: " . $request, 404);

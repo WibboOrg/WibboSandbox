@@ -3,7 +3,7 @@ class CatalogItemController extends BaseController
 {
     public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13, 'PATCH' => 13];
     
-    public function get() 
+    public function get(Request $request) 
     {
         $id = $_GET["id"] ?? null;
 
@@ -13,45 +13,47 @@ class CatalogItemController extends BaseController
         return CatalogItemDto::getAll();
     }
 
-    public function patch()
+    public function patch(Request $request)
     {
-        $data = $this->getData(['id', 'page_id', 'catalog_name', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active', 'badge']);
+        $dataStr = $request->getString(['catalog_name', 'badge']);
+        $dataInt = $request->getNumber(['id', 'page_id', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active']);
 
         CatalogItemDto::update(
-            (int)$data['id'], 
-            (int)$data['page_id'],
-            $data['catalog_name'],
-            (int)$data['cost_credits'],
-            (int)$data['cost_diamonds'],
-            (int)$data['cost_limitcoins'],
-            (int)$data['amount'],
-            (int)$data['offer_active'],
-            $data['badge']
+            $dataInt['id'], 
+            $dataInt['page_id'],
+            $dataStr['catalog_name'],
+            $dataInt['cost_credits'],
+            $dataInt['cost_diamonds'],
+            $dataInt['cost_limitcoins'],
+            $dataInt['amount'],
+            $dataInt['offer_active'],
+            $dataStr['badge']
         );
-        LogSandboxDto::create($this->user['id'], 'patch', 'catalog_item', $data['id']);
+        LogSandboxDto::create($this->user['id'], 'patch', 'catalog_item', $dataInt['id']);
     }
 
-    public function delete()
+    public function delete(Request $request)
     {
-        $data = $this->getData(['id']);
+        $dataInt = $request->getNumber(['id']);
 
-        CatalogItemDto::delete((int)$data['id']);
-        LogSandboxDto::create($this->user['id'], 'delete', 'catalog_item', $data['id']);
+        CatalogItemDto::delete($dataInt['id']);
+        LogSandboxDto::create($this->user['id'], 'delete', 'catalog_item', $dataInt['id']);
     }
 
-    public function post()
+    public function post(Request $request)
     {
-        $data = $this->getData(['page_id', 'catalog_name', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active', 'badge']);
+        $dataStr = $request->getString(['catalog_name', 'badge']);
+        $dataInt = $request->getNumber(['page_id', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active']);
 
         $id = CatalogItemDto::create(
-            (int)$data['page_id'],
-            $data['catalog_name'],
-            (int)$data['cost_credits'],
-            (int)$data['cost_diamonds'],
-            (int)$data['cost_limitcoins'],
-            (int)$data['amount'],
-            (int)$data['offer_active'],
-            $data['badge']
+            (int)$dataInt['page_id'],
+            $dataStr['catalog_name'],
+            (int)$dataInt['cost_credits'],
+            (int)$dataInt['cost_diamonds'],
+            (int)$dataInt['cost_limitcoins'],
+            (int)$dataInt['amount'],
+            (int)$dataInt['offer_active'],
+            $dataStr['badge']
         );
 
         LogSandboxDto::create($this->user['id'], 'post', 'catalog_item', $id);

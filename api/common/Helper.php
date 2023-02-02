@@ -1,20 +1,9 @@
 <?php
 class Helper
 {
-    public static function emptyArray(array $array): bool
-    {
-        foreach ($array as $key => $value) {
-            if (empty($value)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public static function generateTicket(): string
     {
-        return "ticket-" . hash('sha256', self::generateSalt(10)) . "-ticket";
+        return "ticket-" . self::generateSalt(10) . "-ticket";
     }
 
     public static function generateSalt(int $length = 10)

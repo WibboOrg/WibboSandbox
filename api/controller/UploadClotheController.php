@@ -3,13 +3,12 @@ class UploadClotheController extends BaseController
 {
     public array $minRank = ['POST' => 13];
 
-    public function post()
+    public function post(Request $request)
     {
-        $data = $this->getData(["type", "name", "description", "file"]);
+        $file = $request->getFile();
+        $dataStr = $request->getString(["type", "name", "description"]);
         
         $uploadData = array();
-
-        $file = $data["file"];
 
         if (!$file) {
             throw new HttpException("Fichier introuvable", 400);
@@ -27,12 +26,12 @@ class UploadClotheController extends BaseController
         array_push($uploadData,
             array(
                 'action' => 'json',
-                'path' => 'gamedata/FigureMap2.json',
+                'path' => 'gamedata/FigureMap.json',
                 'data' => json_encode($figureMap),
             ),
             array(
                 'action' => 'json',
-                'path' => 'gamedata/FigureData2.json',
+                'path' => 'gamedata/FigureData.json',
                 'data' => json_encode($figureData),
             ),
             array(

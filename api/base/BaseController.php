@@ -3,27 +3,6 @@ class BaseController
 {
     public array $user;
     public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13, 'PATCH' => 13, 'PUT' => 13];
-    
-    private function requireData(?array $data, array $keyList)
-    {
-        if(!$data) throw new Exception('Un champ est manquent', 400);
-
-        foreach ($keyList as $key)
-        {
-            if(!array_key_exists($key, $data)) {
-                throw new Exception('Un champ est manquent', 400);
-            }
-        }
-    }
-
-    public function getData(array $data): array
-    {
-        $input = json_decode(file_get_contents('php://input'), true);
-        
-        $this->requireData($input, $data);
-
-        return $input;
-    }
 
     private function getAuth(): object
     {
@@ -47,27 +26,27 @@ class BaseController
         return $user;
     }
 
-    public function get() //Read
+    public function get(Request $request) //Read
     {
         throw new HttpException("Method get not found", 404);
     }
 
-    public function post() //Create
+    public function post(Request $request) //Create
     {
         throw new HttpException("Method post not found", 404);
     }
 
-    public function put() //Update/Replace
+    public function put(Request $request) //Update/Replace
     {
         throw new HttpException("Method put not found", 404);
     }
 
-    public function patch() //Update/Modify
+    public function patch(Request $request) //Update/Modify
     {
         throw new HttpException("Method patch not found", 404);
     }
 
-    public function delete() //Delete
+    public function delete(Request $request) //Delete
     {
         throw new HttpException("Method delete not found", 404);
     }

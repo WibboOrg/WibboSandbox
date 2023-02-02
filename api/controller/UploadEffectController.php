@@ -3,13 +3,12 @@ class UploadEffectController extends BaseController
 {
     public array $minRank = ['POST' => 13];
 
-    public function post()
+    public function post(Request $request)
     {
-        $data = $this->getData(["id", "file"]);
+        $file = $request->getFile();
+        $dataInt = $request->getNumber(["id", "only_staff"]);
         
         $uploadData = array();
-
-        $file = $data["file"];
 
         if (!$file) {
             throw new HttpException("Fichier introuvable", 400);
@@ -19,11 +18,7 @@ class UploadEffectController extends BaseController
             throw new HttpException('Nom du fichier ou extension incorrecte (.nitro)', 400);
         }
 
-        if(!is_int($data['id'])) {
-            throw new HttpException('Id format incorrect', 400);
-        }
-
-        if(EmulatorEffectDto::getOne((int)$data['id'])) {
+        if(EmulatorEffectDto::getOne($dataInt['id'])) {
             throw new HttpException('Effet id déjà pris', 400);
         }
 
@@ -31,7 +26,7 @@ class UploadEffectController extends BaseController
 
         $effectMap = [
             'effects' => [
-                'id' => (int)$data['id'],
+                'id' => $dataInt['id'],
                 'lib' => $fileName,
                 'type' => 'fx',
                 'revision' => 55555
@@ -41,7 +36,7 @@ class UploadEffectController extends BaseController
         array_push($uploadData,
             array(
                 'action' => 'json',
-                'path' => 'gamedata/EffectMap2.json',
+                'path' => 'gamedata/EffectMap.json',
                 'data' => json_encode($effectMap),
             ),
             array(
@@ -55,7 +50,7 @@ class UploadEffectController extends BaseController
             throw new HttpException('Problème lors de l\'importation: ', 400);
         }
 
-        EmulatorEffectDto::create((int)$data['id'], $data['only_staff'] === 1);
+        EmulatorEffectDto::create($dataInt['id'], $dataInt['only_staff'] === 1 ? 1 : 0);
         LogSandboxDto::create($this->user['id'], 'post', 'effect', $fileName);
     }
 }

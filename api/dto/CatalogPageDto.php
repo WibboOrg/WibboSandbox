@@ -8,7 +8,8 @@ class CatalogPageDto extends BaseDto
     {
         $model = self::getModel();
 
-        return $model->select('id', 'parent_id', 'caption', 'icon_image', 'enabled', 'min_rank', 'order_num', 'page_layout', 'page_strings_1', 'page_strings_2', 'is_premium')->get();
+        return $model->select('id', 'parent_id', 'caption', 'icon_image', 'enabled', 'min_rank', 'order_num', 'page_layout', 'page_strings_1', 'page_strings_2', 'is_premium')
+            ->get();
     }
     public static function getOne(int $id) 
     {

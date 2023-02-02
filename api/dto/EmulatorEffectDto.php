@@ -31,11 +31,11 @@ class EmulatorEffectDto extends BaseDto
         $model->where('id', $id)->update(['only_staff' => $onlyStaff ? 1 : 0]);
     }
 
-    public static function create(int $id, bool $onlyStaff)
+    public static function create(int $id, int $onlyStaff)
     {
         $model = self::getModel();
 
-        $model->insert(['id' => $id, 'only_staff' => $onlyStaff ? 1 : 0]);
+        $model->insert(['id' => $id, 'only_staff' => $onlyStaff]);
 
         return $model->getLastInsertId();
     }

@@ -3,13 +3,11 @@ class UploadPetController extends BaseController
 {
     public array $minRank = ['POST' => 13];
 
-    public function post()
+    public function post(Request $request)
     {
-        $data = $this->getData(["type", "name", "description", "file"]);
+        $file = $request->getFile();
         
         $uploadData = array();
-
-        $file = $data["file"];
 
         if (!$file) {
             throw new HttpException("Fichier introuvable", 400);

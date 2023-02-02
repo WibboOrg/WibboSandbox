@@ -3,56 +3,58 @@ class CatalogPageController extends BaseController
 {
     public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13, 'PATCH' => 13];
 
-    public function get() 
+    public function get(Request $request) 
     {
         return CatalogPageDto::getAll();
     }
 
-    public function patch()
+    public function patch(Request $request)
     {
-        $data = $this->getData(['id', 'parent_id', 'caption', 'icon_image', 'enabled', 'min_rank', 'order_num', 'page_layout', 'page_strings_1', 'page_strings_2', 'is_premium']);
+        $dataStr = $request->getString(['caption', 'page_layout', 'page_strings_1', 'page_strings_2']);
+        $dataInt = $request->getNumber(['id', 'parent_id', 'icon_image', 'enabled', 'min_rank', 'order_num', 'is_premium']);
 
         CatalogPageDto::update(
-            (int)$data['id'], 
-            (int)$data['parent_id'],
-            $data['caption'],
-            (int)$data['icon_image'],
-            (int)$data['enabled'],
-            (int)$data['min_rank'],
-            (int)$data['order_num'],
-            $data['page_layout'],
-            $data['page_strings_1'],
-            $data['page_strings_2'],
-            (int)$data['is_premium']
+            $dataInt['id'], 
+            $dataInt['parent_id'],
+            $dataStr['caption'],
+            $dataInt['icon_image'],
+            $dataInt['enabled'],
+            $dataInt['min_rank'],
+            $dataInt['order_num'],
+            $dataStr['page_layout'],
+            $dataStr['page_strings_1'],
+            $dataStr['page_strings_2'],
+            $dataInt['is_premium']
         );
 
-        LogSandboxDto::create($this->user['id'], 'patch', 'catalog_page', $data['id']);
+        LogSandboxDto::create($this->user['id'], 'patch', 'catalog_page', $dataInt['id']);
     }
 
-    public function delete()
+    public function delete(Request $request)
     {
-        $data = $this->getData(['id']);
+        $dataInt = $request->getNumber(['id']);
 
-        CatalogPageDto::delete((int)$data['id']);
+        CatalogPageDto::delete($dataInt['id']);
 
-        LogSandboxDto::create($this->user['id'], 'delete', 'catalog_page', $data['id']);
+        LogSandboxDto::create($this->user['id'], 'delete', 'catalog_page', $dataInt['id']);
     }
 
-    public function post()
+    public function post(Request $request)
     {
-        $data = $this->getData(['parent_id', 'caption', 'icon_image', 'enabled', 'min_rank', 'order_num', 'page_layout', 'page_strings_1', 'page_strings_2', 'is_premium']);
+        $dataStr = $request->getString(['caption', 'page_layout', 'page_strings_1', 'page_strings_2']);
+        $dataInt = $request->getNumber(['parent_id', 'icon_image', 'enabled', 'min_rank', 'order_num', 'is_premium']);
 
         $id = CatalogPageDto::create(
-            (int)$data['parent_id'],
-            $data['caption'],
-            (int)$data['icon_image'],
-            (int)$data['enabled'],
-            (int)$data['min_rank'],
-            (int)$data['order_num'],
-            $data['page_layout'],
-            $data['page_strings_1'],
-            $data['page_strings_2'],
-            (int)$data['is_premium']
+            $dataInt['parent_id'],
+            $dataStr['caption'],
+            $dataInt['icon_image'],
+            $dataInt['enabled'],
+            $dataInt['min_rank'],
+            $dataInt['order_num'],
+            $dataStr['page_layout'],
+            $dataStr['page_strings_1'],
+            $dataStr['page_strings_2'],
+            $dataInt['is_premium']
         );
 
         LogSandboxDto::create($this->user['id'], 'post', 'catalog_page', $id);

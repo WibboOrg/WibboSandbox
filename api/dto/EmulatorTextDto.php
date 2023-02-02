@@ -24,11 +24,11 @@ class EmulatorTextDto extends BaseDto
         $model->where('id', $id)->delete();
     }
 
-    public static function update(int $id, string $value)
+    public static function update(int $id, string $identifiant, string $value)
     {
         $model = self::getModel();
 
-        $model->where('id', $id)->update(['value_fr' => $value]);
+        $model->where('id', $id)->update(['identifiant' => $identifiant, 'value_fr' => $value]);
     }
 
     public static function create(string $id, string $value)

@@ -3,37 +3,35 @@ class EmulatorCommandController extends BaseController
 {
     public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13, 'PATCH' => 13];
 
-    public function get() 
+    public function get(Request $request) 
     { 
         return EmulatorCommandDto::getAll();
     }
 
-    public function patch()
+    public function patch(Request $request)
     {
-        $data = $this->getData(['id', 'minrank', 'description_fr']);
+        $dataInt = $request->getNumber(['id', 'minrank']);
+        $dataStr = $request->getNumber(['description_fr']);
 
-        if(is_int($data['id']) || is_int($data['minrank'])) {
-            throw new HttpException("Identifiants incorrects", 400);
-        }
-
-        EmulatorCommandDto::update((int)$data['id'], (int)$data['minrank'], $data['description_fr']);
-        LogSandboxDto::create($this->user['id'], 'patch', 'emulator_command', $data['id']);
+        EmulatorCommandDto::update((int)$dataInt['id'], (int)$dataInt['minrank'], $dataStr['description_fr']);
+        LogSandboxDto::create($this->user['id'], 'patch', 'emulator_command', $dataInt['id']);
     }
 
-    public function delete()
+    public function delete(Request $request)
     {
-        $data = $this->getData(['id']);
+        $dataInt = $request->getNumber(['id']);
 
-        EmulatorCommandDto::delete((int)$data['id']);
+        EmulatorCommandDto::delete($dataInt['id']);
 
-        LogSandboxDto::create($this->user['id'], 'delete', 'emulator_command', $data['id']);
+        LogSandboxDto::create($this->user['id'], 'delete', 'emulator_command', $dataInt['id']);
     }
 
-    public function post()
+    public function post(Request $request)
     {
-        $data = $this->getData(['input', 'minrank', 'description_fr']);
+        $dataInt = $request->getNumber(['minrank']);
+        $dataStr = $request->getNumber(['input', 'description_fr']);
 
-        $id = EmulatorCommandDto::create($data['input'], (int)$data['minrank'], $data['description_fr']);
+        $id = EmulatorCommandDto::create($dataStr['input'], $dataInt['minrank'], $dataStr['description_fr']);
 
         LogSandboxDto::create($this->user['id'], 'post', 'emulator_command', $id);
 
