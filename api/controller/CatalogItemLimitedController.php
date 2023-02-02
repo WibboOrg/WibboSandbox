@@ -1,7 +1,6 @@
 <?php
 class CatalogItemLimitedController extends BaseController
 {
-
     public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13, 'PATCH' => 13];
     
     public function get() 
@@ -11,9 +10,9 @@ class CatalogItemLimitedController extends BaseController
 
     public function patch()
     {
-        $data = $this->getData(['id', 'value_fr']);
+        $data = $this->getData(['id', 'catalog_item_id', 'limited_sells', 'limited_stack']);
 
-        // CatalogItemLimitedDto::update((int)$data['id'], $data['value_fr']);
+        CatalogItemLimitedDto::update((int)$data['id'], (int)$data['catalog_item_id'], (int)$data['limited_sells'], (int)$data['limited_stack']);
         LogSandboxDto::create($this->user['id'], 'patch', 'catalog_item_limited', $data['id']);
     }
 
@@ -27,12 +26,12 @@ class CatalogItemLimitedController extends BaseController
 
     public function post()
     {
-        $data = $this->getData(['identifiant', 'value_fr']);
+        $data = $this->getData(['catalog_item_id', 'limited_sells', 'limited_stack']);
 
-        // $id = CatalogItemLimitedDto::create($data['identifiant'], $data['value_fr']);
+        $id = CatalogItemLimitedDto::create((int)$data['catalog_item_id'], (int)$data['limited_sells'], (int)$data['limited_stack']);
 
-        // LogSandboxDto::create($this->user['id'], 'post', 'catalog_item_limited', $id);
+        LogSandboxDto::create($this->user['id'], 'post', 'catalog_item_limited', $id);
 
-        // return CatalogItemLimitedDto::getOne($id);
+        return CatalogItemLimitedDto::getOne($id);
     }
 }

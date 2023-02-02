@@ -51,7 +51,7 @@ class TextFurniController extends BaseController
         $uploadData = array(
             array(
                 'action' => 'upload',
-                'path' => 'gamedata/FurnitureData2.json',
+                'path' => 'gamedata/FurnitureData.json',
                 'data' => base64_encode(json_encode($furniData)),
             )
         );

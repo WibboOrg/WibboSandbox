@@ -8,7 +8,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BaseAvatar: typeof import('./components/base/BaseAvatar.vue')['default']
-    BaseBadgeImg: typeof import('./components/base/BaseBadgeImg.vue')['default']
     BaseButton: typeof import('./components/base/BaseButton.vue')['default']
     BaseCard: typeof import('./components/base/BaseCard.vue')['default']
     BaseCheckBox: typeof import('./components/base/BaseCheckBox.vue')['default']
@@ -24,6 +23,7 @@ declare module '@vue/runtime-core' {
     BaseUploadFile: typeof import('./components/base/BaseUploadFile.vue')['default']
     IconClose: typeof import('./components/icon/IconClose.vue')['default']
     IconLogout: typeof import('./components/icon/IconLogout.vue')['default']
+    IconMetaMask: typeof import('./components/icon/IconMetaMask.vue')['default']
     IconSave: typeof import('./components/icon/IconSave.vue')['default']
     PageAssetArticle: typeof import('./pages/asset/PageAssetArticle.vue')['default']
     PageAssetBackground: typeof import('./pages/asset/PageAssetBackground.vue')['default']
@@ -46,6 +46,7 @@ declare module '@vue/runtime-core' {
     PageCatalogPage: typeof import('./pages/catalog/PageCatalogPage.vue')['default']
     PageEmulatorCommand: typeof import('./pages/emulator/PageEmulatorCommand.vue')['default']
     PageEmulatorText: typeof import('./pages/emulator/PageEmulatorText.vue')['default']
+    PageHotel: typeof import('./pages/PageHotel.vue')['default']
     PageIndex: typeof import('./pages/PageIndex.vue')['default']
     PageLogSandbox: typeof import('./pages/log/PageLogSandbox.vue')['default']
     PageNotFound: typeof import('./pages/PageNotFound.vue')['default']
@@ -58,9 +59,7 @@ declare module '@vue/runtime-core' {
     PageUploadEffect: typeof import('./pages/upload/PageUploadEffect.vue')['default']
     PageUploadFurni: typeof import('./pages/upload/PageUploadFurni.vue')['default']
     PageUploadPet: typeof import('./pages/upload/PageUploadPet.vue')['default']
-    PageUser: typeof import('./pages/user/PageUser.vue')['default']
     PageUserAccount: typeof import('./pages/user/PageUserAccount.vue')['default']
-    PageUserIndex: typeof import('./pages/user/PageUserIndex.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheButtonReturn: typeof import('./components/TheButtonReturn.vue')['default']

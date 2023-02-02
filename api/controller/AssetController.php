@@ -11,12 +11,14 @@ class AssetController extends BaseController
 
         $cache = date('j-n-Y');
 
-        $data = Helper::getSslPage('https://' . $categoryType . '.wibbo.org/scanDirApi.php?cate=' . $category . '&cache='. $cache . '&time=' . time(), true);
+        $startUrl = 'https://' . $categoryType . '.wibbo.org/';
+
+        $data = Helper::getSslPage($startUrl . 'scanDirApi.php?cate=' . $category . '&cache='. $cache . '&time=' . time(), true);
 
         $newData = [];
 
         foreach($data as $value)
-            $newData[] = ["id" => $value, "link" => 'https://' . $categoryType . '.wibbo.org/' . $value];
+            $newData[] = ["id" => $value, "link" => $startUrl . $value];
 
         return $newData;
     }

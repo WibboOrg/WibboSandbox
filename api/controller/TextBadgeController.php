@@ -5,7 +5,7 @@ class TextBadgeController extends BaseController
 
     public function get() 
     {
-        $data = Helper::getSslPage('https://assets.wibbo.org/gamedata/BadgeTexts2.json?'. time(), true);
+        $data = Helper::getSslPage('https://assets.wibbo.org/gamedata/BadgeTexts.json?'. time(), true);
 
         $newData = [];
 
@@ -19,7 +19,7 @@ class TextBadgeController extends BaseController
     {
         $data = $this->getData(['code', 'text']);
 
-        $badgeTexts = Helper::getSslPage('https://assets.wibbo.org/gamedata/BadgeTexts2.json?'. time(), true);
+        $badgeTexts = Helper::getSslPage('https://assets.wibbo.org/gamedata/BadgeTexts.json?'. time(), true);
 
         foreach ($badgeTexts as $code => &$text) {
             if($code == $data["code"]) {
@@ -47,7 +47,7 @@ class TextBadgeController extends BaseController
     {
         $data = $this->getData(['id']);
 
-        $badgeTexts = Helper::getSslPage('https://assets.wibbo.org/gamedata/BadgeTexts2.json?'. time(), true);
+        $badgeTexts = Helper::getSslPage('https://assets.wibbo.org/gamedata/BadgeTexts.json?'. time(), true);
 
         foreach ($badgeTexts as $code => &$text) {
             if($code == $data["id"]) {
@@ -59,7 +59,7 @@ class TextBadgeController extends BaseController
         $uploadData = array(
             array(
                 'action' => 'upload',
-                'path' => 'gamedata/BadgeTexts2.json',
+                'path' => 'gamedata/BadgeTexts.json',
                 'data' => base64_encode(json_encode($badgeTexts)),
             )
         );

@@ -15,9 +15,19 @@ class CatalogItemController extends BaseController
 
     public function patch()
     {
-        $data = $this->getData(['id', 'value_fr']);
+        $data = $this->getData(['id', 'page_id', 'catalog_name', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active', 'badge']);
 
-        // CatalogPageDto::update((int)$data['id'], $data['value_fr']);
+        CatalogItemDto::update(
+            (int)$data['id'], 
+            (int)$data['page_id'],
+            $data['catalog_name'],
+            (int)$data['cost_credits'],
+            (int)$data['cost_diamonds'],
+            (int)$data['cost_limitcoins'],
+            (int)$data['amount'],
+            (int)$data['offer_active'],
+            $data['badge']
+        );
         LogSandboxDto::create($this->user['id'], 'patch', 'catalog_item', $data['id']);
     }
 
@@ -31,12 +41,21 @@ class CatalogItemController extends BaseController
 
     public function post()
     {
-        $data = $this->getData(['identifiant', 'value_fr']);
+        $data = $this->getData(['page_id', 'catalog_name', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active', 'badge']);
 
-        // $id = CatalogItemDto::create($data['identifiant'], $data['value_fr']);
+        $id = CatalogItemDto::create(
+            (int)$data['page_id'],
+            $data['catalog_name'],
+            (int)$data['cost_credits'],
+            (int)$data['cost_diamonds'],
+            (int)$data['cost_limitcoins'],
+            (int)$data['amount'],
+            (int)$data['offer_active'],
+            $data['badge']
+        );
 
-        // LogSandboxDto::create($this->user['id'], 'post', 'catalog_item', $did);
+        LogSandboxDto::create($this->user['id'], 'post', 'catalog_item', $id);
 
-        // return CatalogItemDto::getOne($id);
+        return CatalogItemDto::getOne($id);
     }
 }

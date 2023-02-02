@@ -20,10 +20,42 @@ class CatalogPageDto extends BaseDto
             ->first();
     }
 
-    public static function create()
+    public static function update(int $id, int $parentId, string $caption, int $iconImage, int $enabled, int $minRank, int $orderNum, string $pageLayout, string $pageStrings1, string $pageStrings2, int $isPremium)
     {
         $model = self::getModel();
 
+        $model->where('id', $id)->update([
+            'parent_id' => $parentId, 
+            'caption' => $caption, 
+            'icon_image' => $iconImage, 
+            'enabled' => $enabled, 
+            'min_rank' => $minRank, 
+            'order_num' => $orderNum, 
+            'page_layout' => $pageLayout, 
+            'page_strings_1' => $pageStrings1, 
+            'page_strings_2' => $pageStrings2, 
+            'is_premium' => $isPremium
+        ]);
+    }
+
+    public static function create(int $parentId, string $caption, int $iconImage, int $enabled, int $minRank, int $orderNum, string $pageLayout, string $pageStrings1, string $pageStrings2, int $isPremium)
+    {
+        $model = self::getModel();
+
+        $model->insert([
+            'parent_id' => $parentId,
+            'caption' => $caption,
+            'icon_image' => $iconImage,
+            'enabled' => $enabled,
+            'min_rank' => $minRank,
+            'order_num' => $orderNum,
+            'page_layout' => $pageLayout,
+            'page_strings_1' => $pageStrings1,
+            'page_strings_2' => $pageStrings2,
+            'is_premium' => $isPremium
+        ]);
+
+        return $model->getLastInsertId();
     }
 
     public static function delete(int $id)

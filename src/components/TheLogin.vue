@@ -8,7 +8,7 @@
                         <label class="block mb-1">Pseudo</label>
                         <BaseInput placeholder="Pseudo" v-model="loginName" />
                     </div>
-                    <BaseButton class="my-2 flex gap-2 justify-center"><span>Connexion</span><img src="MetaMask_Fox.svg" class="h-6 w-6" /></BaseButton>
+                    <BaseButton class="my-2 flex gap-2 justify-center"><span>Connexion</span><IconMetaMask class="h-6 w-6" /></BaseButton>
                 </form>
             </template>
         </BaseCard>

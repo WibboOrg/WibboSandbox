@@ -10,9 +10,21 @@ class CatalogPageController extends BaseController
 
     public function patch()
     {
-        $data = $this->getData(['id', 'value_fr']);
+        $data = $this->getData(['id', 'parent_id', 'caption', 'icon_image', 'enabled', 'min_rank', 'order_num', 'page_layout', 'page_strings_1', 'page_strings_2', 'is_premium']);
 
-        // CatalogPageDto::update((int)$data['id'], $data['value_fr']);
+        CatalogPageDto::update(
+            (int)$data['id'], 
+            (int)$data['parent_id'],
+            $data['caption'],
+            (int)$data['icon_image'],
+            (int)$data['enabled'],
+            (int)$data['min_rank'],
+            (int)$data['order_num'],
+            $data['page_layout'],
+            $data['page_strings_1'],
+            $data['page_strings_2'],
+            (int)$data['is_premium']
+        );
 
         LogSandboxDto::create($this->user['id'], 'patch', 'catalog_page', $data['id']);
     }
@@ -28,12 +40,23 @@ class CatalogPageController extends BaseController
 
     public function post()
     {
-        $data = $this->getData(['identifiant', 'value_fr']);
+        $data = $this->getData(['parent_id', 'caption', 'icon_image', 'enabled', 'min_rank', 'order_num', 'page_layout', 'page_strings_1', 'page_strings_2', 'is_premium']);
 
-        // $id = CatalogPageDto::create($data['identifiant'], $data['value_fr']);
+        $id = CatalogPageDto::create(
+            (int)$data['parent_id'],
+            $data['caption'],
+            (int)$data['icon_image'],
+            (int)$data['enabled'],
+            (int)$data['min_rank'],
+            (int)$data['order_num'],
+            $data['page_layout'],
+            $data['page_strings_1'],
+            $data['page_strings_2'],
+            (int)$data['is_premium']
+        );
 
-        // LogSandboxDto::create($this->user['id'], 'post', 'catalog_page', $id);
+        LogSandboxDto::create($this->user['id'], 'post', 'catalog_page', $id);
 
-        // return CatalogPageDto::getOne($id);
+        return CatalogPageDto::getOne($id);
     }
 }

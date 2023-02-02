@@ -11,6 +11,13 @@ class CatalogItemDto extends BaseDto
         return $model->select('id', 'page_id', 'catalog_name', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active', 'badge')->get();
     }
 
+    public static function getOne(int $id)
+    {
+        $model = self::getModel();
+
+        return $model->select('id', 'page_id', 'catalog_name', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active', 'badge')->where('id', $id)->first();
+    }
+
     public static function getAllByPageId(int $pageId)
     {
         $model = self::getModel();
@@ -18,11 +25,37 @@ class CatalogItemDto extends BaseDto
         return $model->select('id', 'page_id', 'catalog_name', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active', 'badge')->where('page_id', $pageId)->get();
     }
 
-    public static function create(int $furniId, string $furniName)
+    public static function update(int $id, int $pageId, string $catalogName, int $costCredits, int $costDiamonds, int $costLimitcoins, int $amount, int $offerActive, string $badge)
+    {
+        $model = self::getModel();
+        $model->where('id', $id)->update([
+            'page_id' => $pageId,
+            'catalog_name' => $catalogName,
+            'cost_credits' => $costCredits,
+            'cost_diamonds' => $costDiamonds,
+            'cost_limitcoins' => $costLimitcoins,
+            'amount' => $amount,
+            'offer_active' => $offerActive,
+            'badge' => $badge,
+        ]);
+    }
+
+    public static function create(int $pageId, string $catalogName, int $costCredits, int $costDiamonds, int $costLimitcoins, int $amount, int $offerActive, string $badge)
     {
         $model = self::getModel();
 
-        $model->insert(['id' => $furniId, 'item_id' => $furniId, 'catalog_name' => $furniName, 'page_id' => '7529']);
+        $model->insert([
+            'page_id' => $pageId,
+            'catalog_name' => $catalogName,
+            'cost_credits' => $costCredits,
+            'cost_diamonds' => $costDiamonds,
+            'cost_limitcoins' => $costLimitcoins,
+            'amount' => $amount,
+            'offer_active' => $offerActive,
+            'badge' => $badge,
+        ]);
+
+        return $model->getLastInsertId();
     }
 
     public static function delete(int $id)
