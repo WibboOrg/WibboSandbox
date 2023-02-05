@@ -7,11 +7,8 @@ class UploadClotheController extends BaseController
     {
         $file = $request->getFile();
         $dataInt = $request->getString(["id"]);
-        $dataStr = $request->getString(["type", "name", "description"]);
+        $dataStr = $request->getString(["type"]);
         $dataArray = $request->getArray(["parts"]);
-
-        // $figureMapJson = Helper::getSslPage(URL_ASSETS . 'gamedata/FigureMap.json', true);
-        // $figureDataJson = Helper::getSslPage(URL_ASSETS . 'gamedata/FigureData.json', true);
         
         $uploadData = array();
 
@@ -26,16 +23,19 @@ class UploadClotheController extends BaseController
         $fileName = explode(".nitro", $file["name"])[0];
 
         $figureMap = [
-            "libraries" => [
+            "libraries" => array([
                 "id" => $fileName,
-                "revision" => 67417,
-                "parts" => [
-                    "id" => 1,
-                    "type" => "ha"
-                ],
-            ]
+                "revision" => 55555,
+                "parts" => array_map(function (array $value) {
+                    return [
+                        "id" => $value['id'],
+                        "type" => $value['type']
+                    ];
+            }, $dataArray["parts"])
+            ])
         ];
-        $figureData = [
+
+        $figureDataSet = [
             "id" => $dataInt['id'],
             "gender" => 'U',
             "club" => 0,
@@ -43,14 +43,27 @@ class UploadClotheController extends BaseController
             "selectable" => true,
             "preselectable" => false,
             "sellable" => false,
-            "parts" => [
-                "id" => 1,
-                "type" => "ha",
-                "colorable" => true,
-                "index" => 0,
-                "colorindex" => 1
-            ],
+            "parts" => array_map(function (array $value) {
+                return [
+                    "id" => $value['id'],
+                    "type" => $value['type'],
+                    "colorable" => $value['colorable'],
+                    "index" => $value['index'],
+                    "colorindex" => $value['colorindex']
+                ];
+            }, $dataArray["parts"]),
         ];
+
+        $figureDataJson = Helper::getSslPage(URL_ASSETS . 'gamedata/FigureData.json?'. time(), true);
+        
+        foreach($figureDataJson->setTypes as &$setType)
+        {
+            if ($setType->type !== $dataStr['type'])
+                continue;
+        
+            array_push($setType->sets, $figureDataSet);
+            break;
+        }
 
         array_push($uploadData,
             array(
@@ -59,9 +72,9 @@ class UploadClotheController extends BaseController
                 'data' => json_encode($figureMap),
             ),
             array(
-                'action' => 'json',
+                'action' => 'upload',
                 'path' => 'gamedata/FigureData.json',
-                'data' => json_encode($figureData),
+                'data' => base64_encode(json_encode($figureDataJson)),
             ),
             array(
                 'action' => 'upload',

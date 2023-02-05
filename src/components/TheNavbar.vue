@@ -28,7 +28,7 @@
                         :class="{ 'bg-gray-600': nav.path === $route.path }"
                         class="w-full px-4 rounded transition-colors cursor-pointer hover:bg-gray-600"
                         @click="$router.push(nav.path)"
-                        v-for="(nav, index) of navList.filter((x) => x.category === cate.category && x.minRank <= auth.user.rank)"
+                        v-for="(nav, index) of navList.filter((x) => x.category === cate.category)"
                         :key="index"
                     >
                         {{ nav.text }}
@@ -41,52 +41,52 @@
 
 <script lang="ts" setup>
 const categoryList = ref<{ category: string; text: string; minRank: number }[]>([])
-const navList = ref<{ category: string; text: string; path: string; minRank: number }[]>([])
+const navList = ref<{ category: string; text: string; path: string }[]>([])
 
-categoryList.value.push({ category: 'upload', text: 'Importer', minRank: 13 })
-categoryList.value.push({ category: 'text', text: 'Texte', minRank: 13 })
-categoryList.value.push({ category: 'emulator', text: 'Emulateur', minRank: 13 })
-categoryList.value.push({ category: 'catalog', text: 'Catalogue', minRank: 13 })
-categoryList.value.push({ category: 'asset', text: 'Asset', minRank: 13 })
-categoryList.value.push({ category: 'user', text: 'Utilisateur', minRank: 13 })
-categoryList.value.push({ category: 'log', text: 'Log', minRank: 13 })
+categoryList.value.push({ category: 'upload', text: 'Importer', minRank: 11 })
+categoryList.value.push({ category: 'text', text: 'Texte', minRank: 11 })
+categoryList.value.push({ category: 'emulator', text: 'Emulateur', minRank: 11 })
+categoryList.value.push({ category: 'catalog', text: 'Catalogue', minRank: 11 })
+categoryList.value.push({ category: 'asset', text: 'Asset', minRank: 11 })
+categoryList.value.push({ category: 'user', text: 'Utilisateur', minRank: 11 })
+categoryList.value.push({ category: 'log', text: 'Log', minRank: 11 })
 
-navList.value.push({ category: 'upload', text: 'Mobilier', path: '/upload-furni', minRank: 13 })
-navList.value.push({ category: 'upload', text: 'Badge', path: '/upload-badge', minRank: 13 })
-navList.value.push({ category: 'upload', text: 'Effet', path: '/upload-effect', minRank: 13 })
-navList.value.push({ category: 'upload', text: 'Vêtement', path: '/upload-clothe', minRank: 13 })
-navList.value.push({ category: 'upload', text: 'Animal', path: '/upload-pet', minRank: 13 })
+navList.value.push({ category: 'upload', text: 'Mobilier', path: '/upload-furni' })
+navList.value.push({ category: 'upload', text: 'Badge', path: '/upload-badge' })
+navList.value.push({ category: 'upload', text: 'Effet', path: '/upload-effect' })
+navList.value.push({ category: 'upload', text: 'Vêtement', path: '/upload-clothe' })
+navList.value.push({ category: 'upload', text: 'Animal', path: '/upload-pet' })
 
-navList.value.push({ category: 'text', text: 'Mobilier', path: '/text-furni', minRank: 13 })
-navList.value.push({ category: 'text', text: 'Badge', path: '/text-badge', minRank: 13 })
-navList.value.push({ category: 'text', text: 'External Nitro', path: '/text-external', minRank: 13 })
-navList.value.push({ category: 'text', text: 'UI Nitro', path: '/text-ui', minRank: 13 })
+navList.value.push({ category: 'text', text: 'Mobilier', path: '/text-furni' })
+navList.value.push({ category: 'text', text: 'Badge', path: '/text-badge' })
+navList.value.push({ category: 'text', text: 'External Nitro', path: '/text-external' })
+navList.value.push({ category: 'text', text: 'UI Nitro', path: '/text-ui' })
 
-navList.value.push({ category: 'emulator', text: 'Texte', path: '/emulator-text', minRank: 13 })
-navList.value.push({ category: 'emulator', text: 'Command', path: '/emulator-command', minRank: 13 })
+navList.value.push({ category: 'emulator', text: 'Texte', path: '/emulator-text' })
+navList.value.push({ category: 'emulator', text: 'Command', path: '/emulator-command' })
 
-navList.value.push({ category: 'catalog', text: 'Page', path: '/catalog-page', minRank: 13 })
-navList.value.push({ category: 'catalog', text: 'Objet', path: '/catalog-item', minRank: 13 })
-navList.value.push({ category: 'catalog', text: 'Objet limitée', path: '/catalog-item-limited', minRank: 13 })
-navList.value.push({ category: 'catalog', text: 'Objet config', path: '/catalog-item-base', minRank: 13 })
+navList.value.push({ category: 'catalog', text: 'Page', path: '/catalog-page' })
+navList.value.push({ category: 'catalog', text: 'Objet', path: '/catalog-item' })
+navList.value.push({ category: 'catalog', text: 'Objet limitée', path: '/catalog-item-limited' })
+navList.value.push({ category: 'catalog', text: 'Objet config', path: '/catalog-item-base' })
 
-navList.value.push({ category: 'asset', text: 'Badge', path: '/asset-badge', minRank: 13 })
-navList.value.push({ category: 'asset', text: 'Article', path: '/asset-article', minRank: 13 })
-navList.value.push({ category: 'asset', text: 'Mobilier', path: '/asset-furni', minRank: 13 })
-navList.value.push({ category: 'asset', text: 'Catalogue', path: '/asset-catalog', minRank: 13 })
-navList.value.push({ category: 'asset', text: 'Navigateur', path: '/asset-navigator', minRank: 13 })
-navList.value.push({ category: 'asset', text: 'Reception', path: '/asset-reception', minRank: 13 })
-navList.value.push({ category: 'asset', text: 'Web promo', path: '/asset-webpromosmall', minRank: 13 })
-navList.value.push({ category: 'asset', text: 'Background', path: '/asset-background', minRank: 13 })
-navList.value.push({ category: 'asset', text: 'Upload', path: '/asset-upload', minRank: 13 })
-navList.value.push({ category: 'asset', text: 'Son', path: '/asset-sound', minRank: 13 })
-navList.value.push({ category: 'asset', text: 'Thumbnail', path: '/asset-thumbnail', minRank: 13 })
-navList.value.push({ category: 'asset', text: 'Mp3', path: '/asset-mp3', minRank: 13 })
-navList.value.push({ category: 'asset', text: 'Page', path: '/asset-page', minRank: 13 })
-navList.value.push({ category: 'asset', text: 'Notification', path: '/asset-notification', minRank: 13 })
-navList.value.push({ category: 'asset', text: 'Icon', path: '/asset-icon', minRank: 13 })
+navList.value.push({ category: 'asset', text: 'Badge', path: '/asset-badge' })
+navList.value.push({ category: 'asset', text: 'Article', path: '/asset-article' })
+navList.value.push({ category: 'asset', text: 'Mobilier', path: '/asset-furni' })
+navList.value.push({ category: 'asset', text: 'Catalogue', path: '/asset-catalog' })
+navList.value.push({ category: 'asset', text: 'Navigateur', path: '/asset-navigator' })
+navList.value.push({ category: 'asset', text: 'Reception', path: '/asset-reception' })
+navList.value.push({ category: 'asset', text: 'Web promo', path: '/asset-webpromosmall' })
+navList.value.push({ category: 'asset', text: 'Background', path: '/asset-background' })
+navList.value.push({ category: 'asset', text: 'Upload', path: '/asset-upload' })
+navList.value.push({ category: 'asset', text: 'Son', path: '/asset-sound' })
+navList.value.push({ category: 'asset', text: 'Thumbnail', path: '/asset-thumbnail' })
+navList.value.push({ category: 'asset', text: 'Mp3', path: '/asset-mp3' })
+navList.value.push({ category: 'asset', text: 'Page', path: '/asset-page' })
+navList.value.push({ category: 'asset', text: 'Notification', path: '/asset-notification' })
+navList.value.push({ category: 'asset', text: 'Icon', path: '/asset-icon' })
 
-navList.value.push({ category: 'user', text: 'Compte', path: '/user-account', minRank: 13 })
+navList.value.push({ category: 'user', text: 'Compte', path: '/user-account' })
 
-navList.value.push({ category: 'log', text: 'Sandbox', path: '/log-sandbox', minRank: 13 })
+navList.value.push({ category: 'log', text: 'Sandbox', path: '/log-sandbox' })
 </script>

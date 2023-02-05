@@ -1,7 +1,7 @@
 <?php
 class AssetController extends BaseController
 {
-    public array $minRank = ['GET' => 11, 'POST' => 12, 'DELETE' => 13];
+    public array $minRank = ['GET' => 11, 'POST' => 12, 'DELETE' => 14];
 
     public function get(Request $request) 
     {
