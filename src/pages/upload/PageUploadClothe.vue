@@ -2,7 +2,7 @@
     <div class="grid grid-cols-1 gap-4 h-full">
         <div class="col-span-1">
             <BaseCard>
-                <template #title>Importer un vêtement</template>
+                <template #title>Importer un fichier (Vêtement)</template>
                 <template #body>
                     <form @submit.prevent="submitPost" enctype="multipart/form-data" class="grid grid-cols-1 gap-3">
                         <div class="col-span-full">
@@ -17,14 +17,31 @@
                             <label class="block mb-1">Id</label>
                             <BaseInput v-model="postForm.id" />
                         </div>
+                        <div class="col-span-full">
+                            <label class="block mb-1">Parts <BaseButton @click.prevent="addPart">+ Ajouté</BaseButton></label>
+                        </div>
 
                         <div class="col-span-full">
-                            <label class="block mb-1">Parts</label>
-                            <BaseInput v-model="postForm.parts[0].id" />
-                            <BaseInput v-model="postForm.parts[0].index" />
-                            <BaseInput v-model="postForm.parts[0].colorindex" />
-                            <BaseInput v-model="postForm.parts[0].type" />
-                            <!-- <BaseCheckbox v-model="postForm.parts[0].colorable" /> -->
+                            <BaseTable>
+                                <template #head>
+                                    <BaseTableHead>Id</BaseTableHead>
+                                    <BaseTableHead>Index</BaseTableHead>
+                                    <BaseTableHead>ColorIndex</BaseTableHead>
+                                    <BaseTableHead>Type</BaseTableHead>
+                                    <BaseTableHead>Colorable</BaseTableHead>
+                                    <BaseTableHead>Action</BaseTableHead>
+                                </template>
+                                <template #body>
+                                    <BaseTableBody v-for="(part, index) in postForm.parts" :key="index">
+                                        <BaseTableColunm><BaseInput v-model="part.id" /></BaseTableColunm>
+                                        <BaseTableColunm><BaseInput v-model="part.index" /></BaseTableColunm>
+                                        <BaseTableColunm><BaseInput v-model="part.colorindex" /></BaseTableColunm>
+                                        <BaseTableColunm><BaseInput v-model="part.type" /></BaseTableColunm>
+                                        <BaseTableColunm><BaseInput v-model="part.colorable" /></BaseTableColunm>
+                                        <BaseTableColunm><IconClose @click="deletePart(part.id)" class="h-6 w-6 cursor-pointer hover:text-white" /></BaseTableColunm>
+                                    </BaseTableBody>
+                                </template>
+                            </BaseTable>
                         </div>
 
                         <div class="col-span-full">
@@ -39,8 +56,12 @@
 
 <script lang="ts" setup>
 const loading = ref(false)
-const postForm = ref({ type: 'ha', id: '', parts: [{ id: 0, type: 'ha', colorable: true, index: 0, colorindex: 0 }], file: { base64: '', name: '' } })
+const postForm = ref({ type: 'ha', id: '', parts: [{ id: 0, type: 'ha', colorable: 0, index: 0, colorindex: 0 }], file: { base64: '', name: '' } })
 
+const addPart = () => {
+    if (!postForm.value.parts.find((x) => x.id === 0)) postForm.value.parts.push({ id: 0, type: 'ha', colorable: 0, index: 0, colorindex: 0 })
+}
+const deletePart = (id: number) => (postForm.value.parts = postForm.value.parts.filter((x) => x.id !== id))
 const handleFileUpload = (file: { base64: string; name: string }) => (postForm.value.file = file)
 
 const submitPost = async () => {
@@ -53,7 +74,7 @@ const submitPost = async () => {
 
         showMessage('Le vêtement a bien été ajouté', false)
 
-        postForm.value = { type: 'ha', id: '', parts: [{ id: 0, type: 'ha', colorable: true, index: 0, colorindex: 0 }], file: { base64: '', name: '' } }
+        postForm.value = { type: 'ha', id: '', parts: [{ id: 0, type: 'ha', colorable: 0, index: 0, colorindex: 0 }], file: { base64: '', name: '' } }
     } catch (e) {
         console.error(e)
     }

@@ -17,7 +17,6 @@ export default defineConfig({
                 /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
                 /\.vue$/,
                 /\.vue\?vue/, // .vue
-                /\.md$/, // .md
             ],
             imports: ['vue', 'vue-router'],
             dirs: ['./src/composables'],
@@ -27,4 +26,7 @@ export default defineConfig({
             },
         }),
     ],
+    build: {
+        assetsDir: 'assets/sandbox',
+    },
 })

@@ -76,7 +76,6 @@ const web3Login = async () => {
 
         router.push('/hotel')
     } catch (e: unknown) {
-        showMessage("Une erreur s'est produite: " + e)
         loginName.value = ''
         logout()
     }

@@ -1,6 +1,6 @@
 <template>
     <div class="relative overflow-hidden break-words rounded bg-gray-800 shadow shadow-gray-600" :class="{ 'bg-gray-900': !hiddenBackground }">
-        <h4 class="pl-1 my-2 text-center" v-if="hasTitleSlot">
+        <h4 class="my-2 text-center" v-if="hasTitleSlot">
             <span class="font-bold">
                 <slot name="title"></slot>
             </span>

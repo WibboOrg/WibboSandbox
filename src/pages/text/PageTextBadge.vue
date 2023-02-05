@@ -6,7 +6,7 @@
         </div>
         <div class="col-span-1">
             <BaseCard>
-                <template #title>Modifier badge texte</template>
+                <template #title>Modifier texte (Badge)</template>
                 <template #body>
                     <BaseSpinner :loading="isLoading" v-if="isLoading" />
                     <BaseTable>

@@ -8,11 +8,12 @@
             <label class="text-xl font-bold">Choisir une option</label>
             <div class="flex flex-row gap-2 mt-2">
                 <BaseButton @click="addEmptyFile(defaultFile)" class="mb-2">+ Ajouté</BaseButton>
+                <BaseButton @click="fullEdit = !fullEdit" class="mb-2">Afficher tout</BaseButton>
             </div>
         </div>
         <div class="col-span-1">
             <BaseCard>
-                <template #title>Modifier objet configuration</template>
+                <template #title>Modifier catalogue (Object configuration)</template>
                 <template #body>
                     <BaseSpinner :loading="isLoading" v-if="isLoading" />
                     <BaseTable>
@@ -22,14 +23,14 @@
                             <BaseTableHead>Largeur</BaseTableHead>
                             <BaseTableHead>Longueur</BaseTableHead>
                             <BaseTableHead>Hauteur</BaseTableHead>
-                            <BaseTableHead>Empilable</BaseTableHead>
-                            <BaseTableHead>Assayable</BaseTableHead>
-                            <BaseTableHead>Marchable</BaseTableHead>
+                            <BaseTableHead v-if="fullEdit">Empilable</BaseTableHead>
+                            <BaseTableHead v-if="fullEdit">Assayable</BaseTableHead>
+                            <BaseTableHead v-if="fullEdit">Marchable</BaseTableHead>
                             <BaseTableHead>Interaction type</BaseTableHead>
                             <BaseTableHead>Interaction clique</BaseTableHead>
-                            <BaseTableHead>Vending</BaseTableHead>
-                            <BaseTableHead>Hauteur adjustable</BaseTableHead>
-                            <BaseTableHead>Effet id</BaseTableHead>
+                            <BaseTableHead v-if="fullEdit">Vending</BaseTableHead>
+                            <BaseTableHead v-if="fullEdit">Hauteur adjustable</BaseTableHead>
+                            <BaseTableHead v-if="fullEdit">Effet id</BaseTableHead>
                             <BaseTableHead>Action</BaseTableHead>
                         </template>
                         <template #body>
@@ -41,14 +42,14 @@
                                 <BaseTableColunm><BaseInput v-model="file.width" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.length" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.stack_height" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.can_stack" text-to-edit check-box></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.can_sit" text-to-edit check-box></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.is_walkable" text-to-edit check-box></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.can_stack" text-to-edit check-box></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.can_sit" text-to-edit check-box></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.is_walkable" text-to-edit check-box></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.interaction_type" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.interaction_modes_count" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.vending_ids" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.height_adjustable" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.effect_id" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.vending_ids" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.height_adjustable" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.effect_id" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="flex justify-around items-center w-full px-4 py-2">
                                         <IconSave @click="file.id === -1 ? createFile(file) : patchFile(file)" class="h-6 w-6 cursor-pointer hover:text-white" />
@@ -70,6 +71,8 @@ const route = useRoute()
 
 const id = route.query.id ?? null
 const { isLoading, patchFile, deleteFile, createFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = useFetchData<ApiData>('CatalogItemBase&id=' + id)
+
+const fullEdit = ref(false)
 
 const defaultFile = {
     id: -1,

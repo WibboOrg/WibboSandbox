@@ -1,7 +1,7 @@
 <?php
 class CatalogItemController extends BaseController
 {
-    public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13, 'PATCH' => 13];
+    public array $minRank = ['GET' => 11, 'POST' => 12, 'DELETE' => 12, 'PATCH' => 12];
     
     public function get(Request $request) 
     {
@@ -15,8 +15,8 @@ class CatalogItemController extends BaseController
 
     public function patch(Request $request)
     {
-        $dataStr = $request->getString(['catalog_name', 'badge']);
         $dataInt = $request->getNumber(['id', 'page_id', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active']);
+        $dataStr = $request->getString(['catalog_name', 'badge']);
 
         CatalogItemDto::update(
             $dataInt['id'], 
@@ -42,8 +42,8 @@ class CatalogItemController extends BaseController
 
     public function post(Request $request)
     {
-        $dataStr = $request->getString(['catalog_name', 'badge']);
         $dataInt = $request->getNumber(['page_id', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount']);
+        $dataStr = $request->getString(['catalog_name', 'badge']);
         $dataBool = $request->getBoolean(['offer_active']);
 
         $id = CatalogItemDto::create(

@@ -12,7 +12,7 @@
         </div>
         <div class="col-span-1">
             <BaseCard>
-                <template #title>Modifier objet</template>
+                <template #title>Modifier catalogue (Object)</template>
                 <template #body>
                     <BaseSpinner :loading="isLoading" v-if="isLoading" />
                     <BaseTable>

@@ -1,7 +1,7 @@
 <?php
 class EmulatorTextController extends BaseController
 {
-    public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13, 'PATCH' => 13];
+    public array $minRank = ['GET' => 11, 'POST' => 12, 'DELETE' => 12, 'PATCH' => 12];
 
     public function get(Request $request) 
     {
@@ -14,7 +14,6 @@ class EmulatorTextController extends BaseController
         $dataStr = $request->getString(['identifiant', 'value_fr']);
 
         EmulatorTextDto::update($dataInt['id'], $dataStr['identifiant'], $dataStr['value_fr']);
-
         LogSandboxDto::create($this->user['id'], 'patch', 'emulator_text', $dataInt['id']);
     }
 
@@ -23,7 +22,6 @@ class EmulatorTextController extends BaseController
         $dataInt = $request->getNumber(['id']);
 
         EmulatorTextDto::delete($dataInt['id']);
-
         LogSandboxDto::create($this->user['id'], 'delete', 'emulator_text', $dataInt['id']);
     }
 

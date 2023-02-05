@@ -1,12 +1,17 @@
 <?php
 class UploadClotheController extends BaseController
 {
-    public array $minRank = ['POST' => 13];
+    public array $minRank = ['POST' => 12];
 
     public function post(Request $request)
     {
         $file = $request->getFile();
+        $dataInt = $request->getString(["id"]);
         $dataStr = $request->getString(["type", "name", "description"]);
+        $dataArray = $request->getArray(["parts"]);
+
+        // $figureMapJson = Helper::getSslPage(URL_ASSETS . 'gamedata/FigureMap.json', true);
+        // $figureDataJson = Helper::getSslPage(URL_ASSETS . 'gamedata/FigureData.json', true);
         
         $uploadData = array();
 
@@ -20,8 +25,32 @@ class UploadClotheController extends BaseController
 
         $fileName = explode(".nitro", $file["name"])[0];
 
-        $figureMap = [];
-        $figureData = [];
+        $figureMap = [
+            "libraries" => [
+                "id" => $fileName,
+                "revision" => 67417,
+                "parts" => [
+                    "id" => 1,
+                    "type" => "ha"
+                ],
+            ]
+        ];
+        $figureData = [
+            "id" => $dataInt['id'],
+            "gender" => 'U',
+            "club" => 0,
+            "colorable" => true,
+            "selectable" => true,
+            "preselectable" => false,
+            "sellable" => false,
+            "parts" => [
+                "id" => 1,
+                "type" => "ha",
+                "colorable" => true,
+                "index" => 0,
+                "colorindex" => 1
+            ],
+        ];
 
         array_push($uploadData,
             array(

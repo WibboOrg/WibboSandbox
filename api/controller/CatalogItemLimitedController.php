@@ -1,7 +1,7 @@
 <?php
 class CatalogItemLimitedController extends BaseController
 {
-    public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13, 'PATCH' => 13];
+    public array $minRank = ['GET' => 11, 'POST' => 12, 'DELETE' => 12, 'PATCH' => 12];
     
     public function get(Request $request) 
     {

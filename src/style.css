@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body { overflow: hidden; }
+
 ::-webkit-scrollbar {
     width: 14px;
 }

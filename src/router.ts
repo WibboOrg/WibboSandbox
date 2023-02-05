@@ -1,15 +1,16 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
-const categoryTitle: Record<string, string> = {}
-categoryTitle['upload'] = 'Importer'
-categoryTitle['text'] = 'Texte'
-categoryTitle['emulator'] = 'Emulateur'
-categoryTitle['catalog'] = 'Catalogue'
-categoryTitle['asset'] = 'Asset'
-categoryTitle['user'] = 'Utilisateur'
-categoryTitle['log'] = 'Log'
-categoryTitle['hotel'] = 'Hôtel'
-categoryTitle['index'] = 'Acceuil'
+const categoryTitle: Record<string, string> = {
+    upload: 'Importer',
+    text: 'Texte',
+    emulator: 'Emulateur',
+    catalog: 'Catalogue',
+    asset: 'Asset',
+    user: 'Utilisateur',
+    log: 'Log',
+    hotel: 'Hôtel',
+    index: 'Acceuil',
+}
 
 const pages = import.meta.glob('./pages/**/*.vue')
 
@@ -18,24 +19,22 @@ const routes = Object.keys(pages).map((path) => {
 
     if (!pageName || pageName.length === 0) throw new Error('Page incorrect: ' + path)
 
-    const pageNameSplit = pageName[1].match(/[A-Z][a-z]+/g)
+    const pageNameSplit = pageName[1].match(/[A-Z0-9][a-z0-9]+/g)
 
     if (!pageNameSplit || pageNameSplit.length === 0) throw new Error('Page incorrect: ' + path)
 
     const categoryName = pageNameSplit[0].toLowerCase()
     const pathName = categoryName === 'index' ? '' : pageNameSplit.join('-').toLowerCase()
 
-    const title = categoryTitle[categoryName] ?? 'Page introuvable'
-
     return {
         path: pathName === 'not-found' ? '/:pathMatch(.*)*' : '/' + pathName,
         component: pages[path],
-        meta: { title },
+        meta: { title: categoryTitle[categoryName] ?? 'Page introuvable' },
     }
 })
 
 export const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes,
 })
 

@@ -1,7 +1,7 @@
 <?php
 class UserController extends BaseController
 {
-    public array $minRank = ['GET' => 13, 'POST' => 13, 'PATCH' => 13, 'DELETE' => 13];
+    public array $minRank = ['GET' => 11, 'POST' => 12, 'PATCH' => 12, 'DELETE' => 12];
 
     public function get(Request $request) 
     {
@@ -12,7 +12,7 @@ class UserController extends BaseController
     {
         $dataInt = $request->getNumber(['id', 'rank']);
 
-        if($this->user['rank'] <= $dataInt['rank'])
+        if($this->user['rank'] < $dataInt['rank'])
             throw new HttpException("Vous n'avais pas la permission", 400);
 
         UserDto::updateRank($dataInt['id'], $dataInt['rank']);
@@ -24,7 +24,6 @@ class UserController extends BaseController
         $dataInt = $request->getNumber(['id']);
 
         UserDto::delete($dataInt['id']);
-
         LogSandboxDto::create($this->user['id'], 'delete', 'user', $dataInt['id']);
     }
 

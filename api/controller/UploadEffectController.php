@@ -1,7 +1,7 @@
 <?php
 class UploadEffectController extends BaseController
 {
-    public array $minRank = ['POST' => 13];
+    public array $minRank = ['POST' => 12];
 
     public function post(Request $request)
     {

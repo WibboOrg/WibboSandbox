@@ -12,7 +12,7 @@
         </div>
         <div class="col-span-1">
             <BaseCard>
-                <template #title>Modifier external texte</template>
+                <template #title>Utilisateur</template>
                 <template #body>
                     <BaseSpinner :loading="isLoading" v-if="isLoading" />
                     <BaseTable>
@@ -28,7 +28,8 @@
                                     <div class="w-full px-4 py-2">{{ file.id }}</div>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
-                                    <div class="w-full px-4 py-2">{{ file.username }}</div>
+                                    <BaseInput v-model="file.username" text-to-edit v-if="file.id === -1"></BaseInput>
+                                    <div class="w-full px-4 py-2" v-else>{{ file.username }}</div>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
                                     <BaseInput v-model="file.rank" text-to-edit></BaseInput>

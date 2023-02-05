@@ -25,6 +25,7 @@
                 <div class="border-b-2 mb-2">{{ cate.text }}</div>
                 <ul class="flex flex-col gap-1">
                     <li
+                        :class="{ 'bg-gray-600': nav.path === $route.path }"
                         class="w-full px-4 rounded transition-colors cursor-pointer hover:bg-gray-600"
                         @click="$router.push(nav.path)"
                         v-for="(nav, index) of navList.filter((x) => x.category === cate.category && x.minRank <= auth.user.rank)"
@@ -72,7 +73,7 @@ navList.value.push({ category: 'catalog', text: 'Objet config', path: '/catalog-
 navList.value.push({ category: 'asset', text: 'Badge', path: '/asset-badge', minRank: 13 })
 navList.value.push({ category: 'asset', text: 'Article', path: '/asset-article', minRank: 13 })
 navList.value.push({ category: 'asset', text: 'Mobilier', path: '/asset-furni', minRank: 13 })
-navList.value.push({ category: 'asset', text: 'Catalogue', path: '/asset-catalogue', minRank: 13 })
+navList.value.push({ category: 'asset', text: 'Catalogue', path: '/asset-catalog', minRank: 13 })
 navList.value.push({ category: 'asset', text: 'Navigateur', path: '/asset-navigator', minRank: 13 })
 navList.value.push({ category: 'asset', text: 'Reception', path: '/asset-reception', minRank: 13 })
 navList.value.push({ category: 'asset', text: 'Web promo', path: '/asset-webpromosmall', minRank: 13 })

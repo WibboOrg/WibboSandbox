@@ -53,7 +53,7 @@ declare module '@vue/runtime-core' {
     PageTextBadge: typeof import('./pages/text/PageTextBadge.vue')['default']
     PageTextExternal: typeof import('./pages/text/PageTextExternal.vue')['default']
     PageTextFurni: typeof import('./pages/text/PageTextFurni.vue')['default']
-    PageTextUI: typeof import('./pages/text/PageTextUI.vue')['default']
+    PageTextUi: typeof import('./pages/text/PageTextUi.vue')['default']
     PageUploadBadge: typeof import('./pages/upload/PageUploadBadge.vue')['default']
     PageUploadClothe: typeof import('./pages/upload/PageUploadClothe.vue')['default']
     PageUploadEffect: typeof import('./pages/upload/PageUploadEffect.vue')['default']

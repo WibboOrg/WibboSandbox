@@ -5,13 +5,13 @@
             <BaseInput placeholder="Filter les resultats" v-model.trim="pageSearch" :delay="500" />
         </div>
         <div class="col-span-1">
-            <label class="text-xl font-bold">Importer un fichier</label>
-            <BaseUploadFile accept="image/png" @upload="handleFileUpload" />
+            <label class="text-xl font-bold">Importer un fichier (.gif)</label>
+            <BaseUploadFile accept="image/gif" @upload="handleFileUpload" />
             <BaseButton @click="importFile(fileUpload)">Importer</BaseButton>
         </div>
         <div class="col-span-1">
             <BaseCard>
-                <template #title>Asset</template>
+                <template #title>Asset (Badge)</template>
                 <template #body>
                     <BaseSpinner :loading="isLoading" v-if="isLoading" />
                     <BaseTable>

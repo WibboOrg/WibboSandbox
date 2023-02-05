@@ -1,7 +1,7 @@
 <?php
 class UploadFurniController extends BaseController
 {
-    public array $minRank = ['POST' => 13];
+    public array $minRank = ['POST' => 12];
     
     public function post(Request $request)
     {
@@ -85,12 +85,12 @@ class UploadFurniController extends BaseController
         array_push($uploadData,
             array(
                 'action' => 'json',
-                'path' => 'gamedata/FurnitureData2.json',
+                'path' => 'gamedata/FurnitureData.json',
                 'data' => json_encode($furnidata),
             ),
             array(
                 'action' => 'json',
-                'path' => 'gamedata/ProductData2.json',
+                'path' => 'gamedata/ProductData.json',
                 'data' => json_encode($product),
             ),
             array(

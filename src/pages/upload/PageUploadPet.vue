@@ -2,7 +2,7 @@
     <div class="grid grid-cols-1 gap-4 h-full">
         <div class="col-span-1">
             <BaseCard>
-                <template #title>Importer un animal</template>
+                <template #title>Importer un fichier (Animal)</template>
                 <template #body>
                     <form @submit.prevent="submitPost" enctype="multipart/form-data" class="grid grid-cols-1 gap-3">
                         <div class="col-span-full">

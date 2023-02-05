@@ -44,9 +44,8 @@ class Web3Controller extends BaseController
     protected function verifySignature(string $message, string $signature, string $address): bool
     {
         $hash = Keccak::hash(sprintf("\x19Ethereum Signed Message:\n%s%s", strlen($message), $message), 256);
-        $sign   = ["r" => substr($signature, 2, 64),
-                "s" => substr($signature, 66, 64)];
-        $recid  = ord(hex2bin(substr($signature, 130, 2))) - 27;
+        $sign = ["r" => substr($signature, 2, 64), "s" => substr($signature, 66, 64)];
+        $recid = ord(hex2bin(substr($signature, 130, 2))) - 27;
 
         if ($recid != ($recid & 1))
             return false;

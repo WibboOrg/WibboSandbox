@@ -1,7 +1,7 @@
 <?php
 class EmulatorCommandController extends BaseController
 {
-    public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13, 'PATCH' => 13];
+    public array $minRank = ['GET' => 11, 'POST' => 12, 'DELETE' => 12, 'PATCH' => 12];
 
     public function get(Request $request) 
     { 
@@ -22,14 +22,13 @@ class EmulatorCommandController extends BaseController
         $dataInt = $request->getNumber(['id']);
 
         EmulatorCommandDto::delete($dataInt['id']);
-
         LogSandboxDto::create($this->user['id'], 'delete', 'emulator_command', $dataInt['id']);
     }
 
     public function post(Request $request)
     {
         $dataInt = $request->getNumber(['minrank']);
-        $dataStr = $request->getNumber(['input', 'description_fr']);
+        $dataStr = $request->getString(['input', 'description_fr']);
 
         $id = EmulatorCommandDto::create($dataStr['input'], $dataInt['minrank'], $dataStr['description_fr']);
 

@@ -1,7 +1,7 @@
 <?php
 class LogSandboxController extends BaseController
 {
-    public array $minRank = ['GET' => 13];
+    public array $minRank = ['GET' => 11];
 
     public function get(Request $request) 
     {
