@@ -5,6 +5,12 @@
             <BaseInput placeholder="Filter les resultats" v-model.trim="pageSearch" :delay="500" />
         </div>
         <div class="col-span-1">
+            <label class="text-xl font-bold">Choisir une option</label>
+            <div class="flex flex-row gap-2 mt-2">
+                <BaseButton @click="getFiles">Recharger la page</BaseButton>
+            </div>
+        </div>
+        <div class="col-span-1">
             <BaseCard>
                 <template #title>Modifier texte (External)</template>
                 <template #body>
@@ -40,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, patchFile, deleteFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('TextExternal')
+const { isLoading, patchFile, deleteFile, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('TextExternal')
 
 interface ApiData {
     code: string

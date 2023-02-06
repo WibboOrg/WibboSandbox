@@ -21,7 +21,7 @@ function parseRoute()
         $minRank = $controller->minRank[$method];
 
         if ($minRank > $user['rank'])
-            throw new HttpException('Permission requis', 401);
+            throw new HttpException('Permission requis', 400);
     }
 
     $request = new Request();

@@ -5,7 +5,7 @@ class TextExternalController extends BaseController
 
     public function get(Request $request) 
     {
-        $data = Helper::getSslPage(URL_ASSETS . 'gamedata/ExternalTexts.json?'. time(), true);
+        $data = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/ExternalTexts.json?'. time(), true);
 
         $newData = [];
 
@@ -19,7 +19,7 @@ class TextExternalController extends BaseController
     {
         $dataStr = $request->getString(['code', 'text']);
 
-        $badgeTexts = Helper::getSslPage(URL_ASSETS . 'gamedata/ExternalTexts.json?'. time(), true);
+        $badgeTexts = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/ExternalTexts.json?'. time(), true);
 
         foreach ($badgeTexts as $code => &$text) {
             if($code == $dataStr["code"]) {
@@ -31,7 +31,7 @@ class TextExternalController extends BaseController
         $uploadData = array(
             array(
                 'action' => 'upload',
-                'path' => 'gamedata/ExternalTexts2.json',
+                'path' => 'gamedata-sandbox/ExternalTexts.json',
                 'data' => base64_encode(json_encode($badgeTexts)),
             )
         );

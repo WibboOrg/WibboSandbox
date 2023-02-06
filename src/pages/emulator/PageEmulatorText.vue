@@ -7,7 +7,8 @@
         <div class="col-span-1">
             <label class="text-xl font-bold">Choisir une option</label>
             <div class="flex flex-row gap-2 mt-2">
-                <BaseButton @click="addEmptyFile({ id: -1, identifiant: '', value_fr: '' })" class="mb-2">+ Ajouté</BaseButton>
+                <BaseButton @click="getFiles">Recharger la page</BaseButton>
+                <BaseButton @click="addEmptyFile({ id: -1, identifiant: '', value_fr: '' })">+ Ajouté</BaseButton>
             </div>
         </div>
         <div class="col-span-1">
@@ -50,7 +51,7 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, patchFile, deleteFile, createFile, addEmptyFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('EmulatorText')
+const { isLoading, patchFile, deleteFile, createFile, getFiles, addEmptyFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('EmulatorText')
 
 interface ApiData {
     id: number

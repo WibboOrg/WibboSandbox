@@ -5,6 +5,12 @@
             <BaseInput placeholder="Filter les resultats" v-model.trim="pageSearch" :delay="500" />
         </div>
         <div class="col-span-1">
+            <label class="text-xl font-bold">Choisir une option</label>
+            <div class="flex flex-row gap-2 mt-2">
+                <BaseButton @click="getFiles">Recharger la page</BaseButton>
+            </div>
+        </div>
+        <div class="col-span-1">
             <BaseCard>
                 <template #title>Modifier texte (UI)</template>
                 <template #body>
@@ -39,7 +45,7 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, patchFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('TextUI')
+const { isLoading, patchFile, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('TextUI')
 
 interface ApiData {
     code: string

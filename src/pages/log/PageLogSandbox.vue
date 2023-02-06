@@ -5,6 +5,12 @@
             <BaseInput placeholder="Filter les resultats" v-model.trim="pageSearch" :delay="500" />
         </div>
         <div class="col-span-1">
+            <label class="text-xl font-bold">Choisir une option</label>
+            <div class="flex flex-row gap-2 mt-2">
+                <BaseButton @click="getFiles">Recharger la page</BaseButton>
+            </div>
+        </div>
+        <div class="col-span-1">
             <BaseCard>
                 <template #title>Log sandbox</template>
                 <template #body>
@@ -49,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('LogSandbox')
+const { isLoading, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, getFiles } = useFetchData<ApiData>('LogSandbox')
 
 const methodToText = (method: string) => {
     switch (method) {

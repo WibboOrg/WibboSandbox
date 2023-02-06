@@ -5,7 +5,7 @@ class TextFurniController extends BaseController
 
     public function get(Request $request) 
     {
-        $furniDataJson = Helper::getSslPage(URL_ASSETS . 'gamedata/FurnitureData.json?'. time());
+        $furniDataJson = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/FurnitureData.json?'. time());
 
         $furniData = json_decode($furniDataJson, JSON_OBJECT_AS_ARRAY);
 
@@ -29,9 +29,10 @@ class TextFurniController extends BaseController
     public function patch(Request $request)
     {
         $dataInt = $request->getNumber(['id']);
-        $dataStr = $request->getString(['name', 'description']);
+        $dataStr = $request->getString(['classname', 'name', 'description']);
 
-        $furniData = Helper::getSslPage(URL_ASSETS . 'gamedata/FurnitureData.json?'. time(), true);
+        $furniData = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/FurnitureData.json?'. time(), true);
+        $productData = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/ProductData.json?'. time());
 
         foreach ($furniData->roomitemtypes->furnitype as $var) {
             if($var->id == $dataInt["id"]) {
@@ -49,11 +50,24 @@ class TextFurniController extends BaseController
             }
         }
 
+        foreach($productData->productdata->product as $var) {
+            if($var->code == $dataStr["classname"]) {
+                $var->name = $dataStr["name"];
+                $var->description = $dataStr["description"];
+                break;
+            }
+        }
+
         $uploadData = array(
             array(
                 'action' => 'upload',
-                'path' => 'gamedata/FurnitureData.json',
+                'path' => 'gamedata-sandbox/FurnitureData.json',
                 'data' => base64_encode(json_encode($furniData)),
+            ),
+            array(
+                'action' => 'upload',
+                'path' => 'gamedata-sandbox/ProductData.json',
+                'data' => base64_encode(json_encode($productData)),
             )
         );
 

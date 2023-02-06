@@ -37,7 +37,7 @@ class UploadEffectController extends BaseController
         array_push($uploadData,
             array(
                 'action' => 'json',
-                'path' => 'gamedata/EffectMap.json',
+                'path' => 'gamedata-sandbox/EffectMap.json',
                 'data' => json_encode($effectMap),
             ),
             array(

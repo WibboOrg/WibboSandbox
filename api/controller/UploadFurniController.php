@@ -85,12 +85,12 @@ class UploadFurniController extends BaseController
         array_push($uploadData,
             array(
                 'action' => 'json',
-                'path' => 'gamedata/FurnitureData.json',
+                'path' => 'gamedata-sandbox/FurnitureData.json',
                 'data' => json_encode($furnidata),
             ),
             array(
                 'action' => 'json',
-                'path' => 'gamedata/ProductData.json',
+                'path' => 'gamedata-sandbox/ProductData.json',
                 'data' => json_encode($product),
             ),
             array(

@@ -7,8 +7,9 @@
         <div class="col-span-1">
             <label class="text-xl font-bold">Choisir une option</label>
             <div class="flex flex-row gap-2 mt-2">
-                <BaseButton @click="addEmptyFile(defaultFile)" class="mb-2">+ Ajouté</BaseButton>
-                <BaseButton @click="fullEdit = !fullEdit" class="mb-2">Afficher tout</BaseButton>
+                <BaseButton @click="getFiles">Recharger la page</BaseButton>
+                <BaseButton @click="addEmptyFile(defaultFile)">+ Ajouté</BaseButton>
+                <BaseButton @click="fullEdit = !fullEdit">Afficher tout</BaseButton>
             </div>
         </div>
         <div class="col-span-1">
@@ -70,7 +71,7 @@
 const route = useRoute()
 
 const id = route.query.id ?? null
-const { isLoading, patchFile, deleteFile, createFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = useFetchData<ApiData>('CatalogItemBase&id=' + id)
+const { isLoading, patchFile, deleteFile, createFile, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = useFetchData<ApiData>('CatalogItemBase&id=' + id)
 
 const fullEdit = ref(false)
 

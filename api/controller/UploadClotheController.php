@@ -54,7 +54,7 @@ class UploadClotheController extends BaseController
             }, $dataArray["parts"]),
         ];
 
-        $figureDataJson = Helper::getSslPage(URL_ASSETS . 'gamedata/FigureData.json?'. time(), true);
+        $figureDataJson = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/FigureData.json?'. time(), true);
         
         foreach($figureDataJson->setTypes as &$setType)
         {
@@ -68,12 +68,12 @@ class UploadClotheController extends BaseController
         array_push($uploadData,
             array(
                 'action' => 'json',
-                'path' => 'gamedata/FigureMap.json',
+                'path' => 'gamedata-sandbox/FigureMap.json',
                 'data' => json_encode($figureMap),
             ),
             array(
                 'action' => 'upload',
-                'path' => 'gamedata/FigureData.json',
+                'path' => 'gamedata-sandbox/FigureData.json',
                 'data' => base64_encode(json_encode($figureDataJson)),
             ),
             array(

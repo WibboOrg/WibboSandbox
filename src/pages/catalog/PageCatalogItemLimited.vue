@@ -7,7 +7,8 @@
         <div class="col-span-1">
             <label class="text-xl font-bold">Choisir une option</label>
             <div class="flex flex-row gap-2 mt-2">
-                <BaseButton @click="addEmptyFile(defaultFile)" class="mb-2">+ Ajouté</BaseButton>
+                <BaseButton @click="getFiles">Recharger la page</BaseButton>
+                <BaseButton @click="addEmptyFile(defaultFile)">+ Ajouté</BaseButton>
             </div>
         </div>
         <div class="col-span-1">
@@ -48,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, patchFile, deleteFile, createFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = useFetchData<ApiData>('CatalogItemLimited')
+const { isLoading, patchFile, deleteFile, createFile, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = useFetchData<ApiData>('CatalogItemLimited')
 
 const defaultFile = { id: -1, catalog_item_id: -1, limited_sells: 0, limited_stack: 0 } satisfies ApiData
 

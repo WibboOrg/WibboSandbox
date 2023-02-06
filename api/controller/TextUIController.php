@@ -5,7 +5,7 @@ class TextUIController extends BaseController
 
     public function get(Request $request) 
     {
-        $data = Helper::getSslPage(URL_ASSETS . 'gamedata/UITexts.json?'. time(), true);
+        $data = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/UITexts.json?'. time(), true);
 
         $newData = [];
 
@@ -19,7 +19,7 @@ class TextUIController extends BaseController
     {
         $dataStr = $request->getString(['code', 'text']);
 
-        $badgeTexts = Helper::getSslPage(URL_ASSETS . 'gamedata/UITexts.json?'. time(), true);
+        $badgeTexts = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/UITexts.json?'. time(), true);
 
         foreach ($badgeTexts as $code => &$text) {
             if($code == $dataStr["code"]) {
@@ -31,7 +31,7 @@ class TextUIController extends BaseController
         $uploadData = array(
             array(
                 'action' => 'upload',
-                'path' => 'gamedata/UITexts.json',
+                'path' => 'gamedata-sandbox/UITexts.json',
                 'data' => base64_encode(json_encode($badgeTexts)),
             )
         );

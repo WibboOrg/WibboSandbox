@@ -7,8 +7,9 @@
         <div class="col-span-1">
             <label class="text-xl font-bold">Choisir une option</label>
             <div class="flex flex-row gap-2 mt-2">
-                <BaseButton @click="addEmptyFile(defaultValue)" class="mb-2">+ Ajouté</BaseButton>
-                <BaseButton @click="fullEdit = !fullEdit" class="mb-2">Afficher tout</BaseButton>
+                <BaseButton @click="getFiles">Recharger la page</BaseButton>
+                <BaseButton @click="addEmptyFile(defaultValue)">+ Ajouté</BaseButton>
+                <BaseButton @click="fullEdit = !fullEdit">Afficher tout</BaseButton>
             </div>
         </div>
         <div class="col-span-1">
@@ -71,7 +72,7 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, patchFile, deleteFile, createFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = useFetchData<ApiData>('CatalogPage')
+const { isLoading, patchFile, deleteFile, createFile, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = useFetchData<ApiData>('CatalogPage')
 
 const fullEdit = ref(false)
 
