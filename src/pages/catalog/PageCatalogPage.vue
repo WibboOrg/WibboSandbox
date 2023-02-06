@@ -45,16 +45,16 @@
                                         </div>
                                     </div>
                                 </BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.parent_id" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.parent_id" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.caption" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.icon_image" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.enabled" text-to-edit check-box></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.min_rank" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.order_num" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.icon_image" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.enabled" text-to-edit boolean></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.min_rank" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.order_num" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.page_layout" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.page_strings_1" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.page_strings_2" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.is_premium" text-to-edit check-box></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.is_premium" text-to-edit boolean></BaseInput></BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="flex justify-around items-center w-full px-4 py-2">
                                         <IconSave @click="file.id === -1 ? createFile(file) : patchFile(file)" class="h-6 w-6 cursor-pointer hover:text-white" />

@@ -29,9 +29,9 @@
                                 <BaseTableColunm>
                                     <div class="w-full px-4 py-2">{{ file.id }}</div>
                                 </BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.catalog_item_id" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.limited_sells" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.limited_stack" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.catalog_item_id" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.limited_sells" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.limited_stack" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="flex justify-around items-center w-full px-4 py-2">
                                         <IconSave @click="file.id === -1 ? createFile(file) : patchFile(file)" class="h-6 w-6 cursor-pointer hover:text-white" />

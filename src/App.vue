@@ -17,24 +17,26 @@
                     leave-from-class="opacity-100"
                     leave-to-class="opacity-0"
                 >
-                    <div class="absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-75 overflow-y-overlay backdrop-blur" id="main" v-show="route.path !== '/hotel'">
-                        <div class="fixed top-2 right-4 cursor-pointer" @click="$router.push('/hotel')">
-                            <IconClose class="w-8 h-8 hover:text-gray-400" />
-                        </div>
-                        <div class="container my-8 pl-[200px]">
-                            <transition
-                                enter-active-class="duration-300"
-                                enter-from-class="opacity-0"
-                                enter-to-class="opacity-100"
-                                leave-active-class="duration-300"
-                                leave-from-class="opacity-100"
-                                leave-to-class="opacity-0"
-                                mode="out-in"
-                            >
-                                <keep-alive>
-                                    <component :is="Component" :key="route.path" />
-                                </keep-alive>
-                            </transition>
+                    <div class="absolute top-0 bottom-0 left-0 right-0 bg-gray-900 bg-opacity-75 overflow-hidden backdrop-blur" id="main" v-show="route.path !== '/hotel'">
+                        <div class="overflow-y-overlay h-full w-full pl-[200px]">
+                            <div class="fixed top-2 right-4 cursor-pointer" @click="$router.push('/hotel')">
+                                <IconClose class="w-8 h-8 hover:text-gray-400" />
+                            </div>
+                            <div class="container my-8">
+                                <transition
+                                    enter-active-class="duration-300"
+                                    enter-from-class="opacity-0"
+                                    enter-to-class="opacity-100"
+                                    leave-active-class="duration-300"
+                                    leave-from-class="opacity-100"
+                                    leave-to-class="opacity-0"
+                                    mode="out-in"
+                                >
+                                    <keep-alive>
+                                        <component :is="Component" :key="route.path" />
+                                    </keep-alive>
+                                </transition>
+                            </div>
                         </div>
                     </div>
                 </transition>

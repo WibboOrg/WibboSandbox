@@ -33,11 +33,11 @@
                                 </template>
                                 <template #body>
                                     <BaseTableBody v-for="(part, index) in postForm.parts" :key="index">
-                                        <BaseTableColunm><BaseInput v-model="part.id" /></BaseTableColunm>
-                                        <BaseTableColunm><BaseInput v-model="part.index" /></BaseTableColunm>
-                                        <BaseTableColunm><BaseInput v-model="part.colorindex" /></BaseTableColunm>
+                                        <BaseTableColunm><BaseInput v-model="part.id" number /></BaseTableColunm>
+                                        <BaseTableColunm><BaseInput v-model="part.index" number /></BaseTableColunm>
+                                        <BaseTableColunm><BaseInput v-model="part.colorindex" number /></BaseTableColunm>
                                         <BaseTableColunm><BaseInput v-model="part.type" /></BaseTableColunm>
-                                        <BaseTableColunm><BaseInput v-model="part.colorable" /></BaseTableColunm>
+                                        <BaseTableColunm><BaseInput v-model="part.colorable" boolean /></BaseTableColunm>
                                         <BaseTableColunm><IconClose @click="deletePart(part.id)" class="h-6 w-6 cursor-pointer hover:text-white" /></BaseTableColunm>
                                     </BaseTableBody>
                                 </template>

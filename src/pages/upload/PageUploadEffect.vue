@@ -11,9 +11,12 @@
                         </div>
                         <div class="col-span-1">
                             <label class="block mb-1">Id</label>
-                            <BaseInput v-model="postForm.id" />
+                            <BaseInput v-model="postForm.id" number />
                         </div>
-
+                        <div class="col-span-1">
+                            <label class="block mb-1">Seulement Staff</label>
+                            <BaseInput v-model="postForm.only_staff" boolean />
+                        </div>
                         <div class="col-span-full">
                             <BaseButton primary :loading="loading">Importer</BaseButton>
                         </div>
@@ -26,7 +29,7 @@
 
 <script lang="ts" setup>
 const loading = ref(false)
-const postForm = ref({ id: 0, file: { base64: '', name: '' } })
+const postForm = ref({ id: 0, only_staff: 0, file: { base64: '', name: '' } })
 
 const handleFileUpload = (file: { base64: string; name: string }) => (postForm.value.file = file)
 
@@ -40,7 +43,7 @@ const submitPost = async () => {
 
         showMessage("L'effet a bien été ajouté", false)
 
-        postForm.value = { id: 0, file: { base64: '', name: '' } }
+        postForm.value = { id: 0, only_staff: 0, file: { base64: '', name: '' } }
     } catch (e) {
         console.error(e)
     }

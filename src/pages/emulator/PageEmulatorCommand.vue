@@ -33,7 +33,7 @@
                                     <BaseInput v-model="file.input" text-to-edit></BaseInput>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
-                                    <BaseInput v-model="file.minrank" text-to-edit></BaseInput>
+                                    <BaseInput v-model="file.minrank" text-to-edit number></BaseInput>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
                                     <BaseInput v-model="file.description_fr" text-to-edit></BaseInput>

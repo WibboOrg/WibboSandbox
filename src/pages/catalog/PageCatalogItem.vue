@@ -38,11 +38,11 @@
                                     <BaseInput v-model="file.page_id" text-to-edit></BaseInput>
                                 </BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.catalog_name" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.cost_credits" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.cost_diamonds" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.cost_limitcoins" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.amount" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.offer_active" text-to-edit check-box></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.cost_credits" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.cost_diamonds" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.cost_limitcoins" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.amount" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.offer_active" text-to-edit boolean></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.badge" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="flex justify-around items-center w-full px-4 py-2">

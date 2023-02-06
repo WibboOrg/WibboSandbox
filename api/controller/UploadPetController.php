@@ -1,7 +1,7 @@
 <?php
 class UploadPetController extends BaseController
 {
-    public array $minRank = ['POST' => 12];
+    public array $minRank = ['POST' => 14];
 
     public function post(Request $request)
     {

@@ -40,17 +40,17 @@
                                     <div class="w-full px-4 py-2">{{ file.id }}</div>
                                 </BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.item_name" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.width" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.length" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.stack_height" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.can_stack" text-to-edit check-box></BaseInput></BaseTableColunm>
-                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.can_sit" text-to-edit check-box></BaseInput></BaseTableColunm>
-                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.is_walkable" text-to-edit check-box></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.width" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.length" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.stack_height" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.can_stack" text-to-edit boolean></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.can_sit" text-to-edit boolean></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.is_walkable" text-to-edit boolean></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.interaction_type" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.interaction_modes_count" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.vending_ids" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.interaction_modes_count" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.vending_ids" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.height_adjustable" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.effect_id" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.effect_id" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="flex justify-around items-center w-full px-4 py-2">
                                         <IconSave @click="file.id === -1 ? createFile(file) : patchFile(file)" class="h-6 w-6 cursor-pointer hover:text-white" />
