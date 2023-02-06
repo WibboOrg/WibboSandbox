@@ -20,6 +20,7 @@
             class="w-full px-4 py-2 bg-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
             :class="{ 'text-center': center, 'h-[180px]': componentType === 'textarea' }"
             type="text"
+            :placeholder="placeholder"
             @keyup.enter="onExit"
             @blur="onExit"
             @input="updateValue($event.target)"
@@ -38,6 +39,7 @@ const props = defineProps({
     boolean: { type: Boolean, default: false },
     number: { type: Boolean, default: false },
     delay: { type: Number, default: 0 },
+    placeholder: { type: String, default: '' },
 })
 
 const emit = defineEmits(['update:modelValue'])

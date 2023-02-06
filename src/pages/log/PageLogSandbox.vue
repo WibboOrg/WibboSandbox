@@ -42,7 +42,7 @@
                                     <div class="w-full px-4 py-2">{{ file.edit_key }}</div>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
-                                    <div class="w-full px-4 py-2">{{ timestampToDate(file.timestamp_created) }}</div>
+                                    <div class="w-full px-4 py-2">{{ timestampToDate(file.timestamp_created) }} {{ file.timestamp_created }}</div>
                                 </BaseTableColunm>
                             </BaseTableBody>
                         </template>
@@ -73,7 +73,7 @@ const methodToText = (method: string) => {
 const timestampToDate = (timestamp: number) => {
     const date = new Date(timestamp * 1000)
     const day = ('0' + date.getDate()).slice(-2)
-    const mounth = ('0' + date.getMonth() + 1).slice(-2)
+    const mounth = ('0' + (date.getMonth() + 1)).slice(-2)
     const year = ('0' + date.getFullYear()).slice(-2)
     const hours = ('0' + date.getHours()).slice(-2)
     const minutes = ('0' + date.getMinutes()).slice(-2)
