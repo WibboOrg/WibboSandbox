@@ -44,5 +44,11 @@
 </template>
 
 <script lang="ts" setup>
-onMounted(async () => await checkAuth())
+onMounted(async () => {
+    await fetch('/sandbox-config.json')
+        .then((res) => res.json())
+        .then((res) => (sandboxConfig.value = res))
+
+    await checkAuth()
+})
 </script>

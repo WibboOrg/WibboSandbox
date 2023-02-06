@@ -43,6 +43,7 @@
     "ref": true,
     "resolveComponent": true,
     "resolveDirective": true,
+    "sandboxConfig": true,
     "shallowReactive": true,
     "shallowReadonly": true,
     "shallowRef": true,
