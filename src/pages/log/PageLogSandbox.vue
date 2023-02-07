@@ -42,7 +42,7 @@
                                     <div class="w-full px-4 py-2">{{ file.edit_key }}</div>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
-                                    <div class="w-full px-4 py-2">{{ timestampToDate(file.timestamp_created) }} {{ file.timestamp_created }}</div>
+                                    <div class="w-full px-4 py-2">{{ timestampToDate(file.timestamp_created) }}</div>
                                 </BaseTableColunm>
                             </BaseTableBody>
                         </template>

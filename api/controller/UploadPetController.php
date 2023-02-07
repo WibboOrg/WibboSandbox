@@ -31,6 +31,13 @@ class UploadPetController extends BaseController
             throw new HttpException('Problème lors de l\'importation: ', 400);
         }
 
+        $renderConfigPath = '../../render-config.json';
+
+        $renderConfig = json_decode(file_get_contents($renderConfigPath));
+        $petId = count($renderConfig->{"pet.types"});
+        array_push($renderConfig->{"pet.types"}, $fileName);
+        file_put_contents($renderConfigPath, json_encode($renderConfig));
+
         LogSandboxDto::create($this->user['id'], 'post', 'pet', $fileName);
     }
 }

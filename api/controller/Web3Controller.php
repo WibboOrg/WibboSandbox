@@ -21,9 +21,9 @@ class Web3Controller extends BaseController
     {
         $dataStr = $request->getString(['username', 'message_token', 'address', 'signature']);
 
-        $signMessage = JWT::decode($dataStr['message_token'])->message;
+        $messageToken = JWT::decode($dataStr['message_token']);
 
-        if (!$this->verifySignature($signMessage, $dataStr['signature'], $dataStr['address']))
+        if (!$this->verifySignature($messageToken->message, $dataStr['signature'], $dataStr['address']))
             throw new HttpException('Signature incorrect', 400);
 
         $userLogin = UserDto::getOneByName($dataStr["username"]);
