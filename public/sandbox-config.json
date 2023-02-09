@@ -1,5 +1,4 @@
 {
   "local.enabled": true,
-  "disabled.hotel": true,
   "api.path": "http://localhost/WibboSandbox/api/index.php?"
 }
