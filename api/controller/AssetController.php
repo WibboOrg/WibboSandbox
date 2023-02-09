@@ -35,7 +35,7 @@ class AssetController extends BaseController
             throw new HttpException("Fichier introuvable", 400);
         }
 
-        if ($ext !== '' && !preg_match('/^[a-z0-9_]+\.' . $ext . '$/', $file['name'])) {
+        if ($ext !== '' && !preg_match('/^[A-Za-z0-9_]+\.' . $ext . '$/', $file['name'])) {
             throw new HttpException('Nom du fichier ou extension incorrecte', 400);
         }
 

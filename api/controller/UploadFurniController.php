@@ -15,7 +15,7 @@ class UploadFurniController extends BaseController
         }
 
         if (!preg_match('/^[a-z0-9_]+\.nitro$/', $file["name"])) {
-            throw new HttpException('Nom du fichier ou extension incorrecte (.nitro)', 400);
+            throw new HttpException('Nom du fichier ou extension incorrecte (mon_fichier_123.nitro)', 400);
         }
 
         $furniName = explode(".nitro", $file["name"])[0];
@@ -105,7 +105,7 @@ class UploadFurniController extends BaseController
         }
 
         ItemBaseDto::create($furniId, $furniName, $type);
-        CatalogItemDto::create($furniId, $furniName, 3, 0, 0, 1, 1, '');
+        CatalogItemDto::create($furniId, $furniId, $furniName, 3, 0, 0, 1, 1, '');
 
         LogSandboxDto::create($this->user['id'], 'post', 'furniture', $furniName);
     }

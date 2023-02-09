@@ -15,7 +15,7 @@ class UploadBadgeController extends BaseController
         }
 
         if (!preg_match('/^[a-z0-9_]+\.gif$/', $file['name'])) {
-            throw new HttpException('Nom du fichier ou extension incorrecte (.gif)', 400);
+            throw new HttpException('Nom du fichier ou extension incorrecte (mon_fichier_123.gif)', 400);
         }
 
         $size = getimagesizefromstring($file["base64"]);

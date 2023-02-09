@@ -8,27 +8,28 @@ class CatalogItemDto extends BaseDto
     {
         $model = self::getModel();
 
-        return $model->select('id', 'page_id', 'catalog_name', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active', 'badge')->get();
+        return $model->select('id', 'item_id', 'page_id', 'catalog_name', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active', 'badge')->get();
     }
 
     public static function getOne(int $id)
     {
         $model = self::getModel();
 
-        return $model->select('id', 'page_id', 'catalog_name', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active', 'badge')->where('id', $id)->first();
+        return $model->select('id', 'item_id', 'page_id', 'catalog_name', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active', 'badge')->where('id', $id)->first();
     }
 
     public static function getAllByPageId(int $pageId)
     {
         $model = self::getModel();
 
-        return $model->select('id', 'page_id', 'catalog_name', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active', 'badge')->where('page_id', $pageId)->get();
+        return $model->select('id', 'item_id', 'page_id', 'catalog_name', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active', 'badge')->where('page_id', $pageId)->get();
     }
 
-    public static function update(int $id, int $pageId, string $catalogName, int $costCredits, int $costDiamonds, int $costLimitcoins, int $amount, int $offerActive, string $badge)
+    public static function update(int $id, int $itemId, int $pageId, string $catalogName, int $costCredits, int $costDiamonds, int $costLimitcoins, int $amount, int $offerActive, string $badge)
     {
         $model = self::getModel();
         $model->where('id', $id)->update([
+            'item_id' => $itemId,
             'page_id' => $pageId,
             'catalog_name' => $catalogName,
             'cost_credits' => $costCredits,
@@ -40,11 +41,12 @@ class CatalogItemDto extends BaseDto
         ]);
     }
 
-    public static function create(int $pageId, string $catalogName, int $costCredits, int $costDiamonds, int $costLimitcoins, int $amount, int $offerActive, string $badge)
+    public static function create(int $itemId, int $pageId, string $catalogName, int $costCredits, int $costDiamonds, int $costLimitcoins, int $amount, int $offerActive, string $badge)
     {
         $model = self::getModel();
 
         $model->insert([
+            'item_id' => $itemId,
             'page_id' => $pageId,
             'catalog_name' => $catalogName,
             'cost_credits' => $costCredits,

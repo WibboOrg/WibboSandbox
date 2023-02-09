@@ -14,7 +14,7 @@ class UploadPetController extends BaseController
         }
 
         if (!preg_match('/^[a-z0-9_]+\.nitro$/', $file["name"])) {
-            throw new HttpException('Nom du fichier ou extension incorrecte (.nitro)', 400);
+            throw new HttpException('Nom du fichier ou extension incorrecte (mon_fichier_123.nitro)', 400);
         }
 
         $fileName = explode(".nitro", $file["name"])[0];

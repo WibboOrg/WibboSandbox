@@ -15,11 +15,12 @@ class CatalogItemController extends BaseController
 
     public function patch(Request $request)
     {
-        $dataInt = $request->getNumber(['id', 'page_id', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active']);
+        $dataInt = $request->getNumber(['id', 'item_id', 'page_id', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active']);
         $dataStr = $request->getString(['catalog_name', 'badge']);
 
         CatalogItemDto::update(
             $dataInt['id'], 
+            $dataInt['item_id'],
             $dataInt['page_id'],
             $dataStr['catalog_name'],
             $dataInt['cost_credits'],
@@ -42,11 +43,12 @@ class CatalogItemController extends BaseController
 
     public function post(Request $request)
     {
-        $dataInt = $request->getNumber(['page_id', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount']);
+        $dataInt = $request->getNumber(['item_item', 'page_id', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount']);
         $dataStr = $request->getString(['catalog_name', 'badge']);
         $dataBool = $request->getBoolean(['offer_active']);
 
         $id = CatalogItemDto::create(
+            $dataInt['item_item'],
             $dataInt['page_id'],
             $dataStr['catalog_name'],
             $dataInt['cost_credits'],

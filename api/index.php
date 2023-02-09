@@ -63,7 +63,10 @@ try {
     echo json_encode(["statut" => "error", "message" => $e->getMessage(), "code" => $e->getCode()]);
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(["statut" => "error", "message" => "An error has occurred: " . $e->getMessage()]);
+    echo json_encode(["statut" => "error", "message" => "Une exception s'est produite: " . $e->getMessage()]);
+} catch (Error $e) {
+    http_response_code(500);
+    echo json_encode(["statut" => "error", "message" => "Une erreur est survenue: " . $e->getMessage()]);
 }
 
 function headers() 

@@ -19,6 +19,7 @@
                     <BaseTable>
                         <template #head>
                             <BaseTableHead>#</BaseTableHead>
+                            <BaseTableHead>Item Id</BaseTableHead>
                             <BaseTableHead>Page Id</BaseTableHead>
                             <BaseTableHead>Nom</BaseTableHead>
                             <BaseTableHead>Credits</BaseTableHead>
@@ -34,9 +35,8 @@
                                 <BaseTableColunm>
                                     <div class="w-full px-4 py-2">{{ file.id }}</div>
                                 </BaseTableColunm>
-                                <BaseTableColunm>
-                                    <BaseInput v-model="file.page_id" text-to-edit></BaseInput>
-                                </BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.item_id" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.page_id" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.catalog_name" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.cost_credits" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.cost_diamonds" text-to-edit number></BaseInput></BaseTableColunm>
@@ -66,10 +66,11 @@ const route = useRoute()
 const id = route.query.id ?? null
 const { isLoading, patchFile, deleteFile, createFile, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = useFetchData<ApiData>('CatalogItem&id=' + id)
 
-const defaultFile = { id: -1, page_id: 0, catalog_name: '', cost_credits: 3, cost_diamonds: 0, cost_limitcoins: 0, amount: 1, offer_active: 1, badge: '' } satisfies ApiData
+const defaultFile = { id: -1, item_id: 0, page_id: 0, catalog_name: '', cost_credits: 3, cost_diamonds: 0, cost_limitcoins: 0, amount: 1, offer_active: 1, badge: '' } satisfies ApiData
 
 interface ApiData {
     id: number
+    item_id: number
     page_id: number
     catalog_name: string
     cost_credits: number

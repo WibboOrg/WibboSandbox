@@ -22,6 +22,8 @@ class ItemBaseDto extends BaseDto
     {
         $model = self::getModel();
 
-        return $model->select('id')->orderBy("id", "DESC")->first();
+        $query = $model->select('id')->orderBy("id", "DESC")->first();
+
+        return $query['id'];
     }
 }

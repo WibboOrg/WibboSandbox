@@ -21,7 +21,7 @@ export const useFetchAPI = async <T>(url: string, method = 'GET', opts?: Request
         throw new Error()
     }
 
-    if (response.status === 400 || response.status === 404) {
+    if (response.status === 400 || response.status === 404 || response.status === 500) {
         showMessage(data.message)
         throw new Error()
     }
