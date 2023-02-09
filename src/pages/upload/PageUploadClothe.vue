@@ -55,8 +55,11 @@
 </template>
 
 <script lang="ts" setup>
+import { VNodeRef } from 'vue'
+
 const loading = ref(false)
 const postForm = ref({ type: 'ha', id: '', parts: [{ id: 0, type: 'ha', colorable: 0, index: 0, colorindex: 0 }], file: { base64: '', name: '' } })
+const baseUploadFileRef = ref<VNodeRef | null>(null)
 
 const addPart = () => {
     if (!postForm.value.parts.find((x) => x.id === 0)) postForm.value.parts.push({ id: 0, type: 'ha', colorable: 0, index: 0, colorindex: 0 })
@@ -75,6 +78,8 @@ const submitPost = async () => {
         showMessage('Le vêtement a bien été ajouté', false)
 
         postForm.value = { type: 'ha', id: '', parts: [{ id: 0, type: 'ha', colorable: 0, index: 0, colorindex: 0 }], file: { base64: '', name: '' } }
+
+        baseUploadFileRef.value?.reset()
     } catch (e) {
         console.error(e)
     }

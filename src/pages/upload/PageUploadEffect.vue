@@ -28,8 +28,11 @@
 </template>
 
 <script lang="ts" setup>
+import { VNodeRef } from 'vue'
+
 const loading = ref(false)
 const postForm = ref({ id: 0, only_staff: 0, file: { base64: '', name: '' } })
+const baseUploadFileRef = ref<VNodeRef | null>(null)
 
 const handleFileUpload = (file: { base64: string; name: string }) => (postForm.value.file = file)
 
@@ -44,6 +47,8 @@ const submitPost = async () => {
         showMessage("L'effet a bien été ajouté", false)
 
         postForm.value = { id: 0, only_staff: 0, file: { base64: '', name: '' } }
+
+        baseUploadFileRef.value?.reset()
     } catch (e) {
         console.error(e)
     }

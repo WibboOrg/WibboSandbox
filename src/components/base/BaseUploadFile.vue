@@ -5,10 +5,11 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-gray-400 group-hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" v-if="fileUpload == null">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
-                <p class="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">{{ fileUpload ? fileUpload.name : 'Importer un fichier' }}</p>
+                <p class="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">Importer un fichier</p>
             </div>
 
             <div class="flex items-center justify-center w-full h-full" v-else>
+                <p class="absolute left-2 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">{{ fileUpload?.name }}</p>
                 <img :src="imageUrl" class="max-w-full max-h-full" v-if="imageUrl" />
             </div>
 
@@ -28,6 +29,10 @@ const fileUpload = ref<File | null>(null)
 const inDrag = ref(false)
 const upload = ref<HTMLInputElement | null>(null)
 
+const reset = () => (fileUpload.value = null)
+
+defineExpose({ reset })
+
 const onChange = () => {
     if (!upload.value || !upload.value.files) return
 
@@ -37,9 +42,7 @@ const onChange = () => {
 
     fileUpload.value = file
 
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => emit('upload', { base64: reader.result?.toString() || '', name: file.name })
+    sendUploadFile(file)
 }
 
 const dropHandler = (ev: DragEvent) => {
@@ -51,9 +54,22 @@ const dropHandler = (ev: DragEvent) => {
 
     fileUpload.value = file
 
+    sendUploadFile(file)
+}
+
+const sendUploadFile = (file: File) => {
     const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => emit('upload', { base64: reader.result?.toString() || '', name: file.name })
+    reader.readAsArrayBuffer(file)
+    reader.onload = () => {
+        if (!reader.result || !(reader.result instanceof ArrayBuffer)) return
+
+        const bytes = Array.from(new Uint8Array(reader.result))
+
+        //if you want the base64encoded file you would use the below line:
+        const base64StringFile = btoa(bytes.map((item) => String.fromCharCode(item)).join(''))
+
+        emit('upload', { base64: base64StringFile, name: file.name })
+    }
 }
 
 const isFileImage = computed(() => fileUpload.value && fileUpload.value['type'].split('/')[0] === 'image')

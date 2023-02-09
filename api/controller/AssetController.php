@@ -39,7 +39,7 @@ class AssetController extends BaseController
             throw new HttpException('Nom du fichier ou extension incorrecte', 400);
         }
 
-        $fullPath = $path . '/' . ($ext === '') ? 'custom/sandbox_' . time() : $file['name'];
+        $fullPath = $path . '/' . (($ext === '') ? 'custom/sandbox_' . time() : $file['name']);
 
         $uploadData = array(
             array(

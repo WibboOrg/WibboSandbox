@@ -6,8 +6,8 @@
         </div>
         <div class="col-span-1">
             <label class="text-xl font-bold">Importer un fichier (pas d'extension)</label>
-            <BaseUploadFile @upload="handleFileUpload" />
-            <BaseButton @click="importFile(fileUpload)">Importer</BaseButton>
+            <BaseUploadFile @upload="handleFileUpload" ref="baseUploadFileRef" />
+            <BaseButton @click="importFile(fileUpload).then(() => baseUploadFileRef?.reset())">Importer</BaseButton>
         </div>
         <div class="col-span-1">
             <BaseCard>
@@ -42,6 +42,9 @@
 </template>
 
 <script lang="ts" setup>
+import { VNodeRef } from 'vue'
+
+const baseUploadFileRef = ref<VNodeRef | null>(null)
 const { isLoading, deleteFile, importFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('Asset&category=wibbopages', true)
 
 const fileUpload = ref({ file: { base64: '', name: '' } })
