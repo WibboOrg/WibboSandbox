@@ -1,38 +1,25 @@
 <template>
-    <div v-if="!isEditing" class="w-full px-4 py-2" @click="onClick">
-        {{ valueUpdated }}
+    <div v-if="!isEditing" class="w-full px-4 py-2" :class="{ 'cursor-pointer': props.boolean }" @click="onClick">
+        <span v-if="props.boolean">{{ valueUpdated === '1' ? 'Activer' : 'Désactiver' }}</span>
+        <span v-else>{{ valueUpdated }}</span>
     </div>
-    <div v-else>
-        <select
-            v-if="props.boolean"
-            class="w-full px-4 py-2 bg-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-            @keyup.enter="onExit"
-            @blur="onExit"
-            :value="modelValue"
-            @change="updateValue(($event.target as HTMLSelectElement).value)"
-            ref="componentElement"
-        >
-            <option value="1">Activer</option>
-            <option value="0">Désactiver</option>
-        </select>
-        <component
-            v-else
-            :is="componentType"
-            class="w-full px-4 py-2 bg-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
-            :class="{ 'text-center': center, 'h-[180px]': componentType === 'textarea' }"
-            type="text"
-            :placeholder="placeholder"
-            @keyup.enter="onExit"
-            @blur="onExit"
-            @input="updateValue(props.textToEdit ? ($event.target as HTMLInputElement).innerText : ($event.target as HTMLInputElement).value)"
-            :value="modelValue"
-            @keypress="isValidSearch"
-            :contenteditable="props.textToEdit"
-            ref="componentElement"
-        >
-            {{ modelValue }}
-        </component>
-    </div>
+    <component
+        v-else
+        :is="componentType"
+        class="w-full px-4 py-2 bg-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+        :class="{ 'text-center': center }"
+        type="text"
+        :placeholder="placeholder"
+        @keyup.enter="onExit"
+        @blur="onExit"
+        @input="updateValue(props.textToEdit ? ($event.target as HTMLInputElement).innerText : ($event.target as HTMLInputElement).value)"
+        :value="modelValue"
+        @keypress="isValidValue"
+        :contenteditable="props.textToEdit"
+        ref="componentElement"
+    >
+        {{ modelValue }}
+    </component>
 </template>
 
 <script lang="ts" setup>
@@ -49,23 +36,25 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const componentElement = ref<HTMLElement | null>(null)
-const componentType = ref<'textarea' | 'div' | 'input'>('input')
+const componentType = ref<'div' | 'input'>('input')
 const valueUpdated = ref(props.modelValue)
 const isEditing = ref(!props.textToEdit)
 const timeoutId = ref<number>(0)
 
 onMounted(() => {
-    if (typeof props.modelValue === 'string' && props.modelValue.length > 100) componentType.value = 'textarea'
-    if (typeof props.modelValue === 'string' && props.textToEdit) componentType.value = 'div'
-    if (typeof props.modelValue === 'string' && !props.textToEdit) componentType.value = 'input'
+    componentType.value = props.textToEdit ? 'div' : 'input'
 })
 
-const isValidSearch = (evt: KeyboardEvent) => {
+const isValidValue = (evt: KeyboardEvent) => {
     if (props.number && /[^0-9]/i.test(evt.key)) evt.preventDefault()
     else return true
 }
 
 const onClick = () => {
+    if (props.boolean) {
+        updateValue(valueUpdated.value === '1' ? '0' : '1')
+        return
+    }
     isEditing.value = true
     nextTick(() => placeCaretAtEnd())
 }
