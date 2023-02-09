@@ -1,18 +1,18 @@
 <template>
-    <div v-if="!isEditing" class="w-full px-4 py-2" :class="{ 'cursor-pointer': props.boolean }" @click="onClick">
+    <div v-if="!isEditing" class="w-full px-4 py-2 whitespace-pre-wrap" :class="{ 'cursor-pointer': props.boolean }" @click="onClick">
         <span v-if="props.boolean">{{ valueUpdated === '1' ? 'Activer' : 'Désactiver' }}</span>
         <span v-else>{{ valueUpdated }}</span>
     </div>
     <component
         v-else
         :is="componentType"
-        class="w-full px-4 py-2 bg-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+        class="w-full px-4 py-2 bg-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600 whitespace-pre-wrap"
         :class="{ 'text-center': center }"
         type="text"
         :placeholder="placeholder"
-        @keyup.enter="onExit"
+        @keyup.enter="props.number ? onExit() : null"
         @blur="onExit"
-        @input="updateValue(props.textToEdit ? ($event.target as HTMLInputElement).innerText : ($event.target as HTMLInputElement).value)"
+        @input="updateValue($event.target)"
         :value="modelValue"
         @keypress="isValidValue"
         :contenteditable="props.textToEdit"
@@ -45,6 +45,10 @@ onMounted(() => {
     componentType.value = props.textToEdit ? 'div' : 'input'
 })
 
+onUnmounted(() => {
+    if (timeoutId) clearTimeout(timeoutId.value)
+})
+
 const isValidValue = (evt: KeyboardEvent) => {
     if (props.number && /[^0-9]/i.test(evt.key)) evt.preventDefault()
     else return true
@@ -69,8 +73,9 @@ const onExit = () => {
     emit('update:modelValue', valueUpdated.value)
 }
 
-const updateValue = (value: string) => {
-    valueUpdated.value = value
+const updateValue = (event: HTMLInputElement | HTMLInputElement | string) => {
+    if (typeof event === 'string') valueUpdated.value = event
+    else valueUpdated.value = props.textToEdit ? event.innerText : event.value
 
     if (props.delay > 0) {
         clearTimeout(timeoutId.value)
