@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!isEditing" class="w-full px-4 py-2" @dblclick="onDblClick">
+    <div v-if="!isEditing" class="w-full px-4 py-2" @click="onClick">
         {{ valueUpdated }}
     </div>
     <div v-else>
@@ -9,7 +9,7 @@
             @keyup.enter="onExit"
             @blur="onExit"
             :value="modelValue"
-            @change="updateValue($event.target as HTMLSelectElement)"
+            @change="updateValue(($event.target as HTMLSelectElement).value)"
         >
             <option value="1">Activer</option>
             <option value="0">Désactiver</option>
@@ -23,11 +23,14 @@
             :placeholder="placeholder"
             @keyup.enter="onExit"
             @blur="onExit"
-            @input="updateValue($event.target)"
+            @input="updateValue(props.textToEdit ? ($event.target as HTMLInputElement).innerText : ($event.target as HTMLInputElement).value)"
             :value="modelValue"
             @keypress="isValidSearch"
+            :contenteditable="props.textToEdit"
             ref="componentElement"
-        />
+        >
+            {{ modelValue }}
+        </component>
     </div>
 </template>
 
@@ -45,13 +48,15 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const componentElement = ref<HTMLElement | null>(null)
-const componentType = ref<'textarea' | 'input'>('input')
+const componentType = ref<'textarea' | 'div' | 'input'>('input')
 const valueUpdated = ref(props.modelValue)
 const isEditing = ref(!props.textToEdit)
 const timeoutId = ref<number>(0)
 
 onMounted(() => {
     if (typeof props.modelValue === 'string' && props.modelValue.length > 100) componentType.value = 'textarea'
+    if (typeof props.modelValue === 'string' && props.textToEdit) componentType.value = 'div'
+    if (typeof props.modelValue === 'string' && !props.textToEdit) componentType.value = 'input'
 })
 
 const isValidSearch = (evt: KeyboardEvent) => {
@@ -59,9 +64,9 @@ const isValidSearch = (evt: KeyboardEvent) => {
     else return true
 }
 
-const onDblClick = () => {
+const onClick = () => {
     isEditing.value = true
-    nextTick(() => componentElement.value?.focus())
+    nextTick(() => placeCaretAtEnd())
 }
 
 const onExit = () => {
@@ -74,10 +79,8 @@ const onExit = () => {
     emit('update:modelValue', valueUpdated.value)
 }
 
-const updateValue = (event: HTMLInputElement | HTMLSelectElement) => {
-    if (!event) return
-
-    valueUpdated.value = event.value
+const updateValue = (value: string) => {
+    valueUpdated.value = value
 
     if (props.delay > 0) {
         clearTimeout(timeoutId.value)
@@ -88,5 +91,19 @@ const updateValue = (event: HTMLInputElement | HTMLSelectElement) => {
     if (props.textToEdit) return
 
     emit('update:modelValue', valueUpdated.value)
+}
+
+const placeCaretAtEnd = () => {
+    if (!componentElement.value) return
+
+    componentElement.value?.focus()
+    const range = document.createRange()
+    range.selectNodeContents(componentElement.value)
+    range.collapse(false)
+    const sel = window.getSelection()
+    if (sel) {
+        sel.removeAllRanges()
+        sel.addRange(range)
+    }
 }
 </script>

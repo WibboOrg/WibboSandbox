@@ -61,11 +61,10 @@ const sendUploadFile = (file: File) => {
     const reader = new FileReader()
     reader.readAsArrayBuffer(file)
     reader.onload = () => {
-        if (!reader.result || !(reader.result instanceof ArrayBuffer)) return
+        if (!(reader.result instanceof ArrayBuffer)) return
 
         const bytes = Array.from(new Uint8Array(reader.result))
 
-        //if you want the base64encoded file you would use the below line:
         const base64StringFile = btoa(bytes.map((item) => String.fromCharCode(item)).join(''))
 
         emit('upload', { base64: base64StringFile, name: file.name })
