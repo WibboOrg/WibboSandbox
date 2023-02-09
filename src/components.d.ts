@@ -7,10 +7,8 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    BaseAvatar: typeof import('./components/base/BaseAvatar.vue')['default']
     BaseButton: typeof import('./components/base/BaseButton.vue')['default']
     BaseCard: typeof import('./components/base/BaseCard.vue')['default']
-    BaseCheckBox: typeof import('./components/base/BaseCheckBox.vue')['default']
     BaseInput: typeof import('./components/base/BaseInput.vue')['default']
     BasePagination: typeof import('./components/base/BasePagination.vue')['default']
     BaseSelect: typeof import('./components/base/BaseSelect.vue')['default']
@@ -19,7 +17,6 @@ declare module '@vue/runtime-core' {
     BaseTableBody: typeof import('./components/base/BaseTableBody.vue')['default']
     BaseTableColunm: typeof import('./components/base/BaseTableColunm.vue')['default']
     BaseTableHead: typeof import('./components/base/BaseTableHead.vue')['default']
-    BaseTextarea: typeof import('./components/base/BaseTextarea.vue')['default']
     BaseUploadFile: typeof import('./components/base/BaseUploadFile.vue')['default']
     IconClose: typeof import('./components/icon/IconClose.vue')['default']
     IconLogout: typeof import('./components/icon/IconLogout.vue')['default']

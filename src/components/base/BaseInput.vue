@@ -10,6 +10,7 @@
             @blur="onExit"
             :value="modelValue"
             @change="updateValue(($event.target as HTMLSelectElement).value)"
+            ref="componentElement"
         >
             <option value="1">Activer</option>
             <option value="0">Désactiver</option>
