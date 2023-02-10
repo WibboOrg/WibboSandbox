@@ -43,6 +43,7 @@ declare module '@vue/runtime-core' {
     PageCatalogPage: typeof import('./pages/catalog/PageCatalogPage.vue')['default']
     PageEmulatorCommand: typeof import('./pages/emulator/PageEmulatorCommand.vue')['default']
     PageEmulatorText: typeof import('./pages/emulator/PageEmulatorText.vue')['default']
+    PageHome: typeof import('./pages/PageHome.vue')['default']
     PageHotel: typeof import('./pages/PageHotel.vue')['default']
     PageIndex: typeof import('./pages/PageIndex.vue')['default']
     PageLogSandbox: typeof import('./pages/log/PageLogSandbox.vue')['default']
@@ -61,7 +62,6 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     TheButtonReturn: typeof import('./components/TheButtonReturn.vue')['default']
     TheHotelClient: typeof import('./components/TheHotelClient.vue')['default']
-    TheLogin: typeof import('./components/TheLogin.vue')['default']
     TheNavbar: typeof import('./components/TheNavbar.vue')['default']
     TheTopNofitications: typeof import('./components/TheTopNofitications.vue')['default']
   }

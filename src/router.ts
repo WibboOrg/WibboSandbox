@@ -9,7 +9,8 @@ const categoryTitle: Record<string, string> = {
     user: 'Utilisateur',
     log: 'Log',
     hotel: 'Hôtel',
-    index: 'Acceuil',
+    index: 'Connexion',
+    home: 'Acceuil',
 }
 
 const pages = import.meta.glob('./pages/**/*.vue')
@@ -38,6 +39,16 @@ export const router = createRouter({
     routes,
 })
 
-router.afterEach((to) => {
-    document.title = 'Sandbox: ' + to.meta?.title
+router.afterEach((to) => (document.title = 'Sandbox: ' + to.meta?.title))
+
+router.beforeEach(async (to) => {
+    console.log('to.path', to.path)
+    console.log('auth.value.token', auth.value.token)
+
+    await loadConfig()
+
+    await checkAuth()
+
+    if (to.path !== '/' && auth.value.token === '') return '/'
+    if (to.path === '/' && auth.value.token !== '') return '/home'
 })

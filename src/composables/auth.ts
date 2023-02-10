@@ -12,13 +12,16 @@ export const logout = () => {
 }
 
 export const checkAuth = async () => {
-    const token = localStorage.getItem('token')
+    try {
+        const token = localStorage.getItem('token')
 
-    if (token) {
-        auth.value.token = token
+        if (token && auth.value.token === '') {
+            auth.value.token = token
 
-        auth.value.user = await useFetchAPI<{ id: number; rank: number; name: string; ticket: string }>('UserData')
-    } else {
-        router.push('/')
+            auth.value.user = await useFetchAPI<{ id: number; rank: number; name: string; ticket: string }>('UserData')
+        }
+    } catch (e: unknown) {
+        localStorage.removeItem('token')
+        console.error(e)
     }
 }

@@ -18,6 +18,7 @@
     "isReactive": true,
     "isReadonly": true,
     "isRef": true,
+    "loadConfig": true,
     "logout": true,
     "markRaw": true,
     "nextTick": true,
