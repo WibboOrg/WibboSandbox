@@ -42,11 +42,7 @@ export const router = createRouter({
 router.afterEach((to) => (document.title = 'Sandbox: ' + to.meta?.title))
 
 router.beforeEach(async (to) => {
-    console.log('to.path', to.path)
-    console.log('auth.value.token', auth.value.token)
-
     await loadConfig()
-
     await checkAuth()
 
     if (to.path !== '/' && auth.value.token === '') return '/'

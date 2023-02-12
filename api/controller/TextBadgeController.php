@@ -5,12 +5,12 @@ class TextBadgeController extends BaseController
 
     public function get(Request $request) 
     {
-        $data = Helper::getSslPage(URL_ASSETS . 'gamedata/BadgeTexts.json?'. time(), true);
+        $data = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/BadgeTexts.json?'. time(), true);
 
         $newData = [];
 
         foreach($data as $key => $value)
-            $newData[] = ["code" => $key, "text" => $value];
+            $newData[] = ["id" => $key, "code" => $key, "text" => $value];
 
         return $newData;
     }
@@ -19,19 +19,19 @@ class TextBadgeController extends BaseController
     {
         $dataStr = $request->getString(['code', 'text']);
 
-        $badgeTexts = Helper::getSslPage(URL_ASSETS . 'gamedata/BadgeTexts.json?'. time(), true);
+        $badgeTexts = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/BadgeTexts.json?'. time(), true);
 
-        foreach ($badgeTexts as $code => &$text) {
-            if($code == $dataStr["code"]) {
-                $text = $dataStr["text"];
-                break;
-            }
+        if (!property_exists($badgeTexts, $dataStr["code"]))
+        {
+            throw new HttpException('Identifiant incorrect', 400);
         }
+        
+        $badgeTexts->{$dataStr} = $dataStr["text"];
 
         $uploadData = array(
             array(
                 'action' => 'upload',
-                'path' => 'gamedata/BadgeTexts.json',
+                'path' => 'gamedata-sandbox/BadgeTexts.json',
                 'data' => base64_encode(json_encode($badgeTexts)),
             )
         );
@@ -43,23 +43,49 @@ class TextBadgeController extends BaseController
         LogSandboxDto::create($this->user['id'], 'patch', 'BadgeTexts.json', $dataStr['code']);
     }
 
-    public function delete(Request $request)
+    public function post(Request $request)
     {
-        $dataStr = $request->getString(['id']);
+        $dataStr = $request->getString(['code', 'text']);
 
-        $badgeTexts = Helper::getSslPage(URL_ASSETS . 'gamedata/BadgeTexts.json?'. time(), true);
+        $badgeTexts = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/BadgeTexts.json?'. time(), true);
 
-        foreach ($badgeTexts as $code => &$text) {
-            if($code == $dataStr["id"]) {
-                unset($badgeTexts->{$code});
-                break;
-            }
+        if (property_exists($badgeTexts, $dataStr["code"])) {
+            throw new HttpException('Identifiant est déjà utilisée', 400);
         }
+
+        $badgeTexts->{$dataStr["code"]} = $dataStr["text"];
 
         $uploadData = array(
             array(
                 'action' => 'upload',
-                'path' => 'gamedata/BadgeTexts.json',
+                'path' => 'gamedata-sandbox/BadgeTexts.json',
+                'data' => base64_encode(json_encode($badgeTexts)),
+            )
+        );
+
+        if (!Helper::uploadApi('assets', $uploadData)) {
+            throw new HttpException('Problème lors de l\'importation', 400);
+        }
+
+        LogSandboxDto::create($this->user['id'], 'post', 'BadgeTexts.json', $dataStr['code']);
+    }
+
+    public function delete(Request $request)
+    {
+        $dataStr = $request->getString(['id']);
+
+        $badgeTexts = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/BadgeTexts.json?'. time(), true);
+
+        if (!property_exists($badgeTexts, $dataStr["id"])) {
+            throw new HttpException('Identifiant incorrect', 400);
+        }
+
+        unset($badgeTexts->{$dataStr["id"]});
+
+        $uploadData = array(
+            array(
+                'action' => 'upload',
+                'path' => 'gamedata-sandbox/BadgeTexts.json',
                 'data' => base64_encode(json_encode($badgeTexts)),
             )
         );

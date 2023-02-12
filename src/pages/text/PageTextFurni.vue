@@ -34,6 +34,7 @@
                                 <BaseTableColunm>
                                     <div class="flex justify-around items-center w-full px-4 py-2">
                                         <IconSave @click="patchFile(file)" class="h-6 w-6 cursor-pointer hover:text-white" />
+                                        <IconClose @click="deleteFile(file.id)" class="h-6 w-6 cursor-pointer hover:text-white" />
                                     </div>
                                 </BaseTableColunm>
                             </BaseTableBody>
@@ -47,33 +48,12 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, patchFile, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<IFurnitureType>('TextFurni')
+const { isLoading, patchFile, getFiles, deleteFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<IFurnitureType>('TextFurni')
 
 interface IFurnitureType {
-    id?: number
-    classname?: string
-    revision?: number
-    category?: string
-    defaultdir?: number
-    xdim?: number
-    ydim?: number
-    partcolors?: { color: string[] }
-    name?: string
-    description?: string
-    adurl?: string
-    offerid?: number
-    buyout?: boolean
-    rentofferid?: number
-    rentbuyout?: boolean
-    bc?: boolean
-    excludeddynamic?: boolean
-    customparams?: string
-    specialtype?: number
-    canstandon?: boolean
-    cansiton?: boolean
-    canlayon?: boolean
-    furniline?: string
-    environment?: string
-    rare?: boolean
+    id: number
+    classname: string
+    name: string
+    description: string
 }
 </script>

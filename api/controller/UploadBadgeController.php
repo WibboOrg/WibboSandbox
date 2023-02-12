@@ -33,7 +33,7 @@ class UploadBadgeController extends BaseController
             ),
             array(
                 'action' => 'json',
-                'path' => 'gamedata/BadgeTexts.json',
+                'path' => 'gamedata-sandbox/BadgeTexts.json',
                 'data' => json_encode($badgeJson),
             ),
         );
