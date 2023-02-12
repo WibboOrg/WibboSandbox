@@ -21,7 +21,7 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
     const deleteFile = async (id: number | string) => {
         isLoading.value = true
         try {
-            if (id !== -1) await useFetchAPI(url, 'DELETE', { body: JSON.stringify({ id }) })
+            if (id !== -1 && id !== '') await useFetchAPI(url, 'DELETE', { body: JSON.stringify({ id }) })
             files.value = files.value.filter((x) => Object.values(x)[0] !== id)
             showMessage('Suppression effectuée', false)
         } catch (e) {
