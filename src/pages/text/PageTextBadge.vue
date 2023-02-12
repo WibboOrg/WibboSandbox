@@ -8,7 +8,7 @@
             <label class="text-xl font-bold">Choisir une option</label>
             <div class="flex flex-row gap-2 mt-2">
                 <BaseButton @click="getFiles">Recharger la page</BaseButton>
-                <BaseButton @click="addEmptyFile({ id: -1, code: '', text: '' })">+ Ajouté</BaseButton>
+                <BaseButton @click="addEmptyFile({ id: '', code: '', text: '' })">+ Ajouté</BaseButton>
             </div>
         </div>
         <div class="col-span-1">
@@ -25,7 +25,7 @@
                         <template #body>
                             <BaseTableBody v-for="file in filesPage" :key="file.code">
                                 <BaseTableColunm>
-                                    <BaseInput v-model="file.code" text-to-edit v-if="file.id === -1"></BaseInput>
+                                    <BaseInput v-model="file.code" text-to-edit v-if="file.id === ''"></BaseInput>
                                     <div class="w-full px-4 py-2" v-else>{{ file.code }}</div>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
@@ -33,7 +33,7 @@
                                 </BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="flex justify-around items-center w-full px-4 py-2">
-                                        <IconSave @click="file.id === -1 ? createFile(file) : patchFile(file)" class="h-6 w-6 cursor-pointer hover:text-white" />
+                                        <IconSave @click="file.id === '' ? createFile(file) : patchFile(file)" class="h-6 w-6 cursor-pointer hover:text-white" />
                                         <IconClose @click="deleteFile(file.code)" class="h-6 w-6 cursor-pointer hover:text-white" />
                                     </div>
                                 </BaseTableColunm>
@@ -51,7 +51,7 @@
 const { isLoading, patchFile, deleteFile, createFile, getFiles, addEmptyFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('TextBadge')
 
 interface ApiData {
-    id: number
+    id: string
     code: string
     text: string
 }
