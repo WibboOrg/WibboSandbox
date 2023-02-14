@@ -10,6 +10,12 @@
             <BaseButton @click="importFile(fileUpload).then(() => baseUploadFileRef?.reset())">Importer</BaseButton>
         </div>
         <div class="col-span-1">
+            <label class="text-xl font-bold">Choisir une option</label>
+            <div class="flex flex-row gap-2 mt-2">
+                <BaseButton @click="getFiles">Recharger la page</BaseButton>
+            </div>
+        </div>
+        <div class="col-span-1">
             <BaseCard>
                 <template #title>Asset (Web promo)</template>
                 <template #body>
@@ -49,7 +55,7 @@
 import { VNodeRef } from 'vue'
 
 const baseUploadFileRef = ref<VNodeRef | null>(null)
-const { isLoading, deleteFile, importFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('Asset&category=web_promo_small', true)
+const { isLoading, deleteFile, getFiles, importFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('Asset&category=web_promo_small', true)
 
 const fileUpload = ref({ file: { base64: '', name: '' } })
 const handleFileUpload = (file: { base64: string; name: string }) => (fileUpload.value.file = file)
