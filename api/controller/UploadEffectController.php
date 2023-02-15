@@ -26,12 +26,12 @@ class UploadEffectController extends BaseController
         $fileName = explode(".nitro", $file["name"])[0];
 
         $effectMap = [
-            'effects' => [
+            'effects' => array((object)[
                 'id' => $dataInt['id'],
                 'lib' => $fileName,
                 'type' => 'fx',
                 'revision' => 55555
-            ]
+            ])
         ];
         
         array_push($uploadData,
