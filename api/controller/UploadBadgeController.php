@@ -14,7 +14,7 @@ class UploadBadgeController extends BaseController
             throw new HttpException("Fichier introuvable", 400);
         }
 
-        if (!preg_match('/^[a-z0-9_]+\.gif$/', $file['name'])) {
+        if (!preg_match('/^[A-Za-z0-9_]+\.gif$/', $file['name'])) {
             throw new HttpException('Nom du fichier ou extension incorrecte (mon_fichier_123.gif)', 400);
         }
 
