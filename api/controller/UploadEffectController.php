@@ -15,7 +15,7 @@ class UploadEffectController extends BaseController
             throw new HttpException("Fichier introuvable", 400);
         }
 
-        if (!preg_match('/^[a-z0-9_]+\.nitro$/', $file["name"])) {
+        if (!preg_match('/^[A-Za-z0-9_]+\.nitro$/', $file["name"])) {
             throw new HttpException('Nom du fichier ou extension incorrecte (mon_fichier_123.nitro)', 400);
         }
 
