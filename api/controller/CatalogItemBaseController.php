@@ -8,19 +8,21 @@ class CatalogItemBaseController extends BaseController
         $id = $_GET["id"] ?? null;
 
         if (is_numeric($id))
-            return CatalogItemBaseDto::getAllByPageId($id);
+            return ItemBaseDto::getAllByPageId($id);
 
-        return CatalogItemBaseDto::getAll();
+        return ItemBaseDto::getAll();
     }
 
     public function patch(Request $request)
     {
-        $dataInt = $request->getNumber(['id', 'width', 'length', 'stack_height', 'interaction_modes_count', 'vending_ids', 'effect_id']);
+        $dataInt = $request->getNumber(['id', 'sprite_id', 'width', 'length', 'stack_height', 'interaction_modes_count', 'vending_ids', 'effect_id']);
         $dataBool = $request->getBoolean(['can_stack', 'can_sit', 'is_walkable']);
-        $dataStr = $request->getString(['item_name', 'interaction_type', 'height_adjustable']);
+        $dataStr = $request->getString(['type', 'item_name', 'interaction_type', 'height_adjustable']);
 
-        CatalogItemBaseDto::update(
+        ItemBaseDto::update(
             $dataInt['id'],
+            $dataInt['sprite_id'],
+            $dataStr['type'],
             $dataStr['item_name'],
             $dataInt['width'],
             $dataInt['length'],
@@ -41,7 +43,7 @@ class CatalogItemBaseController extends BaseController
     {
         $dataInt = $request->getNumber(['id']);
 
-        CatalogItemBaseDto::delete($dataInt['id']);
+        ItemBaseDto::delete($dataInt['id']);
         LogSandboxDto::create($this->user['id'], 'delete', 'catalog_item_base', $dataInt['id']);
     }
 
@@ -51,7 +53,9 @@ class CatalogItemBaseController extends BaseController
         $dataBool = $request->getBoolean(['can_stack', 'can_sit', 'is_walkable']);
         $dataStr = $request->getString(['item_name', 'interaction_type', 'height_adjustable']);
 
-        $id = CatalogItemBaseDto::create(
+        $id = ItemBaseDto::create(
+            $dataStr['sprite_id'],
+            $dataStr['type'],
             $dataStr['item_name'],
             $dataInt['width'],
             $dataInt['length'],
@@ -68,6 +72,6 @@ class CatalogItemBaseController extends BaseController
 
         LogSandboxDto::create($this->user['id'], 'post', 'catalog_item_base', $id);
 
-        return CatalogItemBaseDto::getOne($id);
+        return ItemBaseDto::getOne($id);
     }
 }

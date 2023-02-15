@@ -50,7 +50,7 @@ onUnmounted(() => {
 })
 
 const isValidValue = (evt: KeyboardEvent) => {
-    if (props.number && /^[+-]?\d+(\.\d+)?$/i.test(evt.key)) evt.preventDefault()
+    if (props.number && /[^0-9.]/i.test(evt.key)) evt.preventDefault()
     else return true
 }
 

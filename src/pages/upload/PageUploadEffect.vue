@@ -15,7 +15,7 @@
                         </div>
                         <div class="col-span-1">
                             <label class="block mb-1">Seulement Staff</label>
-                            <BaseInput v-model="postForm.only_staff" boolean />
+                            <BaseSelect v-model="postForm.only_staff" :options="{ '0': 'Désactiver', '1': 'Activer' }" />
                         </div>
                         <div class="col-span-full">
                             <BaseButton primary :loading="loading">Importer</BaseButton>

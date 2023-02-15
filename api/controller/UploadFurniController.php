@@ -39,8 +39,8 @@ class UploadFurniController extends BaseController
             "classname" => $furniName,
             "revision" => 0,
             "category" => "",
-            "name" => utf8_decode($furniTitle),
-            "description" => utf8_decode($furniDesc),
+            "name" => $furniTitle,
+            "description" => $furniDesc,
             "adurl" >= "",
             "offerid" => 0,
             "buyout" => false,
@@ -104,7 +104,7 @@ class UploadFurniController extends BaseController
             throw new HttpException('Problème lors de l\'importation: ', 400);
         }
 
-        ItemBaseDto::create($furniId, $furniName, $type);
+        ItemBaseDto::create($furniId, $type, $furniName, 1, 1, 1, 0, 0, 0, 'default', 1, 0, '', 0);
         CatalogItemDto::create($furniId, $furniId, $furniName, 3, 0, 0, 1, 1, '');
 
         LogSandboxDto::create($this->user['id'], 'post', 'furniture', $furniName);

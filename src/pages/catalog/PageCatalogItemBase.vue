@@ -20,6 +20,7 @@
                     <BaseTable>
                         <template #head>
                             <BaseTableHead>#</BaseTableHead>
+                            <BaseTableHead v-if="fullEdit">Type</BaseTableHead>
                             <BaseTableHead>Nom</BaseTableHead>
                             <BaseTableHead>Largeur</BaseTableHead>
                             <BaseTableHead>Longueur</BaseTableHead>
@@ -32,6 +33,7 @@
                             <BaseTableHead v-if="fullEdit">Vending</BaseTableHead>
                             <BaseTableHead v-if="fullEdit">Hauteur adjustable</BaseTableHead>
                             <BaseTableHead v-if="fullEdit">Effet id</BaseTableHead>
+                            <BaseTableHead v-if="fullEdit">Sprite Id</BaseTableHead>
                             <BaseTableHead>Action</BaseTableHead>
                         </template>
                         <template #body>
@@ -39,6 +41,7 @@
                                 <BaseTableColunm>
                                     <div class="w-full px-4 py-2">{{ file.id }}</div>
                                 </BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.type" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.item_name" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.width" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.length" text-to-edit number></BaseInput></BaseTableColunm>
@@ -51,6 +54,7 @@
                                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.vending_ids" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.height_adjustable" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.effect_id" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.sprite_id" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="flex justify-around items-center w-full px-4 py-2">
                                         <IconSave @click="file.id === -1 ? createFile(file) : patchFile(file)" class="h-6 w-6 cursor-pointer hover:text-white" />
@@ -77,6 +81,7 @@ const fullEdit = ref(false)
 
 const defaultFile = {
     id: -1,
+    type: '',
     item_name: '',
     width: 1,
     length: 1,
@@ -89,10 +94,12 @@ const defaultFile = {
     vending_ids: 0,
     height_adjustable: '',
     effect_id: 0,
+    sprite_id: 0,
 } satisfies ApiData
 
 interface ApiData {
     id: number
+    type: string
     item_name: string
     width: number
     length: number
@@ -105,5 +112,6 @@ interface ApiData {
     vending_ids: number
     height_adjustable: string
     effect_id: number
+    sprite_id: number
 }
 </script>
