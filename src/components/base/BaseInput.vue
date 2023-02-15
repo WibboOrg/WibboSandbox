@@ -50,13 +50,14 @@ onUnmounted(() => {
 })
 
 const isValidValue = (evt: KeyboardEvent) => {
-    if (props.number && /[^0-9]/i.test(evt.key)) evt.preventDefault()
+    if (props.number && /[^0-9.]/i.test(evt.key)) evt.preventDefault()
     else return true
 }
 
 const onClick = () => {
     if (props.boolean) {
-        updateValue(valueUpdated.value === '1' ? '0' : '1')
+        valueUpdated.value = valueUpdated.value === '1' ? '0' : '1'
+        emit('update:modelValue', valueUpdated.value)
         return
     }
     isEditing.value = true
