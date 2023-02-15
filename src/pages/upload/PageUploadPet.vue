@@ -7,7 +7,7 @@
                     <form @submit.prevent="submitPost" enctype="multipart/form-data" class="grid grid-cols-1 gap-3">
                         <div class="col-span-full">
                             <label class="block mb-1">Fichier (.nitro)</label>
-                            <BaseUploadFile accept="image/nitro" @upload="handleFileUpload" />
+                            <BaseUploadFile accept="image/nitro" @upload="handleFileUpload" ref="baseUploadFileRef" />
                         </div>
 
                         <div class="col-span-full">
