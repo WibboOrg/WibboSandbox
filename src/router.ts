@@ -11,6 +11,7 @@ const categoryTitle: Record<string, string> = {
     hotel: 'Hôtel',
     index: 'Connexion',
     home: 'Acceuil',
+    nitro: 'Nitro',
 }
 
 const pages = import.meta.glob('./pages/**/*.vue')

@@ -49,7 +49,10 @@ categoryList.value.push({ category: 'emulator', text: 'Emulateur', minRank: 11 }
 categoryList.value.push({ category: 'catalog', text: 'Catalogue', minRank: 11 })
 categoryList.value.push({ category: 'asset', text: 'Asset', minRank: 11 })
 categoryList.value.push({ category: 'user', text: 'Utilisateur', minRank: 11 })
+categoryList.value.push({ category: 'nitro', text: 'Nitro', minRank: 11 })
 categoryList.value.push({ category: 'log', text: 'Log', minRank: 11 })
+
+navList.value.push({ category: 'nitro', text: 'Renommer', path: '/nitro-rename' })
 
 navList.value.push({ category: 'upload', text: 'Mobilier', path: '/upload-furni' })
 navList.value.push({ category: 'upload', text: 'Badge', path: '/upload-badge' })

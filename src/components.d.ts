@@ -47,6 +47,8 @@ declare module '@vue/runtime-core' {
     PageHotel: typeof import('./pages/PageHotel.vue')['default']
     PageIndex: typeof import('./pages/PageIndex.vue')['default']
     PageLogSandbox: typeof import('./pages/log/PageLogSandbox.vue')['default']
+    PageNitroEdit: typeof import('./pages/nitro/PageNitroEdit.vue')['default']
+    PageNitroRename: typeof import('./pages/nitro/PageNitroRename.vue')['default']
     PageNotFound: typeof import('./pages/PageNotFound.vue')['default']
     PageTextBadge: typeof import('./pages/text/PageTextBadge.vue')['default']
     PageTextExternal: typeof import('./pages/text/PageTextExternal.vue')['default']
