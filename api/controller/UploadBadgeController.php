@@ -39,7 +39,7 @@ class UploadBadgeController extends BaseController
         );
 
         if (!Helper::uploadApi('assets', $uploadData)) {
-            throw new HttpException('Problème lors de l\'importation: ', 400);
+            throw new HttpException('Problème lors de l\'importation', 400);
         }
 
         LogSandboxDto::create($this->user['id'], 'post', 'album1584', $dataStr['code']);

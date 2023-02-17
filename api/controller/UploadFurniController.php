@@ -20,9 +20,9 @@ class UploadFurniController extends BaseController
 
         $furniName = explode(".nitro", $file["name"])[0];
 
-        $furniTitle = isset($dataStr["name"]) ? $dataStr["name"] : $furniName . " title";
-        $furniDesc = isset($dataStr["description"]) ? $dataStr["description"] : $furniName . " desc";
-        $type =  isset($dataStr["type"]) ? $dataStr["type"] : 's';
+        $furniTitle = !empty($dataStr["name"]) ? $dataStr["name"] : $furniName . " title";
+        $furniDesc = !empty($dataStr["description"]) ? $dataStr["description"] : $furniName . " desc";
+        $type = !empty($dataStr["type"]) ? $dataStr["type"] : 's';
 
         if ($type !== 's' && $type !== 'i') {
             throw new HttpException('Type incorrect', 400);
@@ -73,16 +73,18 @@ class UploadFurniController extends BaseController
             $furnidata["wallitemtypes"]["furnitype"][] = $funidataCode;
         }
 
-        $productCode = array();
-        $productCode[0] = array('code' => $furniName, 'name' => $furniTitle, 'description' => $furniDesc);
-
         $product = array(
             "productdata" => array(
-                "product" => $productCode,
+                "product" => array(array('code' => $furniName, 'name' => $furniTitle, 'description' => $furniDesc)),
             ),
         );
 
         array_push($uploadData,
+            array(
+                'action' => 'upload',
+                'path' => 'bundled/furniture/' . $file["name"],
+                'data' => $file["base64"],
+            ),
             array(
                 'action' => 'json',
                 'path' => 'gamedata-sandbox/FurnitureData.json',
@@ -93,15 +95,10 @@ class UploadFurniController extends BaseController
                 'path' => 'gamedata-sandbox/ProductData.json',
                 'data' => json_encode($product),
             ),
-            array(
-                'action' => 'upload',
-                'path' => 'bundled/furniture/' . $file["name"],
-                'data' => $file["base64"],
-            ),
         );
 
         if (!Helper::uploadApi('assets', $uploadData)) {
-            throw new HttpException('Problème lors de l\'importation: ', 400);
+            throw new HttpException('Problème lors de l\'importation', 400);
         }
 
         ItemBaseDto::create($furniId, $type, $furniName, 1, 1, 1, 0, 0, 0, 'default', 1, 0, '', 0);

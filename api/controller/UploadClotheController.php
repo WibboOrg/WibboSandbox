@@ -67,6 +67,11 @@ class UploadClotheController extends BaseController
 
         array_push($uploadData,
             array(
+                'action' => 'upload',
+                'path' => 'bundled/figure/' . $file["name"],
+                'data' => $file["base64"],
+            ),
+            array(
                 'action' => 'json',
                 'path' => 'gamedata-sandbox/FigureMap.json',
                 'data' => json_encode($figureMap),
@@ -76,15 +81,10 @@ class UploadClotheController extends BaseController
                 'path' => 'gamedata-sandbox/FigureData.json',
                 'data' => base64_encode(json_encode($figureDataJson)),
             ),
-            array(
-                'action' => 'upload',
-                'path' => 'bundled/figure/' . $file["name"],
-                'data' => $file["base64"],
-            ),
         );
 
         if (!Helper::uploadApi('assets', $uploadData)) {
-            throw new HttpException('Problème lors de l\'importation: ', 400);
+            throw new HttpException('Problème lors de l\'importation', 400);
         }
 
         LogSandboxDto::create($this->user['id'], 'post', 'figure', $fileName);

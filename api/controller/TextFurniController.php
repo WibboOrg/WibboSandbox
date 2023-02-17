@@ -32,7 +32,7 @@ class TextFurniController extends BaseController
         $dataStr = $request->getString(['classname', 'name', 'description']);
 
         $furniData = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/FurnitureData.json?'. time(), true);
-        $productData = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/ProductData.json?'. time());
+        $productData = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/ProductData.json?'. time(), true);
 
         foreach ($furniData->roomitemtypes->furnitype as $var) {
             if($var->id == $dataInt["id"]) {
