@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center justify-center min-h-screen">
+    <div class="flex items-center justify-center h-full">
         <BaseCard>
             <template #title>SandBox</template>
             <template #body>

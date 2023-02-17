@@ -1,8 +1,8 @@
 <template>
-    <div class="grid grid-cols-1 gap-4 h-full">
+    <div class="grid grid-cols-1 gap-4">
         <div class="col-span-1">
             <BaseCard>
-                <template #title>Renommé un fichier Nitro</template>
+                <template #title>Renommer un fichier Nitro</template>
                 <template #body>
                     <form @submit.prevent="submitPost" enctype="multipart/form-data" class="grid grid-cols-1 gap-3">
                         <div class="col-span-full">
@@ -22,28 +22,53 @@
                 </template>
             </BaseCard>
         </div>
+        <div class="col-span-1" v-if="nitroJson">
+            <BaseCard>
+                <template #title>Information fichier Nitro</template>
+                <template #body>
+                    <div class="grid grid-cols-4 gap-3">
+                        <div class="col-span-1" v-if="nitroJson?.name">
+                            <label class="block mb-1 font-bold">Nom:</label>
+                            <span>{{ nitroJson.name }}</span>
+                        </div>
+                        <div class="col-span-1" v-if="nitroJson?.type">
+                            <label class="block mb-1 font-bold">Type:</label>
+                            <span>{{ nitroJson.type }}</span>
+                        </div>
+                        <div class="col-span-1" v-if="nitroJson?.visualizationType">
+                            <label class="block mb-1 font-bold">VisualizationType:</label>
+                            <span>{{ nitroJson.visualizationType }}</span>
+                        </div>
+                        <div class="col-span-1" v-if="nitroJson?.logicType">
+                            <label class="block mb-1 font-bold">LogicType:</label>
+                            <span>{{ nitroJson.logicType }}</span>
+                        </div>
+
+                        <div class="col-span-full">
+                            <BaseButton @click="downloadNitro(true)" class="mb-2">Télécharger assets</BaseButton>
+                            <BaseButton @click="downloadNitro()">Télécharger nitro</BaseButton>
+                        </div>
+                    </div>
+                </template>
+            </BaseCard>
+        </div>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { VNodeRef } from 'vue'
-import { NitroBundle } from '../../utils/NitroBundle'
+import { NitroBundle, ArrayBufferToBase64, Base64ToArrayBuffer, IAssetData } from '../../utils'
 
 const loading = ref(false)
 const postForm = ref({ name: '', file: { base64: '', name: '' } })
 const baseUploadFileRef = ref<VNodeRef | null>(null)
+const nitroImage = ref<string>('')
+const nitroJson = ref<IAssetData | null>(null)
 
 const handleFileUpload = (file: { base64: string; name: string }) => (postForm.value.file = file)
 
-const bundled = new NitroBundle()
-
 const submitPost = async () => {
     if (loading.value) return
-
-    if (postForm.value.name === '') {
-        showMessage('Vous devez mettre un nouveau nom', true)
-        return
-    }
 
     if (postForm.value.file.name === '') {
         showMessage('Vous devez mettre un fichier .nitro', true)
@@ -53,21 +78,29 @@ const submitPost = async () => {
     try {
         loading.value = true
 
-        const fileName = postForm.value.file.name.split('.nitro')[0]
+        const nitroBuffer = Base64ToArrayBuffer(postForm.value.file.base64)
 
-        const dataUrl = 'data:application/octet-binary;base64,' + postForm.value.file.base64
+        const bundled = new NitroBundle()
+        bundled.parse(nitroBuffer.buffer)
 
-        const res = await fetch(dataUrl)
-        const binaryNitro = await res.arrayBuffer()
+        for (const file of Object.entries(bundled.files)) {
+            const fileName = file[0]
+            const fileBuffer = file[1]
 
-        bundled.parse(binaryNitro)
-        bundled.changeName(fileName, postForm.value.name)
+            if (fileName.endsWith('.json')) {
+                nitroJson.value = JSON.parse(NitroBundle.TEXT_DECODER.decode(fileBuffer))
+            } else {
+                nitroImage.value = 'data:image/png;base64,' + ArrayBufferToBase64(fileBuffer)
+            }
+        }
 
-        downloadNitro(postForm.value.name)
+        if (postForm.value.name === '') {
+            postForm.value.name = nitroJson.value?.name ?? ''
+        }
 
-        postForm.value = { name: '', file: { base64: '', name: '' } }
+        // postForm.value = { name: '', file: { base64: '', name: '' } }
 
-        baseUploadFileRef.value?.reset()
+        // baseUploadFileRef.value?.reset()
     } catch (e) {
         console.error(e)
     }
@@ -75,22 +108,35 @@ const submitPost = async () => {
     loading.value = false
 }
 
-const generateLink = (binary: ArrayBuffer) => {
-    const bytes = Array.from(new Uint8Array(binary))
+const downloadNitro = async (assets = false) => {
+    const nitroFileName = nitroJson.value?.name ?? ''
 
-    const base64StringFile = btoa(bytes.map((item) => String.fromCharCode(item)).join(''))
+    if (nitroFileName === '') {
+        showMessage('Une erreur est survenu', true)
+        return
+    }
 
-    return 'data:application/octet-binary;base64,' + base64StringFile
-}
+    const jsonString = JSON.stringify(nitroJson.value).replaceAll(nitroFileName, postForm.value.name)
 
-const downloadNitro = async (name: string) => {
-    const binary = await bundled.toBufferAsync()
+    const newBundled = new NitroBundle()
+    newBundled.addFile(postForm.value.name + '.json', NitroBundle.TEXT_ENCODER.encode(jsonString))
+    newBundled.addFile(postForm.value.name + '.png', Base64ToArrayBuffer(nitroImage.value))
 
-    const linkSource = generateLink(binary)
+    const nitroBuffer = await newBundled.toBufferAsync()
 
     const downloadLink = document.createElement('a')
-    downloadLink.href = linkSource
-    downloadLink.download = name + '.nitro'
-    downloadLink.click()
+    if (!assets) {
+        downloadLink.href = 'data:application/octet-binary;base64,' + ArrayBufferToBase64(nitroBuffer)
+        downloadLink.download = postForm.value.name + '.nitro'
+        downloadLink.click()
+    } else {
+        downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(jsonString)
+        downloadLink.download = postForm.value.name + '.json'
+        downloadLink.click()
+
+        downloadLink.href = nitroImage.value
+        downloadLink.download = postForm.value.name + '.png'
+        downloadLink.click()
+    }
 }
 </script>

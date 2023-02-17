@@ -20,7 +20,7 @@
                         <div class="fixed top-2 right-4 cursor-pointer" @click="router.push('/hotel')" v-if="$route.path != '/'">
                             <IconClose class="w-8 h-8 hover:text-gray-400" />
                         </div>
-                        <div class="container my-8">
+                        <div class="container h-full pt-8">
                             <transition
                                 enter-active-class="duration-300"
                                 enter-from-class="opacity-0"

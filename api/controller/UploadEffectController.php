@@ -36,19 +36,19 @@ class UploadEffectController extends BaseController
         
         array_push($uploadData,
             array(
-                'action' => 'json',
-                'path' => 'gamedata-sandbox/EffectMap.json',
-                'data' => json_encode($effectMap),
-            ),
-            array(
                 'action' => 'upload',
                 'path' => 'bundled/effect/' . $file["name"],
                 'data' => $file["base64"],
             ),
+            array(
+                'action' => 'json',
+                'path' => 'gamedata-sandbox/EffectMap.json',
+                'data' => json_encode($effectMap),
+            ),
         );
 
         if (!Helper::uploadApi('assets', $uploadData)) {
-            throw new HttpException('Problème lors de l\'importation: ', 400);
+            throw new HttpException('Problème lors de l\'importation', 400);
         }
 
         EmulatorEffectDto::create($dataInt['id'], $dataBool['only_staff']);

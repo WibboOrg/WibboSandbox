@@ -4,11 +4,9 @@ import { BinaryWriter } from './BinaryWriter'
 
 export class NitroBundle {
     static TEXT_DECODER: TextDecoder = new TextDecoder('utf-8')
+    static TEXT_ENCODER: TextEncoder = new TextEncoder()
 
-    #jsonName = ''
-    #jsonFile = ''
-    #image: Uint8Array | null = null
-    #imageName = ''
+    #files: Record<string, ArrayBuffer> = {}
 
     parse(arrayBuffer: ArrayBuffer): void {
         const binaryReader = new BinaryReader(arrayBuffer)
@@ -22,22 +20,14 @@ export class NitroBundle {
             const buffer = binaryReader.readBytes(fileLength)
 
             const decompressed = inflate(buffer.toArrayBuffer() as Data)
-            if (fileName.endsWith('.json')) {
-                this.#jsonName = fileName
-                this.#jsonFile = NitroBundle.TEXT_DECODER.decode(decompressed)
-            } else {
-                this.#imageName = fileName
-                this.#image = decompressed
-            }
+            this.addFile(fileName, decompressed)
 
             fileCount--
         }
     }
 
-    changeName(oldName: string, newName: string) {
-        this.#jsonName = this.#jsonName.replace(oldName, newName)
-        this.#jsonFile = this.#jsonFile.replace(oldName, newName)
-        this.#imageName = this.#imageName.replace(oldName, newName)
+    addFile(fileName: string, data: ArrayBuffer) {
+        this.#files[fileName] = data
     }
 
     async toBufferAsync(): Promise<ArrayBuffer> {
@@ -45,9 +35,9 @@ export class NitroBundle {
 
         buffer.writeShort(this.totalFiles)
 
-        for (const file of this.files) {
-            const fileName = file[0] as string
-            const fileBuffer = file[1] as Uint8Array
+        for (const file of Object.entries(this.files)) {
+            const fileName = file[0]
+            const fileBuffer = file[1]
 
             buffer.writeString(fileName)
 
@@ -59,19 +49,8 @@ export class NitroBundle {
         return buffer.getBuffer()
     }
 
-    get jsonFile(): string {
-        return this.#jsonFile
-    }
-
-    get imageFile(): Uint8Array | null {
-        return this.#image
-    }
-
     get files() {
-        return [
-            [this.#jsonName, this.#jsonFile],
-            [this.#imageName, this.#image],
-        ]
+        return this.#files
     }
 
     get totalFiles(): number {
