@@ -105,7 +105,7 @@ class UploadFurniController extends BaseController
         }
 
         ItemBaseDto::create($furniId, $type, $furniName, 1, 1, 1, 0, 0, 0, 'default', 1, 0, '', 0);
-        CatalogItemDto::create($furniId, $furniId, $furniName, 3, 0, 0, 1, 1, '');
+        CatalogItemDto::create($furniId, 1546145145, $furniName, 3, 0, 0, 1, 1, '');
 
         LogSandboxDto::create($this->user['id'], 'post', 'furniture', $furniName);
     }
