@@ -1,4 +1,15 @@
 {
   "local.enabled": true,
-  "api.path": "http://localhost/WibboSandbox/api/index.php?"
+  "api.path": "http://localhost/WibboSandbox/api/index.php?",
+  "title.upload": "Importer",
+  "title.text": "Texte",
+  "title.emulator": "Emulateur",
+  "title.catalog": "Catalogue",
+  "title.asset": "Asset",
+  "title.user": "Utilisateur",
+  "title.log": "Log",
+  "title.hotel": "Hôtel",
+  "title.index": "Connexion",
+  "title.home": "Acceuil",
+  "title.nitro": "Nitro"
 }

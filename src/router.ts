@@ -1,19 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-const categoryTitle: Record<string, string> = {
-    upload: 'Importer',
-    text: 'Texte',
-    emulator: 'Emulateur',
-    catalog: 'Catalogue',
-    asset: 'Asset',
-    user: 'Utilisateur',
-    log: 'Log',
-    hotel: 'Hôtel',
-    index: 'Connexion',
-    home: 'Acceuil',
-    nitro: 'Nitro',
-}
-
 const pages = import.meta.glob('./pages/**/*.vue')
 
 const routes = Object.keys(pages).map((path) => {
@@ -31,7 +17,7 @@ const routes = Object.keys(pages).map((path) => {
     return {
         path: pathName === 'not-found' ? '/:pathMatch(.*)*' : '/' + pathName,
         component: pages[path],
-        meta: { title: categoryTitle[categoryName] ?? 'Page introuvable' },
+        meta: { title: categoryName },
     }
 })
 
@@ -40,7 +26,7 @@ export const router = createRouter({
     routes,
 })
 
-router.afterEach((to) => (document.title = 'Sandbox: ' + to.meta?.title))
+router.afterEach((to) => (document.title = 'Sandbox: ' + getConfig<string>('title.' + to.meta.title) ?? 'Page introuvable'))
 
 router.beforeEach(async (to) => {
     await loadConfig()
