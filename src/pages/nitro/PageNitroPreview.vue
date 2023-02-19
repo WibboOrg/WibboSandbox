@@ -61,7 +61,7 @@ const submitPost = async () => {
     if (loading.value) return
 
     if (postForm.value.file.name === '') {
-        showMessage('Vous devez mettre un fichier .nitro', true)
+        showMessage({ message: 'Vous devez mettre un fichier .nitro' })
         return
     }
 

@@ -1,13 +1,13 @@
-const isError = ref<boolean>(false)
+const isSuccess = ref<boolean>(false)
 const timeoutId = ref<number>(0)
 const notifications = ref<string[]>([])
 
 export const useNotification = () => {
-    return { notifications, isError }
+    return { notifications, isSuccess }
 }
 
-export const showMessage = (message: string, error = true) => {
-    if (isError.value !== error) isError.value = error
+export const showMessage = ({ message = '', success = false }) => {
+    if (isSuccess.value !== success) isSuccess.value = success
     notifications.value.push(message)
 
     if (notifications.value.length > 5) notifications.value.shift()

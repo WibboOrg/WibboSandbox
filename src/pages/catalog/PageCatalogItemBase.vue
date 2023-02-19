@@ -81,7 +81,7 @@ const fullEdit = ref(false)
 
 const defaultFile = {
     id: -1,
-    type: '',
+    type: 's',
     item_name: '',
     width: 1,
     length: 1,

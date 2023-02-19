@@ -41,7 +41,7 @@ const submitPost = async () => {
     if (loading.value) return
 
     if (postForm.value.file.name === '') {
-        showMessage('Vous devez mettre un fichier .nitro', true)
+        showMessage({ message: 'Vous devez mettre un fichier .nitro' })
         return
     }
 
@@ -84,7 +84,7 @@ const downloadNitro = async () => {
     const nitroFileName = nitroJson.value?.name ?? ''
 
     if (nitroFileName === '') {
-        showMessage('Une erreur est survenu', true)
+        showMessage({ message: 'Une erreur est survenu' })
         return
     }
 

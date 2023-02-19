@@ -76,7 +76,7 @@ const submitPost = async () => {
 
         await useFetchAPI('UploadClothe', 'POST', { body: JSON.stringify(postForm.value) })
 
-        showMessage('Le vêtement a bien été ajouté', false)
+        showMessage({ message: 'Le vêtement a bien été ajouté', success: true })
 
         postForm.value = { type: 'ha', id: '', parts: [{ id: 0, type: 'ha', colorable: 0, index: 0, colorindex: 0 }], file: { base64: '', name: '' } }
 

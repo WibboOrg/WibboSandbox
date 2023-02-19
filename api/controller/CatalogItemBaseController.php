@@ -49,12 +49,12 @@ class CatalogItemBaseController extends BaseController
 
     public function post(Request $request)
     {
-        $dataInt = $request->getNumber(['width', 'length', 'stack_height', 'interaction_modes_count', 'vending_ids', 'effect_id']);
+        $dataInt = $request->getNumber(['sprite_id', 'width', 'length', 'stack_height', 'interaction_modes_count', 'vending_ids', 'effect_id']);
         $dataBool = $request->getBoolean(['can_stack', 'can_sit', 'is_walkable']);
-        $dataStr = $request->getString(['item_name', 'interaction_type', 'height_adjustable']);
+        $dataStr = $request->getString(['type', 'item_name', 'interaction_type', 'height_adjustable']);
 
         $id = ItemBaseDto::create(
-            $dataStr['sprite_id'],
+            $dataInt['sprite_id'],
             $dataStr['type'],
             $dataStr['item_name'],
             $dataInt['width'],

@@ -23,7 +23,7 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
         try {
             if (id !== -1 && id !== '') await useFetchAPI(url, 'DELETE', { body: JSON.stringify({ id }) })
             files.value = files.value.filter((x) => Object.values(x)[0] !== id)
-            showMessage('Suppression effectuée', false)
+            showMessage({ message: 'Suppression effectuée', success: true })
         } catch (e) {
             console.error(e)
         }
@@ -34,7 +34,7 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
         isLoading.value = true
         try {
             await useFetchAPI(url, 'PATCH', { body: JSON.stringify(file) })
-            showMessage('Mise à jour effectuée', false)
+            showMessage({ message: 'Mise à jour effectuée', success: true })
         } catch (e) {
             console.error(e)
         }
@@ -45,7 +45,7 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
         isLoading.value = true
         try {
             await useFetchAPI(url, 'PUT', { body: JSON.stringify(file) })
-            showMessage('Mise à jour effectuée', false)
+            showMessage({ message: 'Mise à jour effectuée', success: true })
         } catch (e) {
             console.error(e)
         }
@@ -58,7 +58,7 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
             const newFile = await useFetchAPI<T>(url, 'POST', { body: JSON.stringify(file) })
 
             files.value = [newFile, ...files.value].filter((x) => Object.values(x)[0] !== Object.values(file)[0])
-            showMessage('Création effectuée', false)
+            showMessage({ message: 'Création effectuée', success: true })
         } catch (e) {
             console.error(e)
         }
@@ -71,7 +71,7 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
             const newFile = await useFetchAPI<T>(url, 'POST', { body: JSON.stringify(file) })
 
             files.value = [newFile, ...files.value].filter((x) => Object.values(x)[0] !== Object.values(file)[0])
-            showMessage('Création effectuée', false)
+            showMessage({ message: 'Création effectuée', success: true })
         } catch (e) {
             console.error(e)
         }

@@ -49,7 +49,7 @@ const submitPost = async () => {
 
         await useFetchAPI('UploadFurni', 'POST', { body: JSON.stringify(postForm.value) })
 
-        showMessage('Le mobilier a bien été ajouté', false)
+        showMessage({ message: 'Le mobilier a bien été ajouté', success: true })
 
         postForm.value = { type: 's', name: '', description: '', file: { base64: '', name: '' } }
 

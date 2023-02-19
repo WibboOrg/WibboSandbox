@@ -17,17 +17,17 @@ export const useFetchAPI = async <T>(url: string, method = 'GET', opts?: Request
 
     if (response.status === 401) {
         logout()
-        showMessage('Vous avez été déconnecté')
+        showMessage({ message: 'Vous avez été déconnecté' })
         throw new Error()
     }
 
     if (response.status === 400 || response.status === 404 || response.status === 500) {
-        showMessage(data.message)
+        showMessage({ message: data.message })
         throw new Error()
     }
 
     if (response.status !== 200) {
-        showMessage('Une erreur est survenue')
+        showMessage({ message: 'Une erreur est survenue' })
         throw new Error()
     }
 

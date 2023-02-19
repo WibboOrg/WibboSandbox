@@ -36,7 +36,7 @@ const web3Login = async () => {
     }
 
     if (loginName.value.length < 3) {
-        showMessage('Veuillez remplir tous les champs')
+        showMessage({ message: 'Veuillez remplir tous les champs' })
         return
     }
 
@@ -44,7 +44,7 @@ const web3Login = async () => {
 
     try {
         if (!window.ethereum) {
-            showMessage("MetaMask non détecté. Veuillez d'abord installer MetaMask")
+            showMessage({ message: "MetaMask non détecté. Veuillez d'abord installer MetaMask" })
             return
         }
 

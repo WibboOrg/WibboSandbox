@@ -49,7 +49,7 @@ const submitPost = async () => {
 
         await useFetchAPI('UploadBadge', 'POST', { body: JSON.stringify(postForm.value) })
 
-        showMessage('Le badge a bien été ajouté', false)
+        showMessage({ message: 'Le badge a bien été ajouté', success: true })
 
         postForm.value = { code: '', name: '', description: '', file: { base64: '', name: '' } }
 

@@ -37,7 +37,7 @@ const submitPost = async () => {
 
         await useFetchAPI('UploadPet', 'POST', { body: JSON.stringify(postForm.value) })
 
-        showMessage("L'animal a bien été ajouté", false)
+        showMessage({ message: "L'animal a bien été ajouté", success: true })
 
         postForm.value = { file: { base64: '', name: '' } }
 

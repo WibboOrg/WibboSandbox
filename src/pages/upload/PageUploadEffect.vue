@@ -44,7 +44,7 @@ const submitPost = async () => {
 
         await useFetchAPI('UploadEffect', 'POST', { body: JSON.stringify(postForm.value) })
 
-        showMessage("L'effet a bien été ajouté", false)
+        showMessage({ message: "L'effet a bien été ajouté", success: true })
 
         postForm.value = { id: 0, only_staff: 0, file: { base64: '', name: '' } }
 
