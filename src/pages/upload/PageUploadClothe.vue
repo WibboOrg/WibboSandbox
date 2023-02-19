@@ -11,7 +11,7 @@
                         </div>
                         <div class="col-span-full">
                             <label class="block mb-1">type</label>
-                            <BaseSelect v-model="postForm.type" :options="{ ha: 'ha', he: 'he' }"></BaseSelect>
+                            <BaseSelect v-model="postForm.type" :options="categoryType"></BaseSelect>
                         </div>
                         <div class="col-span-full">
                             <label class="block mb-1">Id</label>
@@ -60,6 +60,7 @@ import { VNodeRef } from 'vue'
 const loading = ref(false)
 const postForm = ref({ type: 'ha', id: '', parts: [{ id: 0, type: 'ha', colorable: 0, index: 0, colorindex: 0 }], file: { base64: '', name: '' } })
 const baseUploadFileRef = ref<VNodeRef | null>(null)
+const categoryType = ref({ hr: 'hr', hd: 'hd', ch: 'ch', lg: 'lg', sh: 'sh', ha: 'ha', he: 'he', ea: 'ea', fa: 'fa', ca: 'ca', wa: 'wa', cc: 'cc', cp: 'cp' })
 
 const addPart = () => {
     if (!postForm.value.parts.find((x) => x.id === 0)) postForm.value.parts.push({ id: 0, type: 'ha', colorable: 0, index: 0, colorindex: 0 })
