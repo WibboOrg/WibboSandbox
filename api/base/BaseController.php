@@ -2,7 +2,7 @@
 class BaseController
 {
     public array $user;
-    public array $minRank = ['GET' => 13, 'POST' => 13, 'DELETE' => 13, 'PATCH' => 13, 'PUT' => 13];
+    public array $minRank = ['GET' => 14, 'POST' => 14, 'DELETE' => 14, 'PATCH' => 14, 'PUT' => 14];
 
     private function getAuth(): object
     {

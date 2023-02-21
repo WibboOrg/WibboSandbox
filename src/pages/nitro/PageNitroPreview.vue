@@ -42,6 +42,19 @@
                 </template>
             </BaseCard>
         </div>
+        <div class="col-span-1" v-if="nitroJson">
+            <BaseCard>
+                <template #title>Image Nitro</template>
+                <template #body>
+                    <div class="grid grid-cols-4 gap-3">
+                        <div v-for="image in nitroImagesUrl" :key="image.name" class="col-span-1">
+                            <label class="block mb-1 font-bold">{{ image.name }}</label>
+                            <img :src="image.base64" />
+                        </div>
+                    </div>
+                </template>
+            </BaseCard>
+        </div>
     </div>
 </template>
 
@@ -53,6 +66,7 @@ const loading = ref(false)
 const postForm = ref({ file: { base64: '', name: '' } })
 const baseUploadFileRef = ref<VNodeRef | null>(null)
 const nitroImage = ref<string>('')
+const nitroImagesUrl = ref<{ name: string; base64: string }[]>([])
 const nitroJson = ref<IAssetData | null>(null)
 
 const handleFileUpload = (file: { base64: string; name: string }) => (postForm.value.file = file)
@@ -84,6 +98,12 @@ const submitPost = async () => {
             }
         }
 
+        nitroImagesUrl.value = []
+
+        const image = new Image()
+        image.onload = () => extractImage(image)
+        image.src = nitroImage.value
+
         postForm.value = { file: { base64: '', name: '' } }
 
         baseUploadFileRef.value?.reset()
@@ -92,5 +112,78 @@ const submitPost = async () => {
     }
 
     loading.value = false
+}
+
+const extractImage = (image: HTMLImageElement) => {
+    const frames = nitroJson.value?.spritesheet?.frames
+    if (!frames) return
+
+    for (const entry of Object.entries(frames)) {
+        const name = entry[0]
+        const frame = entry[1]
+
+        const rect = frame.frame
+        const sourceSize = frame.trimmed && frame.sourceSize ? frame.sourceSize : frame.frame
+
+        let reactFrame = null
+        let trim = null
+
+        const orig = {
+            x: 0,
+            y: 0,
+            w: sourceSize.w,
+            h: sourceSize.h,
+        }
+
+        if (frame.rotated) {
+            reactFrame = {
+                x: rect.x,
+                y: rect.y,
+                w: rect.h,
+                h: rect.w,
+            }
+        } else {
+            reactFrame = {
+                x: rect.x,
+                y: rect.y,
+                w: rect.w,
+                h: rect.h,
+            }
+        }
+        if (frame.trimmed && frame.spriteSourceSize) {
+            trim = {
+                x: frame.spriteSourceSize.x,
+                y: frame.spriteSourceSize.y,
+                w: rect.w,
+                h: rect.h,
+            }
+        }
+
+        const width = reactFrame.w
+        const height = reactFrame.h
+
+        let dx = 0
+        let dy = 0
+
+        if (trim) {
+            dx = trim.w / 2 + trim.x - 0 * orig.w
+            dy = trim.h / 2 + trim.y - 0 * orig.h
+        } else {
+            dx = (0.5 - 0) * orig.w
+            dy = (0.5 - 0) * orig.h
+        }
+
+        dx -= width / 2
+        dy -= height / 2
+
+        const canvas = document.createElement('canvas')
+        const context = canvas.getContext('2d')
+        canvas.width = orig.w
+        canvas.height = orig.h
+        context?.drawImage(image, reactFrame.x, reactFrame.y, reactFrame.w, reactFrame.h, dx, dy, reactFrame.w, reactFrame.h)
+
+        const base64 = canvas.toDataURL()
+        nitroImagesUrl.value = [...nitroImagesUrl.value, { name, base64 }]
+    }
 }
 </script>

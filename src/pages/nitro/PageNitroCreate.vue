@@ -21,7 +21,7 @@
                         </div>
 
                         <div class="col-span-full">
-                            <BaseButton primary :loading="loading">Télécharger</BaseButton>
+                            <BaseButton primary :loading="loading">Importer</BaseButton>
                         </div>
                     </form>
                 </template>
