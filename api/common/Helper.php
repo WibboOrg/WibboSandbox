@@ -72,4 +72,14 @@ class Helper
 
         return ($isJson) ? json_decode($result) : $result;
     }
+
+    public static function endsWith(string $haystack, string $needle)
+    {
+        $length = strlen($needle);
+        if (!$length) {
+            return true;
+        }
+        
+        return substr($haystack, -$length) === $needle;
+    }
 }

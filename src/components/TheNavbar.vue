@@ -50,7 +50,10 @@ categoryList.value.push({ category: 'catalog', text: 'Catalogue', minRank: 11 })
 categoryList.value.push({ category: 'asset', text: 'Asset', minRank: 11 })
 categoryList.value.push({ category: 'user', text: 'Utilisateur', minRank: 11 })
 categoryList.value.push({ category: 'nitro', text: 'Nitro', minRank: 11 })
+categoryList.value.push({ category: 'tool', text: 'Outil', minRank: 11 })
 categoryList.value.push({ category: 'log', text: 'Log', minRank: 11 })
+
+navList.value.push({ category: 'tool', text: 'Régénérer', path: '/tool-regen' })
 
 navList.value.push({ category: 'nitro', text: 'Crée', path: '/nitro-create' })
 navList.value.push({ category: 'nitro', text: 'Extraire', path: '/nitro-extract' })

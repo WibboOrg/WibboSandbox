@@ -21,6 +21,17 @@ class CatalogPageDto extends BaseDto
             ->first();
     }
 
+    public static function getCaptionById(int $id)
+    {
+        $model = self::getModel();
+
+        $stmt = $model->execute("SELECT caption FROM catalog_page WHERE id = :pageid AND min_rank < 3 LIMIT 1", ["pageid" => $id]);
+
+        $query = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $query ? $query['caption'] : '';
+    }
+
     public static function update(int $id, int $parentId, string $caption, int $iconImage, int $enabled, int $minRank, int $orderNum, string $pageLayout, string $pageStrings1, string $pageStrings2, int $isPremium)
     {
         $model = self::getModel();

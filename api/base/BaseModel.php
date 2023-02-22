@@ -62,7 +62,7 @@ class BaseModel extends QueryBuilder
         return $this->conn->lastInsertId();
     }
 
-    public function execute(string $query, array $params = [])
+    public function execute(string $query, array $params = []): PDOStatement|bool
     {
         $stmt = $this->conn->prepare($query);
         $stmt->execute($params);
