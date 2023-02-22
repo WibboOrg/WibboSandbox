@@ -8,7 +8,11 @@ class ItemBaseDto extends BaseDto
     {
         $model = self::getModel();
 
-        return $model->select('id', 'sprite_id', 'type', 'item_name', 'width', 'length', 'stack_height', 'can_stack', 'can_sit', 'is_walkable', 'interaction_type', 'interaction_modes_count', 'vending_ids', 'height_adjustable', 'effect_id')
+        return $model->select('item_base.id', 'item_base.sprite_id', 'item_base.type', 'item_base.item_name', 'item_base.width', 'item_base.length', 
+            'item_base.stack_height', 'item_base.can_stack', 'item_base.can_sit', 'item_base.is_walkable', 'item_base.interaction_type',
+            'item_base.interaction_modes_count', 'item_base.vending_ids', 'item_base.height_adjustable', 'item_base.effect_id')
+            ->select(['catalog_item.page_id', 'page_id'])
+            ->join('LEFT', 'catalog_item', '`catalog_item`.`item_id` = `item_base`.`id`')    
             ->get();
     }
     
@@ -16,18 +20,13 @@ class ItemBaseDto extends BaseDto
     {
         $model = self::getModel();
 
-        return $model->select('id', 'sprite_id', 'type', 'item_name', 'width', 'length', 'stack_height', 'can_stack', 'can_sit', 'is_walkable', 'interaction_type', 'interaction_modes_count', 'vending_ids', 'height_adjustable', 'effect_id')
+        return $model->select('item_base.id', 'item_base.sprite_id', 'item_base.type', 'item_base.item_name', 'item_base.width', 'item_base.length', 
+            'item_base.stack_height', 'item_base.can_stack', 'item_base.can_sit', 'item_base.is_walkable', 'item_base.interaction_type',
+            'item_base.interaction_modes_count', 'item_base.vending_ids', 'item_base.height_adjustable', 'item_base.effect_id')
+            ->select(['catalog_item.page_id', 'page_id'])
+            ->join('LEFT', 'catalog_item', '`catalog_item`.`item_id` = `item_base`.`id`')    
             ->where('id', $id)    
             ->first();
-    }
-
-    public static function getAllByPageId(int $pageId)
-    {
-        $model = self::getModel();
-
-        $stmt = $model->execute('SELECT id, sprite_id, type, item_name, width, length, stack_height, can_stack, can_sit, is_walkable, interaction_type, interaction_modes_count, vending_ids, height_adjustable, effect_id FROM item_base WHERE id IN (SELECT item_id FROM catalog_item WHERE page_id = :pageId)', ['pageId' => $pageId]);
-        
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function create(int $spriteId, string $type, string $itemName, int $width, int $length, float $stackHeight, int $canStack, int $canSit, int $isWalkable,

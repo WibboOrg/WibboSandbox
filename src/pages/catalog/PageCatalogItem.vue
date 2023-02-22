@@ -61,10 +61,7 @@
 </template>
 
 <script lang="ts" setup>
-const route = useRoute()
-
-const id = route.query.id ?? null
-const { isLoading, patchFile, deleteFile, createFile, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = useFetchData<ApiData>('CatalogItem&id=' + id)
+const { isLoading, patchFile, deleteFile, createFile, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = useFetchData<ApiData>('CatalogItem')
 
 const defaultFile = { id: -1, item_id: 0, page_id: 0, catalog_name: '', cost_credits: 3, cost_diamonds: 0, cost_limitcoins: 0, amount: 1, offer_active: 1, badge: '' } satisfies ApiData
 

@@ -18,13 +18,6 @@ class CatalogItemDto extends BaseDto
         return $model->select('id', 'item_id', 'page_id', 'catalog_name', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active', 'badge')->where('id', $id)->first();
     }
 
-    public static function getAllByPageId(int $pageId)
-    {
-        $model = self::getModel();
-
-        return $model->select('id', 'item_id', 'page_id', 'catalog_name', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active', 'badge')->where('page_id', $pageId)->get();
-    }
-
     public static function getOfferId(string $id, string $type)
     {
         $model = self::getModel();

@@ -8,9 +8,10 @@ export const useNotification = () => {
 
 export const showMessage = ({ message = '', success = false }) => {
     if (isSuccess.value !== success) isSuccess.value = success
+
     notifications.value.push(message)
 
-    if (notifications.value.length > 5) notifications.value.shift()
+    if (notifications.value.length > 3) notifications.value.shift()
 
     if (timeoutId.value) clearTimeout(timeoutId.value)
 

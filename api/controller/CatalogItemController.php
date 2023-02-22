@@ -5,11 +5,6 @@ class CatalogItemController extends BaseController
     
     public function get(Request $request) 
     {
-        $id = $_GET["id"] ?? null;
-
-        if (is_numeric($id))
-            return CatalogItemDto::getAllByPageId($id);
-
         return CatalogItemDto::getAll();
     }
 

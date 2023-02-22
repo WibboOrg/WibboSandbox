@@ -3,6 +3,8 @@ set_time_limit(0);
 
 class FurnitureDataController extends BaseController
 {	
+    public array $minRank = ['PATCH' => 11];
+
     public function patch(Request $request) 
     {
         $furniData = Helper::getSslPage("https://assets.wibbo.org/gamedata-sandbox/FurnitureData.json?cache=" . time(), true);

@@ -51,7 +51,7 @@ class QueryBuilder
         return $this;
     }
 
-    public function orWhere(string $column, string $operatorOrValue, $value = null)
+    public function orWhere(string $column, string $operatorOrValue, $value = null, $tableName = null)
     {
         if($value === null)
         {
@@ -62,6 +62,7 @@ class QueryBuilder
         $index = count($this->wheres) + count($this->orWheres) + 1;
 
         $this->orWheres[] = [
+            'table' => $tableName ? $tableName : $this->tableName,
             'column' => $column,
             'operator' => $operatorOrValue,
             'value' => $value,
@@ -71,7 +72,7 @@ class QueryBuilder
         return $this;
     }
 
-    public function where(string $column, string $operatorOrValue, $value = null)
+    public function where(string $column, string $operatorOrValue, $value = null, $tableName = null)
     {
         if($value === null)
         {
@@ -82,6 +83,7 @@ class QueryBuilder
         $index = count($this->wheres) + count($this->orWheres) + 1;
 
         $this->wheres[] = [
+            'table' => $tableName ? $tableName : $this->tableName,
             'column' => $column,
             'operator' => $operatorOrValue,
             'value' => $value,
@@ -119,7 +121,7 @@ class QueryBuilder
             $query .= " WHERE ";
 
             $query .= implode(' AND ', array_map(function ($where) {
-                return '`' . $where['column'] . '` ' . $where['operator'] . ' :' . $where['column'] . $where['index'];
+                return $where['table'] . '.`'. $where['column'] . '` ' . $where['operator'] . ' :' . $where['column'] . $where['index'];
             }, $this->wheres));
 
             if(count($this->orWheres) > 0 && count($this->wheres) > 0) {
@@ -127,7 +129,7 @@ class QueryBuilder
             }
 
             $query .= implode(' OR ', array_map(function($where) {
-                return '`' . $where['column'] . '` ' . $where['operator'] . ' :' . $where['column'] . $where['index'];
+                return $where['table'] . '.`' . $where['column'] . '` ' . $where['operator'] . ' :' . $where['column'] . $where['index'];
             }, $this->orWheres));
         }
 

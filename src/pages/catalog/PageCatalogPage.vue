@@ -37,10 +37,13 @@
                                 <BaseTableColunm>
                                     <div class="w-full px-4 py-2">
                                         {{ file.id }}
-                                        <div @click="$router.push({ path: 'catalog-item', query: { id: file.id } })" class="whitespace-nowrap cursor-pointer hover:underline hover:text-white">
+                                        <div @click="$router.push({ path: 'catalog-item', query: { page_id: file.id } })" class="whitespace-nowrap cursor-pointer hover:underline hover:text-white">
                                             Editer object
                                         </div>
-                                        <div @click="$router.push({ path: 'catalog-item-base', query: { id: file.id } })" class="whitespace-nowrap cursor-pointer hover:underline hover:text-white">
+                                        <div
+                                            @click="$router.push({ path: 'catalog-item-base', query: { page_id: file.id } })"
+                                            class="whitespace-nowrap cursor-pointer hover:underline hover:text-white"
+                                        >
                                             Editer config
                                         </div>
                                     </div>

@@ -72,10 +72,7 @@
 </template>
 
 <script lang="ts" setup>
-const route = useRoute()
-
-const id = route.query.id ?? null
-const { isLoading, patchFile, deleteFile, createFile, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = useFetchData<ApiData>('CatalogItemBase&id=' + id)
+const { isLoading, patchFile, deleteFile, createFile, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = useFetchData<ApiData>('CatalogItemBase')
 
 const fullEdit = ref(false)
 
