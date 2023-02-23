@@ -23,7 +23,7 @@
             </div>
             <div v-for="cate in categoryList.filter((x) => x.minRank <= auth.user.rank)" :key="cate.category">
                 <div class="border-b-2 mb-2 cursor-pointer flex justify-between items-center" @click="cate.open = !cate.open">
-                    <span>{{ cate.text }}</span> <IconSortDown class="w-4 h-4" v-if="cate.open" /> <IconSortUp class="w-4 h-4" v-if="!cate.open" />
+                    <span>{{ cate.text }}</span> <IconSortDown class="w-4 h-4 duration-300 transition-transform" :class="{ '-rotate-180': cate.open }" />
                 </div>
                 <transition
                     enter-active-class="duration-300 select-none"
@@ -55,16 +55,16 @@
 const categoryList = ref<{ category: string; text: string; minRank: number; open: boolean }[]>([])
 const navList = ref<{ category: string; text: string; path: string }[]>([])
 
-categoryList.value.push({ category: 'upload', text: 'Importer', minRank: 11, open: false })
-categoryList.value.push({ category: 'text', text: 'Texte', minRank: 11, open: false })
-categoryList.value.push({ category: 'emulator', text: 'Emulateur', minRank: 11, open: false })
-categoryList.value.push({ category: 'catalog', text: 'Catalogue', minRank: 11, open: false })
-categoryList.value.push({ category: 'asset', text: 'Asset', minRank: 11, open: false })
-categoryList.value.push({ category: 'nitro-asset', text: 'Nitro asset', minRank: 11, open: false })
-categoryList.value.push({ category: 'nitro', text: 'Nitro', minRank: 11, open: false })
-categoryList.value.push({ category: 'tool', text: 'Outil', minRank: 11, open: false })
-categoryList.value.push({ category: 'user', text: 'Utilisateur', minRank: 11, open: false })
-categoryList.value.push({ category: 'log', text: 'Log', minRank: 11, open: false })
+categoryList.value.push({ category: 'upload', text: 'Importer', minRank: 11, open: true })
+categoryList.value.push({ category: 'text', text: 'Texte', minRank: 11, open: true })
+categoryList.value.push({ category: 'emulator', text: 'Emulateur', minRank: 11, open: true })
+categoryList.value.push({ category: 'catalog', text: 'Catalogue', minRank: 11, open: true })
+categoryList.value.push({ category: 'asset', text: 'Asset', minRank: 11, open: true })
+categoryList.value.push({ category: 'nitro-asset', text: 'Nitro asset', minRank: 11, open: true })
+categoryList.value.push({ category: 'nitro', text: 'Nitro', minRank: 11, open: true })
+categoryList.value.push({ category: 'tool', text: 'Outil', minRank: 11, open: true })
+categoryList.value.push({ category: 'user', text: 'Utilisateur', minRank: 11, open: true })
+categoryList.value.push({ category: 'log', text: 'Log', minRank: 11, open: true })
 
 navList.value.push({ category: 'tool', text: 'Régénérer', path: '/tool-regen' })
 
