@@ -6,7 +6,7 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
     const pageCountItem = ref(100)
     const pageSearch = ref('')
     const files = ref([]) as Ref<T[]>
-    const categoryFilter = ref<{ key: string; value: string | number } | null>(null)
+    const categoryFilter = ref<{ key: string; content: string }>({ key: '', content: '' })
     const route = useRoute()
 
     const getFiles = async () => {
@@ -87,16 +87,17 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
     const updatePageCurrent = (pageId: number) => (pageCurrent.value = pageId)
 
     const updateCategoryFitler = () =>
-        (categoryFilter.value = Object.keys(route.query)[0] == null ? null : { key: Object.keys(route.query)[0], value: Object.values(route.query)[0]?.toString() || '' })
-    updateCategoryFitler()
+        (categoryFilter.value = Object.keys(route.query)[0] == null ? { key: '', content: '' } : { key: Object.keys(route.query)[0], content: Object.values(route.query)[0]?.toString() || '' })
 
-    watch(() => route.query, updateCategoryFitler)
+    watch(() => route.query, updateCategoryFitler, { immediate: true })
 
     onMounted(async () => await getFiles())
 
-    const filesByCategory = computed(() =>
-        categoryFilter.value !== null ? files.value.filter((x) => Object.entries(x).some((k) => k[0] === categoryFilter.value?.key && k[1] === categoryFilter.value?.value)) : files.value,
-    )
+    const filesByCategory = computed(() => {
+        return categoryFilter.value.key === ''
+            ? files.value
+            : files.value.filter((x) => Object.entries(x).some((k) => k[0]?.toString() === categoryFilter.value.key && k[1]?.toString() === categoryFilter.value.content))
+    })
     const filesSearch = computed(() => filesByCategory.value.filter((x) => Object.values(x).some((k) => k.toString().toLowerCase().includes(pageSearch.value.toLowerCase()))))
     const pageCount = computed(() => (filesSearch.value.length > pageCountItem.value ? Math.floor(filesSearch.value.length / pageCountItem.value) + 1 : 1))
     const pageId = computed(() => (pageCurrent.value > pageCount.value ? pageCount.value : pageCurrent.value < 1 ? 1 : pageCurrent.value))
