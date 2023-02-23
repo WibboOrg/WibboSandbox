@@ -22,37 +22,49 @@
                 </div>
             </div>
             <div v-for="cate in categoryList.filter((x) => x.minRank <= auth.user.rank)" :key="cate.category">
-                <div class="border-b-2 mb-2">{{ cate.text }}</div>
-                <ul class="flex flex-col gap-1">
-                    <li
-                        :class="{ 'bg-gray-600': nav.path === $route.path }"
-                        class="w-full px-4 rounded transition-colors cursor-pointer hover:bg-gray-600"
-                        @click="$router.push(nav.path)"
-                        v-for="(nav, index) of navList.filter((x) => x.category === cate.category)"
-                        :key="index"
-                    >
-                        {{ nav.text }}
-                    </li>
-                </ul>
+                <div class="border-b-2 mb-2 cursor-pointer flex justify-between items-center" @click="cate.open = !cate.open">
+                    <span>{{ cate.text }}</span> <IconSortDown class="w-4 h-4" v-if="cate.open" /> <IconSortUp class="w-4 h-4" v-if="!cate.open" />
+                </div>
+                <transition
+                    enter-active-class="duration-300 select-none"
+                    enter-from-class="opacity-0 -translate-y-5"
+                    enter-to-class="opacity-100 translate-y-0"
+                    leave-active-class="duration-300 select-none"
+                    leave-from-class="opacity-100 translate-y-0"
+                    leave-to-class="opacity-0 -translate-y-5"
+                    mode="out-in"
+                >
+                    <ul class="flex flex-col gap-1 overflow-hidden" v-show="cate.open">
+                        <li
+                            :class="{ 'bg-gray-600': nav.path === $route.path }"
+                            class="w-full px-4 rounded transition-colors cursor-pointer hover:bg-gray-600"
+                            @click="$router.push(nav.path)"
+                            v-for="(nav, index) of navList.filter((x) => x.category === cate.category)"
+                            :key="index"
+                        >
+                            {{ nav.text }}
+                        </li>
+                    </ul>
+                </transition>
             </div>
         </nav>
     </transition>
 </template>
 
 <script lang="ts" setup>
-const categoryList = ref<{ category: string; text: string; minRank: number }[]>([])
+const categoryList = ref<{ category: string; text: string; minRank: number; open: boolean }[]>([])
 const navList = ref<{ category: string; text: string; path: string }[]>([])
 
-categoryList.value.push({ category: 'upload', text: 'Importer', minRank: 11 })
-categoryList.value.push({ category: 'text', text: 'Texte', minRank: 11 })
-categoryList.value.push({ category: 'emulator', text: 'Emulateur', minRank: 11 })
-categoryList.value.push({ category: 'catalog', text: 'Catalogue', minRank: 11 })
-categoryList.value.push({ category: 'asset', text: 'Asset', minRank: 11 })
-categoryList.value.push({ category: 'user', text: 'Utilisateur', minRank: 11 })
-categoryList.value.push({ category: 'nitro-asset', text: 'Nitro asset', minRank: 11 })
-categoryList.value.push({ category: 'nitro', text: 'Nitro', minRank: 11 })
-categoryList.value.push({ category: 'tool', text: 'Outil', minRank: 11 })
-categoryList.value.push({ category: 'log', text: 'Log', minRank: 11 })
+categoryList.value.push({ category: 'upload', text: 'Importer', minRank: 11, open: false })
+categoryList.value.push({ category: 'text', text: 'Texte', minRank: 11, open: false })
+categoryList.value.push({ category: 'emulator', text: 'Emulateur', minRank: 11, open: false })
+categoryList.value.push({ category: 'catalog', text: 'Catalogue', minRank: 11, open: false })
+categoryList.value.push({ category: 'asset', text: 'Asset', minRank: 11, open: false })
+categoryList.value.push({ category: 'nitro-asset', text: 'Nitro asset', minRank: 11, open: false })
+categoryList.value.push({ category: 'nitro', text: 'Nitro', minRank: 11, open: false })
+categoryList.value.push({ category: 'tool', text: 'Outil', minRank: 11, open: false })
+categoryList.value.push({ category: 'user', text: 'Utilisateur', minRank: 11, open: false })
+categoryList.value.push({ category: 'log', text: 'Log', minRank: 11, open: false })
 
 navList.value.push({ category: 'tool', text: 'Régénérer', path: '/tool-regen' })
 

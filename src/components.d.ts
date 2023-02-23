@@ -22,6 +22,8 @@ declare module '@vue/runtime-core' {
     IconLogout: typeof import('./components/icon/IconLogout.vue')['default']
     IconMetaMask: typeof import('./components/icon/IconMetaMask.vue')['default']
     IconSave: typeof import('./components/icon/IconSave.vue')['default']
+    IconSortDown: typeof import('./components/icon/IconSortDown.vue')['default']
+    IconSortUp: typeof import('./components/icon/IconSortUp.vue')['default']
     PageAssetArticle: typeof import('./pages/asset/PageAssetArticle.vue')['default']
     PageAssetBackground: typeof import('./pages/asset/PageAssetBackground.vue')['default']
     PageAssetBadge: typeof import('./pages/asset/PageAssetBadge.vue')['default']
