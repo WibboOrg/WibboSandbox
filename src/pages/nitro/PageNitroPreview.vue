@@ -11,6 +11,11 @@
                         </div>
 
                         <div class="col-span-full">
+                            <label class="block mb-1">Url (.nitro)</label>
+                            <BaseInput v-model="postForm.url" />
+                        </div>
+
+                        <div class="col-span-full">
                             <BaseButton primary :loading="loading">Importer</BaseButton>
                         </div>
                     </form>
@@ -62,19 +67,26 @@
 import { VNodeRef } from 'vue'
 import { NitroBundle, ArrayBufferToBase64, Base64ToArrayBuffer, IAssetData } from '../../utils'
 
+const route = useRoute()
 const loading = ref(false)
-const postForm = ref({ file: { base64: '', name: '' } })
+const postForm = ref({ url: '', file: { base64: '', name: '' } })
 const baseUploadFileRef = ref<VNodeRef | null>(null)
 const nitroImage = ref<string>('')
 const nitroImagesUrl = ref<{ name: string; base64: string }[]>([])
 const nitroJson = ref<IAssetData | null>(null)
+
+watch(
+    () => route.query.url,
+    () => (postForm.value.url = route.query.url?.toString() || ''),
+    { immediate: true },
+)
 
 const handleFileUpload = (file: { base64: string; name: string }) => (postForm.value.file = file)
 
 const submitPost = async () => {
     if (loading.value) return
 
-    if (postForm.value.file.name === '') {
+    if (postForm.value.file.name === '' && postForm.value.url === '') {
         showMessage({ message: 'Vous devez mettre un fichier .nitro' })
         return
     }
@@ -82,10 +94,20 @@ const submitPost = async () => {
     try {
         loading.value = true
 
-        const nitroBuffer = Base64ToArrayBuffer(postForm.value.file.base64)
+        let nitroBuffer: ArrayBuffer | null = null
+        if (postForm.value.url !== '') {
+            nitroBuffer = await (await fetch(postForm.value.url)).arrayBuffer()
+        } else {
+            nitroBuffer = Base64ToArrayBuffer(postForm.value.file.base64).buffer
+        }
+
+        if (nitroBuffer == null) {
+            showMessage({ message: 'Une erreur est survenu' })
+            return
+        }
 
         const bundled = new NitroBundle()
-        bundled.parse(nitroBuffer.buffer)
+        bundled.parse(nitroBuffer)
 
         for (const file of Object.entries(bundled.files)) {
             const fileName = file[0]
@@ -104,7 +126,7 @@ const submitPost = async () => {
         image.onload = () => extractImage(image)
         image.src = nitroImage.value
 
-        postForm.value = { file: { base64: '', name: '' } }
+        postForm.value = { url: '', file: { base64: '', name: '' } }
 
         baseUploadFileRef.value?.reset()
     } catch (e) {

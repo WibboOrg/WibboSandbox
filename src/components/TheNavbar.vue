@@ -49,11 +49,18 @@ categoryList.value.push({ category: 'emulator', text: 'Emulateur', minRank: 11 }
 categoryList.value.push({ category: 'catalog', text: 'Catalogue', minRank: 11 })
 categoryList.value.push({ category: 'asset', text: 'Asset', minRank: 11 })
 categoryList.value.push({ category: 'user', text: 'Utilisateur', minRank: 11 })
+categoryList.value.push({ category: 'nitro-asset', text: 'Nitro asset', minRank: 11 })
 categoryList.value.push({ category: 'nitro', text: 'Nitro', minRank: 11 })
 categoryList.value.push({ category: 'tool', text: 'Outil', minRank: 11 })
 categoryList.value.push({ category: 'log', text: 'Log', minRank: 11 })
 
 navList.value.push({ category: 'tool', text: 'Régénérer', path: '/tool-regen' })
+
+navList.value.push({ category: 'nitro-asset', text: 'Vêtement', path: '/nitro-asset-figure' })
+navList.value.push({ category: 'nitro-asset', text: 'Effet', path: '/nitro-asset-effect' })
+navList.value.push({ category: 'nitro-asset', text: 'Mobilier', path: '/nitro-asset-furniture' })
+navList.value.push({ category: 'nitro-asset', text: 'Générique', path: '/nitro-asset-generic' })
+navList.value.push({ category: 'nitro-asset', text: 'Animal', path: '/nitro-asset-pet' })
 
 navList.value.push({ category: 'nitro', text: 'Crée', path: '/nitro-create' })
 navList.value.push({ category: 'nitro', text: 'Extraire', path: '/nitro-extract' })
