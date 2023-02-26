@@ -10,7 +10,7 @@ class TextExternalController extends BaseController
         $newData = [];
 
         foreach($data as $key => $value)
-            $newData[] = ["id" => $key, "code" => $key, "text" => $value];
+            if($key != "") $newData[] = ["id" => $key, "code" => $key, "text" => $value];
 
         return $newData;
     }
@@ -21,7 +21,7 @@ class TextExternalController extends BaseController
 
         $externalTexts = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/ExternalTexts.json?'. time(), true);
 
-        if (!property_exists($externalTexts, $dataStr["code"])) {
+        if (!property_exists($externalTexts, $dataStr["code"]) || $dataStr["code"] == "") {
             throw new HttpException('Identifiant incorrect', 400);
         }
 
@@ -48,7 +48,7 @@ class TextExternalController extends BaseController
 
         $externalTexts = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/ExternalTexts.json?'. time(), true);
 
-        if (property_exists($externalTexts, $dataStr["code"])) {
+        if (property_exists($externalTexts, $dataStr["code"]) || $dataStr["code"] == "") {
             throw new HttpException('Identifiant est déjà utilisée', 400);
         }
 

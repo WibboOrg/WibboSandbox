@@ -10,7 +10,7 @@ class TextBadgeController extends BaseController
         $newData = [];
 
         foreach($data as $key => $value)
-            $newData[] = ["id" => $key, "code" => $key, "text" => $value];
+            if($key != "") $newData[] = ["id" => $key, "code" => $key, "text" => $value];
 
         return $newData;
     }
@@ -21,7 +21,7 @@ class TextBadgeController extends BaseController
 
         $badgeTexts = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/BadgeTexts.json?'. time(), true);
 
-        if (!property_exists($badgeTexts, $dataStr["code"]))
+        if (!property_exists($badgeTexts, $dataStr["code"]) || $dataStr["code"] == "")
         {
             throw new HttpException('Identifiant incorrect', 400);
         }
@@ -49,7 +49,7 @@ class TextBadgeController extends BaseController
 
         $badgeTexts = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/BadgeTexts.json?'. time(), true);
 
-        if (property_exists($badgeTexts, $dataStr["code"])) {
+        if (property_exists($badgeTexts, $dataStr["code"]) || $dataStr["code"] == "") {
             throw new HttpException('Identifiant est déjà utilisée', 400);
         }
 

@@ -81,7 +81,12 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
     }
 
     const addEmptyFile = (file: T) => {
-        if (!files.value.find((x) => Object.values(x)[0] === Object.values(file)[0])) files.value = [file, ...files.value]
+        const findFile = files.value.find((x) => Object.values(x)[0] === Object.values(file)[0])
+        if (!findFile) {
+            files.value = [file, ...files.value]
+        } else {
+            showMessage({ message: 'Le fichier existe déjà' })
+        }
     }
 
     const updatePageCurrent = (pageId: number) => (pageCurrent.value = pageId)
@@ -98,7 +103,7 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
             ? files.value
             : files.value.filter((x) => Object.entries(x).some((k) => k[0]?.toString() === categoryFilter.value.key && k[1]?.toString() === categoryFilter.value.content))
     })
-    const filesSearch = computed(() => filesByCategory.value.filter((x) => Object.values(x).some((k) => k && k.toString().toLowerCase().includes(pageSearch.value.toLowerCase()))))
+    const filesSearch = computed(() => filesByCategory.value.filter((x) => Object.values(x).some((k) => k != null && k.toString().toLowerCase().includes(pageSearch.value.toLowerCase()))))
     const pageCount = computed(() => (filesSearch.value.length > pageCountItem.value ? Math.floor(filesSearch.value.length / pageCountItem.value) + 1 : 1))
     const pageId = computed(() => (pageCurrent.value > pageCount.value ? pageCount.value : pageCurrent.value < 1 ? 1 : pageCurrent.value))
 

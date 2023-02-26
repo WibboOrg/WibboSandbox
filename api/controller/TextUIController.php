@@ -9,8 +9,8 @@ class TextUIController extends BaseController
 
         $newData = [];
 
-        foreach($data as $key => $value)
-            $newData[] = ["id" => $key, "code" => $key, "text" => $value];
+        foreach ($data as $key => $value) 
+            if($key != "") $newData[] = ["id" => $key, "code" => $key, "text" => $value];
 
         return $newData;
     }
@@ -21,7 +21,7 @@ class TextUIController extends BaseController
 
         $uiTexts = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/UITexts.json?'. time(), true);
 
-        if (!property_exists($uiTexts, $dataStr["code"])) {
+        if (!property_exists($uiTexts, $dataStr["code"]) || $dataStr["code"] == "") {
             throw new HttpException('Identifiant incorrect', 400);
         }
 
@@ -48,7 +48,7 @@ class TextUIController extends BaseController
 
         $uiTexts = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/UITexts.json?'. time(), true);
 
-        if (!property_exists($uiTexts, $dataStr["code"])) {
+        if (!property_exists($uiTexts, $dataStr["code"]) || $dataStr["code"] == "") {
             throw new HttpException('Identifiant est déjà utilisée', 400);
         }
 
