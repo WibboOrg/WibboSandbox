@@ -61,7 +61,7 @@ categoryList.value.push({ category: 'emulator', text: 'Emulateur', minRank: 11, 
 categoryList.value.push({ category: 'catalog', text: 'Catalogue', minRank: 11, open: true })
 categoryList.value.push({ category: 'asset', text: 'Asset', minRank: 11, open: true })
 categoryList.value.push({ category: 'nitro-asset', text: 'Nitro asset', minRank: 11, open: true })
-categoryList.value.push({ category: 'nitro', text: 'Nitro', minRank: 11, open: true })
+categoryList.value.push({ category: 'nitro', text: 'Nitro', minRank: 1, open: true })
 categoryList.value.push({ category: 'tool', text: 'Outil', minRank: 11, open: true })
 categoryList.value.push({ category: 'user', text: 'Utilisateur', minRank: 11, open: true })
 categoryList.value.push({ category: 'log', text: 'Log', minRank: 11, open: true })
