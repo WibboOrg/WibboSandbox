@@ -44,7 +44,7 @@ class UploadFurniController extends BaseController
             "adurl" >= "",
             "offerid" => 0,
             "buyout" => false,
-            "rentofferid" => 0,
+            "rentofferid" => -1,
             "rentbuyout" => false,
             "customparams" => "",
             "specialtype" => 0,

@@ -75,6 +75,7 @@ class FurnitureDataController extends BaseController
         $var->name = $name;
         $var->description = $description;
         $var->offerid = (int)$offerid;
+        $var->rentofferid = (int)-1;
     }
 
     private function getCategoryName(string $id, string $type)
