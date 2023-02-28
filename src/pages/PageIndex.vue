@@ -17,8 +17,8 @@
 
 <script lang="ts" setup>
 import { ethers } from 'ethers'
-import { router } from '../router'
 
+const router = useRouter()
 const loginName = ref('')
 const loading = ref(false)
 

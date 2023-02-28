@@ -8,6 +8,7 @@ export const logout = () => {
         user: { id: 0, rank: 1, name: '', ticket: '' },
     }
     localStorage.clear()
+
     router.push('/')
 }
 

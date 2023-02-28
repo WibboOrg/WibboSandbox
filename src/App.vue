@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import { router } from './router'
+const router = useRouter()
 
 const loadHotel = ref(false)
 
