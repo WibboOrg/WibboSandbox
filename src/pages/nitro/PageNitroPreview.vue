@@ -75,14 +75,16 @@ const nitroImage = ref<string>('')
 const nitroImagesUrl = ref<{ name: string; base64: string }[]>([])
 const nitroJson = ref<IAssetData | null>(null)
 
-watch(
-    () => route.query.url,
-    () => {
-        postForm.value.url = route.query.url?.toString() || ''
-        if (postForm.value.url !== '') submitPost()
-    },
-    { immediate: true },
-)
+onMounted(() => {
+    watch(
+        () => route.query.url,
+        () => {
+            postForm.value.url = route.query.url?.toString() || ''
+            if (postForm.value.url !== '') submitPost()
+        },
+        { immediate: true },
+    )
+})
 
 const handleFileUpload = (file: { base64: string; name: string }) => (postForm.value.file = file)
 

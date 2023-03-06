@@ -7,7 +7,7 @@ class FurnitureDataController extends BaseController
 
     public function patch(Request $request) 
     {
-        $furniData = Helper::getSslPage("https://assets.wibbo.org/gamedata-sandbox/FurnitureData.json?cache=" . time(), true);
+        $furniData = Helper::getSslPage(URL_ASSETS + "gamedata-sandbox/FurnitureData.json?cache=" . time(), true);
 
         $product["productdata"]["product"] = array();
         

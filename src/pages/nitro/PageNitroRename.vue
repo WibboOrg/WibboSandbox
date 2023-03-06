@@ -41,11 +41,13 @@ const baseUploadFileRef = ref<VNodeRef | null>(null)
 const nitroImage = ref<string>('')
 const nitroJson = ref<IAssetData | null>(null)
 
-watch(
-    () => route.query.url,
-    () => (postForm.value.url = route.query.url?.toString() || ''),
-    { immediate: true },
-)
+onMounted(() => {
+    watch(
+        () => route.query.url,
+        () => (postForm.value.url = route.query.url?.toString() || ''),
+        { immediate: true },
+    )
+})
 
 const handleFileUpload = (file: { base64: string; name: string }) => (postForm.value.file = file)
 
