@@ -48,7 +48,7 @@ class TextUIController extends BaseController
 
         $uiTexts = Helper::getSslPage(URL_ASSETS . 'gamedata-sandbox/UITexts.json?'. time(), true);
 
-        if (!property_exists($uiTexts, $dataStr["code"]) || $dataStr["code"] == "") {
+        if (property_exists($uiTexts, $dataStr["code"]) || $dataStr["code"] == "") {
             throw new HttpException('Identifiant est déjà utilisée', 400);
         }
 
