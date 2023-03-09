@@ -66,7 +66,8 @@ categoryList.value.push({ category: 'tool', text: 'Outil', minRank: 11, open: tr
 categoryList.value.push({ category: 'user', text: 'Utilisateur', minRank: 11, open: true })
 categoryList.value.push({ category: 'log', text: 'Log', minRank: 11, open: true })
 
-navList.value.push({ category: 'tool', text: 'Régénérer', path: '/tool-regen' })
+navList.value.push({ category: 'tool', text: 'Régénérer fichier', path: '/tool-regen' })
+navList.value.push({ category: 'tool', text: 'Extraire har', path: '/tool-har' })
 
 navList.value.push({ category: 'nitro-asset', text: 'Vêtement', path: '/nitro-asset-figure' })
 navList.value.push({ category: 'nitro-asset', text: 'Effet', path: '/nitro-asset-effect' })
