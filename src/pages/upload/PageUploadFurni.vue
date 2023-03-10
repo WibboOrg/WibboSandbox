@@ -10,6 +10,10 @@
                             <BaseUploadFile accept="image/nitro" @upload="handleFileUpload" ref="baseUploadFileRef" />
                         </div>
                         <div class="col-span-full">
+                            <label class="block mb-1">Fichier (.png)</label>
+                            <BaseUploadFile accept="image/png" @upload="handleFileUploadIcon" ref="baseUploadFileIconRef" />
+                        </div>
+                        <div class="col-span-full">
                             <label class="block mb-1">type</label>
                             <BaseSelect v-model="postForm.type" :options="{ s: 'Sol', i: 'Mur' }"></BaseSelect>
                         </div>
@@ -36,10 +40,12 @@
 import { VNodeRef } from 'vue'
 
 const loading = ref(false)
-const postForm = ref({ type: 's', name: '', description: '', file: { base64: '', name: '' } })
+const postForm = ref({ type: 's', name: '', description: '', file: { base64: '', name: '' }, fileIcon: { base64: '', name: '' } })
 const baseUploadFileRef = ref<VNodeRef | null>(null)
+const baseUploadFileIconRef = ref<VNodeRef | null>(null)
 
 const handleFileUpload = (file: { base64: string; name: string }) => (postForm.value.file = file)
+const handleFileUploadIcon = (file: { base64: string; name: string }) => (postForm.value.fileIcon = file)
 
 const submitPost = async () => {
     if (loading.value) return
@@ -51,9 +57,10 @@ const submitPost = async () => {
 
         showMessage({ message: 'Le mobilier a bien été ajouté', success: true })
 
-        postForm.value = { type: 's', name: '', description: '', file: { base64: '', name: '' } }
+        postForm.value = { type: 's', name: '', description: '', file: { base64: '', name: '' }, fileIcon: { base64: '', name: '' } }
 
         baseUploadFileRef.value?.reset()
+        baseUploadFileIconRef.value?.reset()
     } catch (e) {
         console.error(e)
     }

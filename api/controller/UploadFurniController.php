@@ -1,16 +1,17 @@
 <?php
 class UploadFurniController extends BaseController
 {
-    public array $minRank = ['POST' => 12];
+    public array $minRank = ['POST' => 11];
     
     public function post(Request $request)
     {
         $file = $request->getFile();
+        $fileIcon = $request->getFile("fileIcon");
         $dataStr = $request->getString(["type", "name", "description"]);
         
         $uploadData = array();
 
-        if (!$file) {
+        if ($file["base64"] === '') {
             throw new HttpException("Fichier introuvable", 400);
         }
 
@@ -78,6 +79,16 @@ class UploadFurniController extends BaseController
                 "product" => array(array('code' => $furniName, 'name' => $furniTitle, 'description' => $furniDesc)),
             ),
         );
+
+        if ($fileIcon["base64"] !== '') {
+            array_push($uploadData,
+                array(
+                    'action' => 'upload',
+                    'path' => 'icons/' . $furniName . '_icon.png',
+                    'data' => $fileIcon["base64"],
+                )
+            );
+        }
 
         array_push($uploadData,
             array(

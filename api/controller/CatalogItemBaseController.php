@@ -1,7 +1,7 @@
 <?php
 class CatalogItemBaseController extends BaseController
 {
-    public array $minRank = ['GET' => 11, 'POST' => 12, 'DELETE' => 12, 'PATCH' => 12];
+    public array $minRank = ['GET' => 11, 'POST' => 12, 'DELETE' => 12, 'PATCH' => 11];
     
     public function get(Request $request) 
     {
@@ -13,6 +13,13 @@ class CatalogItemBaseController extends BaseController
         $dataInt = $request->getNumber(['id', 'sprite_id', 'width', 'length', 'stack_height', 'interaction_modes_count', 'vending_ids', 'effect_id']);
         $dataBool = $request->getBoolean(['can_stack', 'can_sit', 'is_walkable']);
         $dataStr = $request->getString(['type', 'item_name', 'interaction_type', 'height_adjustable']);
+
+        if($this->user['rank'] < 12)
+        {
+            if($dataStr['interaction_type'] == "exchange") {
+                throw new HttpException('Interaction type non autorisé', 400);
+            }
+        }
 
         ItemBaseDto::update(
             $dataInt['id'],

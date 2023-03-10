@@ -1,7 +1,7 @@
 <?php
 class CatalogItemController extends BaseController
 {
-    public array $minRank = ['GET' => 11, 'POST' => 12, 'DELETE' => 12, 'PATCH' => 12];
+    public array $minRank = ['GET' => 11, 'POST' => 12, 'DELETE' => 12, 'PATCH' => 11];
     
     public function get(Request $request) 
     {
@@ -12,6 +12,23 @@ class CatalogItemController extends BaseController
     {
         $dataInt = $request->getNumber(['id', 'item_id', 'page_id', 'cost_credits', 'cost_diamonds', 'cost_limitcoins', 'amount', 'offer_active']);
         $dataStr = $request->getString(['catalog_name', 'badge']);
+
+        if($this->user['rank'] < 12)
+        {
+            $item = CatalogItemDto::getOne($dataInt['id']);
+
+            if($item === null) {
+                throw new HttpException('Une erreur est survenu', 400);
+            }
+
+            if($item['page_id'] !== 1546145145 && $dataInt['page_id'] !== $item['page_id']) {
+                throw new HttpException('Vous ne pouvais déplacer cette objet', 400);
+            }
+
+            if($dataInt['cost_limitcoins'] !== 0 || $dataInt['cost_diamonds'] !== 0) {
+                throw new HttpException('Vous ne pouvais pas mettre une monnaie autre que les crédits', 400);
+            }
+        }
 
         CatalogItemDto::update(
             $dataInt['id'], 
