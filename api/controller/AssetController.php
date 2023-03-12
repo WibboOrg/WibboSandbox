@@ -1,7 +1,7 @@
 <?php
 class AssetController extends BaseController
 {
-    public array $minRank = ['GET' => 11, 'POST' => 12, 'DELETE' => 14];
+    public array $minRank = ['GET' => 11, 'POST' => 11, 'DELETE' => 14];
 
     public function get(Request $request) 
     {
@@ -30,6 +30,12 @@ class AssetController extends BaseController
         $category = $_GET['category'] ?? '';
 
         [$path, $categoryType, $ext] = $this->getCategoryAndPath($category);
+
+        if($this->user['rank'] < 12) {
+            if ($category != 'catalogue') {
+                throw new HttpException('Permission requis', 400);
+            }
+        }
 
         if (!$file) {
             throw new HttpException("Fichier introuvable", 400);

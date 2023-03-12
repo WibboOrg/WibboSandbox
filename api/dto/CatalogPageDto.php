@@ -8,15 +8,16 @@ class CatalogPageDto extends BaseDto
     {
         $model = self::getModel();
 
-        return $model->select('id', 'parent_id', 'caption', 'icon_image', 'enabled', 'min_rank', 'order_num', 'page_layout', 'page_strings_1', 'page_strings_2', 'is_premium')
+        return $model
+            ->select('id', 'parent_id', 'caption', 'icon_image', 'enabled', 'required_right', 'order_num', 'page_layout', 'page_strings_1', 'page_strings_2', 'is_premium')
             ->get();
     }
     public static function getOne(int $id) 
     {
         $model = self::getModel();
 
-        return $model->
-            select('id', 'parent_id', 'caption', 'icon_image', 'enabled', 'min_rank', 'order_num', 'page_layout', 'page_strings_1', 'page_strings_2', 'is_premium')
+        return $model
+            ->select('id', 'parent_id', 'caption', 'icon_image', 'enabled', 'required_right', 'order_num', 'page_layout', 'page_strings_1', 'page_strings_2', 'is_premium')
             ->where('id', $id)
             ->first();
     }
@@ -25,14 +26,14 @@ class CatalogPageDto extends BaseDto
     {
         $model = self::getModel();
 
-        $stmt = $model->execute("SELECT caption FROM catalog_page WHERE id = :pageid AND min_rank < 3 LIMIT 1", ["pageid" => $id]);
+        $stmt = $model->execute("SELECT caption FROM catalog_page WHERE id = :pageid AND required_right = '' LIMIT 1", ["pageid" => $id]);
 
         $query = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $query ? $query['caption'] : '';
     }
 
-    public static function update(int $id, int $parentId, string $caption, int $iconImage, int $enabled, int $minRank, int $orderNum, string $pageLayout, string $pageStrings1, string $pageStrings2, int $isPremium)
+    public static function update(int $id, int $parentId, string $caption, int $iconImage, int $enabled, string $requiredRight, int $orderNum, string $pageLayout, string $pageStrings1, string $pageStrings2, int $isPremium)
     {
         $model = self::getModel();
 
@@ -41,7 +42,7 @@ class CatalogPageDto extends BaseDto
             'caption' => $caption, 
             'icon_image' => $iconImage, 
             'enabled' => $enabled, 
-            'min_rank' => $minRank, 
+            'required_right' => $requiredRight, 
             'order_num' => $orderNum, 
             'page_layout' => $pageLayout, 
             'page_strings_1' => $pageStrings1, 
@@ -50,7 +51,7 @@ class CatalogPageDto extends BaseDto
         ]);
     }
 
-    public static function create(int $parentId, string $caption, int $iconImage, int $enabled, int $minRank, int $orderNum, string $pageLayout, string $pageStrings1, string $pageStrings2, int $isPremium)
+    public static function create(int $parentId, string $caption, int $iconImage, int $enabled, string $requiredRight, int $orderNum, string $pageLayout, string $pageStrings1, string $pageStrings2, int $isPremium)
     {
         $model = self::getModel();
 
@@ -59,7 +60,7 @@ class CatalogPageDto extends BaseDto
             'caption' => $caption,
             'icon_image' => $iconImage,
             'enabled' => $enabled,
-            'min_rank' => $minRank,
+            'required_right' => $requiredRight,
             'order_num' => $orderNum,
             'page_layout' => $pageLayout,
             'page_strings_1' => $pageStrings1,

@@ -24,7 +24,7 @@
                             <BaseTableHead>Titre</BaseTableHead>
                             <BaseTableHead>Icon Image</BaseTableHead>
                             <BaseTableHead v-if="fullEdit">Activer</BaseTableHead>
-                            <BaseTableHead>Min rank</BaseTableHead>
+                            <BaseTableHead>Permission</BaseTableHead>
                             <BaseTableHead>Ordre id</BaseTableHead>
                             <BaseTableHead>Layout</BaseTableHead>
                             <BaseTableHead v-if="fullEdit">Texte 1</BaseTableHead>
@@ -52,7 +52,7 @@
                                 <BaseTableColunm><BaseInput v-model="file.caption" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.icon_image" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.enabled" text-to-edit boolean></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.min_rank" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.required_right" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.order_num" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.page_layout" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.page_strings_1" text-to-edit></BaseInput></BaseTableColunm>
@@ -85,7 +85,7 @@ const defaultValue: ApiData = {
     caption: '',
     icon_image: 1,
     enabled: true,
-    min_rank: 1,
+    required_right: '',
     order_num: 1,
     page_layout: 'default_3x3',
     page_strings_1: 'wibbo|catalog_base',
@@ -99,7 +99,7 @@ interface ApiData {
     caption: string
     icon_image: number
     enabled: boolean
-    min_rank: number
+    required_right: string
     order_num: number
     page_layout: string
     page_strings_1: string

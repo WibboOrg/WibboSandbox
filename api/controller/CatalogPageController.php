@@ -1,7 +1,7 @@
 <?php
 class CatalogPageController extends BaseController
 {
-    public array $minRank = ['GET' => 11, 'POST' => 12, 'DELETE' => 12, 'PATCH' => 12];
+    public array $minRank = ['GET' => 11, 'POST' => 11, 'DELETE' => 12, 'PATCH' => 11];
 
     public function get(Request $request) 
     {
@@ -10,9 +10,20 @@ class CatalogPageController extends BaseController
 
     public function patch(Request $request)
     {
-        $dataInt = $request->getNumber(['id', 'parent_id', 'icon_image', 'min_rank', 'order_num']);
-        $dataStr = $request->getString(['caption', 'page_layout', 'page_strings_1', 'page_strings_2']);
+        $dataInt = $request->getNumber(['id', 'parent_id', 'icon_image', 'order_num']);
+        $dataStr = $request->getString(['caption', 'page_layout', 'page_strings_1', 'page_strings_2', 'required_right']);
         $dataBool = $request->getBoolean(['enabled', 'is_premium']);
+
+        if($this->user['rank'] < 12) {
+            $page = CatalogPageDto::getOne($dataInt['id']);
+            if($page === null) {
+                throw new HttpException('Une erreur est survenu', 400);
+            }
+
+            if($page['parent_id'] !== 564674 && $page['required_right'] !== '') {
+                throw new HttpException('Vous ne pouvais pas modifier cette page', 400);
+            }
+        }
 
         CatalogPageDto::update(
             $dataInt['id'], 
@@ -20,7 +31,7 @@ class CatalogPageController extends BaseController
             $dataStr['caption'],
             $dataInt['icon_image'],
             $dataBool['enabled'],
-            $dataInt['min_rank'],
+            $dataStr['required_right'],
             $dataInt['order_num'],
             $dataStr['page_layout'],
             $dataStr['page_strings_1'],
@@ -41,8 +52,8 @@ class CatalogPageController extends BaseController
 
     public function post(Request $request)
     {
-        $dataInt = $request->getNumber(['parent_id', 'icon_image', 'min_rank', 'order_num']);
-        $dataStr = $request->getString(['caption', 'page_layout', 'page_strings_1', 'page_strings_2']);
+        $dataInt = $request->getNumber(['parent_id', 'icon_image', 'order_num']);
+        $dataStr = $request->getString(['caption', 'page_layout', 'page_strings_1', 'page_strings_2', 'required_right']);
         $dataBool = $request->getBoolean(['enabled', 'is_premium']);
 
         $id = CatalogPageDto::create(
@@ -50,7 +61,7 @@ class CatalogPageController extends BaseController
             $dataStr['caption'],
             $dataInt['icon_image'],
             $dataBool['enabled'],
-            $dataInt['min_rank'],
+            $dataStr['required_right'],
             $dataInt['order_num'],
             $dataStr['page_layout'],
             $dataStr['page_strings_1'],
