@@ -7,7 +7,7 @@ class FurnitureDataController extends BaseController
 
     public function patch(Request $request) 
     {
-        $furniData = Helper::getSslPage(URL_ASSETS + "gamedata-sandbox/FurnitureData.json?cache=" . time(), true);
+        $furniData = Helper::getSslPage(URL_ASSETS . "gamedata-sandbox/FurnitureData.json?cache=" . time(), true);
 
         $product["productdata"]["product"] = array();
         
@@ -48,16 +48,16 @@ class FurnitureDataController extends BaseController
     private function furnidata(Object $var, string $type)
     {
         $id = $var->id;
-
         $name = $var->name;
         $description = $var->description;
+
         $offerid = CatalogItemDto::getOfferId($id, $type);
 
         if ($offerid == 0) {
             return;
         }
 
-        if (Helper::endsWith($name, " name") !== false || $name == "") {
+        if ($name == "" || Helper::endsWith($name, " name") !== false) {
             $nameCategory = $this->getCategoryName($id, $type);
 
             if ($nameCategory != "") {
@@ -65,7 +65,7 @@ class FurnitureDataController extends BaseController
             }
         }
 
-        if (Helper::endsWith($description, " desc") !== false || $description == "") {
+        if ($description == "" || Helper::endsWith($description, " desc") !== false) {
             $description = "Parfait pour ton appart";
         }
 
@@ -86,7 +86,7 @@ class FurnitureDataController extends BaseController
         }
 
         $page = CatalogPageDto::getCaptionById($pageId);
-        if ($page == "") {
+        if ($page == null) {
             return "";
         }
         

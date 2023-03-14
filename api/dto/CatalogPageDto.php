@@ -28,9 +28,7 @@ class CatalogPageDto extends BaseDto
 
         $stmt = $model->execute("SELECT caption FROM catalog_page WHERE id = :pageid AND required_right = '' LIMIT 1", ["pageid" => $id]);
 
-        $query = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $query ? $query['caption'] : '';
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public static function update(int $id, int $parentId, string $caption, int $iconImage, int $enabled, string $requiredRight, int $orderNum, string $pageLayout, string $pageStrings1, string $pageStrings2, int $isPremium)
