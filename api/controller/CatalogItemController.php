@@ -21,7 +21,9 @@ class CatalogItemController extends BaseController
                 throw new HttpException('Une erreur est survenu', 400);
             }
 
-            if($item['page_id'] !== 1546145145 && $dataInt['page_id'] !== $item['page_id']) {
+            $page = CatalogItemDto::getOne($item['page_id']);
+
+            if($item['page_id'] !== 1546145145 && $page['required_right'] !== '') {
                 throw new HttpException('Vous ne pouvais déplacer cette objet', 400);
             }
 
