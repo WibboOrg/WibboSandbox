@@ -16,15 +16,17 @@ class CatalogItemController extends BaseController
         if($this->user['rank'] < 12)
         {
             $item = CatalogItemDto::getOne($dataInt['id']);
-
             if($item === null) {
                 throw new HttpException('Une erreur est survenu', 400);
             }
 
-            $page = CatalogItemDto::getOne($item['page_id']);
+            $page = CatalogPageDto::getOne($item['page_id']);
+            if($page === null) {
+                throw new HttpException('Une erreur est survenu', 400);
+            }
 
             if($item['page_id'] !== 1546145145 && $page['required_right'] !== '') {
-                throw new HttpException('Vous ne pouvais déplacer cette objet', 400);
+                throw new HttpException('Vous ne pouvais pas déplacer cette objet', 400);
             }
 
             if($dataInt['cost_limitcoins'] !== 0 || $dataInt['cost_diamonds'] !== 0) {
