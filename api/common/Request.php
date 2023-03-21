@@ -29,11 +29,11 @@ class Request
         return $inputs;
     }
 
-    public function getFile($data = 'file'): array
+    public function getFile($name = 'file'): array
     {
-        $inputs = $this->requireData([$data]);
+        $inputs = $this->requireData([$name]);
         
-        return $inputs[$data];
+        return $inputs[$name];
     }
 
     public function getArray(array $keyList): array
