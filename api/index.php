@@ -6,6 +6,7 @@ require_all(['common', 'base', 'controller', 'model', 'dto']);
 function parseRoute()
 {
     $request = (isset($_GET["page"])) ? $_GET["page"] : explode('&', $_SERVER['QUERY_STRING'], 2)[0];
+    $request = str_starts_with($request, '/') ? substr($request, '1') : $request;
     $method = strtoupper($_SERVER["REQUEST_METHOD"]);
 
     $className = ucfirst(strtolower($request)) . "Controller";

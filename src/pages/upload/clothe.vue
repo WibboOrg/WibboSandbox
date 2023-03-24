@@ -57,6 +57,8 @@
 <script lang="ts" setup>
 import { VNodeRef } from 'vue'
 
+const { showMessage } = useNotification()
+
 const loading = ref(false)
 const postForm = ref({ type: 'ha', id: '', parts: [{ id: 0, type: 'ha', colorable: 0, index: 0, colorindex: 0 }], file: { base64: '', name: '' } })
 const baseUploadFileRef = ref<VNodeRef | null>(null)
@@ -74,7 +76,7 @@ const submitPost = async () => {
     try {
         loading.value = true
 
-        await useFetchAPI('UploadClothe', 'POST', { body: JSON.stringify(postForm.value) })
+        await useFetchAPI('UploadClothe', { body: postForm.value, method: 'POST' })
 
         showMessage({ message: 'Le vêtement a bien été ajouté', success: true })
 

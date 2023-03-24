@@ -1,7 +1,7 @@
 <?php
 class TextFurniController extends BaseController
 {
-    public array $minRank = ['GET' => 11, 'PATCH' => 12];
+    public array $minRank = ['GET' => 11, 'PATCH' => 11];
 
     public function get(Request $request) 
     {

@@ -25,7 +25,7 @@ const reloadFurnidata = async () => {
     try {
         loading.value = true
 
-        await useFetchAPI('FurnitureData', 'PATCH')
+        await useFetchAPI('FurnitureData', { method: 'PATCH' })
 
         showMessage({ message: 'Le furnitureData.json a été regénérer', success: true })
     } catch (e) {

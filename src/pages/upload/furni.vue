@@ -2,16 +2,20 @@
     <div class="grid grid-cols-1 gap-4 h-full">
         <div class="col-span-1">
             <BaseCard>
-                <template #title>Importer un fichier (Badge)</template>
+                <template #title>Importer un fichier (Mobilier)</template>
                 <template #body>
                     <form @submit.prevent="submitPost" enctype="multipart/form-data" class="grid grid-cols-1 gap-3">
                         <div class="col-span-full">
-                            <label class="block mb-1">Fichier (.gif)</label>
-                            <BaseUploadFile accept="image/gif" @upload="handleFileUpload" ref="baseUploadFileRef" />
+                            <label class="block mb-1">Fichier (.nitro)</label>
+                            <BaseUploadFile accept="image/nitro" @upload="handleFileUpload" ref="baseUploadFileRef" />
                         </div>
-                        <div class="col-span-1">
-                            <label class="block mb-1">Code</label>
-                            <BaseInput v-model="postForm.code" />
+                        <div class="col-span-full">
+                            <label class="block mb-1">Fichier (.png)</label>
+                            <BaseUploadFile accept="image/png" @upload="handleFileUploadIcon" ref="baseUploadFileIconRef" />
+                        </div>
+                        <div class="col-span-full">
+                            <label class="block mb-1">type</label>
+                            <BaseSelect v-model="postForm.type" :options="{ s: 'Sol', i: 'Mur' }"></BaseSelect>
                         </div>
                         <div class="col-span-1">
                             <label class="block mb-1">Titre</label>
@@ -35,11 +39,15 @@
 <script lang="ts" setup>
 import { VNodeRef } from 'vue'
 
+const { showMessage } = useNotification()
+
 const loading = ref(false)
-const postForm = ref({ code: '', name: '', description: '', file: { base64: '', name: '' } })
+const postForm = ref({ type: 's', name: '', description: '', file: { base64: '', name: '' }, fileIcon: { base64: '', name: '' } })
 const baseUploadFileRef = ref<VNodeRef | null>(null)
+const baseUploadFileIconRef = ref<VNodeRef | null>(null)
 
 const handleFileUpload = (file: { base64: string; name: string }) => (postForm.value.file = file)
+const handleFileUploadIcon = (file: { base64: string; name: string }) => (postForm.value.fileIcon = file)
 
 const submitPost = async () => {
     if (loading.value) return
@@ -47,13 +55,14 @@ const submitPost = async () => {
     try {
         loading.value = true
 
-        await useFetchAPI('UploadBadge', 'POST', { body: JSON.stringify(postForm.value) })
+        await useFetchAPI('UploadFurni', { body: postForm.value, method: 'POST' })
 
-        showMessage({ message: 'Le badge a bien été ajouté', success: true })
+        showMessage({ message: 'Le mobilier a bien été ajouté', success: true })
 
-        postForm.value = { code: '', name: '', description: '', file: { base64: '', name: '' } }
+        postForm.value = { type: 's', name: '', description: '', file: { base64: '', name: '' }, fileIcon: { base64: '', name: '' } }
 
         baseUploadFileRef.value?.reset()
+        baseUploadFileIconRef.value?.reset()
     } catch (e) {
         console.error(e)
     }

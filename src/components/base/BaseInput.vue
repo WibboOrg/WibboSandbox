@@ -3,23 +3,29 @@
         <span v-if="props.boolean">{{ valueUpdated === '1' ? 'Activer' : 'Désactiver' }}</span>
         <span v-else>{{ valueUpdated }}</span>
     </div>
-    <component
-        v-else
-        :is="componentType"
-        class="w-full px-4 py-2 bg-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600 whitespace-pre-wrap"
-        :class="{ 'text-center': center }"
-        type="text"
-        :placeholder="placeholder"
-        @keyup.enter="props.number ? onExit() : null"
-        @blur="onExit"
-        @input="updateValue($event.target)"
-        :value="modelValue"
-        @keypress="isValidValue"
-        :contenteditable="props.textToEdit"
-        ref="componentElement"
-    >
-        {{ modelValue }}
-    </component>
+    <div>
+        <input 
+            class="w-full px-4 py-2 bg-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600 whitespace-pre-wrap"
+            type="text"
+            :placeholder="placeholder"
+            :value="modelValue"
+            @input="updateValue($event.target as HTMLInputElement)" 
+            v-if="!textToEdit"
+        >
+        <div
+            v-else
+            class="w-full px-4 py-2 bg-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600 whitespace-pre-wrap"
+            :class="{ 'text-center': center }"
+            @keyup.enter="props.number ? onExit() : null"
+            @blur="onExit"
+            :value="modelValue"
+            @keypress="isValidValue"
+            :contenteditable="props.textToEdit"
+            ref="componentElement"
+        >
+            {{ modelValue }}
+        </div>
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -80,7 +86,7 @@ const updateValue = (event: HTMLInputElement | HTMLInputElement | string) => {
 
     if (props.delay > 0) {
         clearTimeout(timeoutId.value)
-        timeoutId.value = setTimeout(() => emit('update:modelValue', valueUpdated.value), props.delay)
+        timeoutId.value = window.setTimeout(() => emit('update:modelValue', valueUpdated.value), props.delay)
         return
     }
 

@@ -18,7 +18,9 @@
 <script lang="ts" setup>
 import { ethers } from 'ethers'
 
-const router = useRouter()
+const { showMessage } = useNotification()
+const { logout, login } = useAuth()
+
 const loginName = ref('')
 const loading = ref(false)
 
@@ -57,26 +59,14 @@ const web3Login = async () => {
         await provider.send('eth_requestAccounts', [])
         const address = await provider.getSigner().getAddress()
         const signature = await provider.getSigner().signMessage(messageSign)
+        const username = loginName.value
 
-        const dataLogin = await useFetchAPI<{ token: string }>('web3', 'POST', {
-            body: JSON.stringify({
-                address: address,
-                signature: signature,
-                message_token: messageToken,
-                username: loginName.value,
-            }),
-        })
+        await login({ address, signature, messageToken, username })
 
-        auth.value.token = dataLogin.token
+        localStorage.setItem('username', username)
 
-        auth.value.user = await useFetchAPI<{ id: number; rank: number; name: string; ticket: string }>('UserData')
-
-        localStorage.setItem('token', auth.value.token)
-        localStorage.setItem('username', loginName.value)
-
-        router.push('/home')
+        navigateTo('/home')
     } catch (e: unknown) {
-        localStorage.removeItem('token')
         loginName.value = ''
         logout()
     }

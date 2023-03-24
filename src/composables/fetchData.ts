@@ -7,7 +7,9 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
     const pageSearch = ref('')
     const files = ref([]) as Ref<T[]>
     const categoryFilter = ref<{ key: string; content: string }>({ key: '', content: '' })
+    
     const route = useRoute()
+    const { showMessage } = useNotification()
 
     const getFiles = async () => {
         isLoading.value = true
@@ -23,7 +25,7 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
     const deleteFile = async (id: number | string) => {
         isLoading.value = true
         try {
-            if (id !== -1 && id !== '') await useFetchAPI(url, 'DELETE', { body: JSON.stringify({ id }) })
+            if (id !== -1 && id !== '') await useFetchAPI(url, { body: { id }, method: 'DELETE' })
             files.value = files.value.filter((x) => Object.values(x)[0] !== id)
             showMessage({ message: 'Suppression effectuée', success: true })
         } catch (e) {
@@ -35,7 +37,7 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
     const patchFile = async (file: T) => {
         isLoading.value = true
         try {
-            await useFetchAPI(url, 'PATCH', { body: JSON.stringify(file) })
+            await useFetchAPI(url, { body: file, method: 'PATCH' })
             showMessage({ message: 'Mise à jour effectuée', success: true })
         } catch (e) {
             console.error(e)
@@ -46,7 +48,7 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
     const putFile = async (file: T) => {
         isLoading.value = true
         try {
-            await useFetchAPI(url, 'PUT', { body: JSON.stringify(file) })
+            await useFetchAPI(url, { body: file, method: 'PUT' })
             showMessage({ message: 'Mise à jour effectuée', success: true })
         } catch (e) {
             console.error(e)
@@ -57,7 +59,7 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
     const createFile = async (file: T) => {
         isLoading.value = true
         try {
-            const newFile = await useFetchAPI<T>(url, 'POST', { body: JSON.stringify(file) })
+            const newFile = await useFetchAPI<T>(url, { body: file, method: 'POST' })
 
             files.value = [newFile, ...files.value].filter((x) => Object.values(x)[0] !== Object.values(file)[0])
             showMessage({ message: 'Création effectuée', success: true })
@@ -70,7 +72,7 @@ export const useFetchData = <T extends object>(url: string, noReverse = false) =
     const importFile = async (file: { file: { base64: string; name: string } }) => {
         isLoading.value = true
         try {
-            const newFile = await useFetchAPI<T>(url, 'POST', { body: JSON.stringify(file) })
+            const newFile = await useFetchAPI<T>(url, { body: file, method: 'POST' })
 
             files.value = [newFile, ...files.value].filter((x) => Object.values(x)[0] !== Object.values(file)[0])
             showMessage({ message: 'Création effectuée', success: true })

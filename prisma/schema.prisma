@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id                     Int                         @id @default(autoincrement()) @db.UnsignedInt
+  username               String                      @unique(map: "username") @db.VarChar(50)
+  password               String                      @db.VarChar(255)
+  auth_ticket            String?                     @default("") @db.VarChar(100)
+  rank                   Int                         @default(1) @db.UnsignedInt
+  log_sandbox            log_sandbox[]
+
+  @@index([auth_ticket], map: "auth_ticket")
+}
+
+model log_sandbox {
+  id                Int    @id @default(autoincrement()) @db.UnsignedInt
+  user_id           Int    @db.UnsignedInt
+  method            String @db.VarChar(10)
+  edit_name         String @db.VarChar(20)
+  edit_key          String @db.VarChar(200)
+  timestamp_created Int
+  user              user   @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "log_sandbox_ibfk_1")
+
+  @@index([user_id], map: "user_id")
+}
