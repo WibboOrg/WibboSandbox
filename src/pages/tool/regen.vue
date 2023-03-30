@@ -17,6 +17,8 @@
 </template>
 
 <script lang="ts" setup>
+const { showMessage } = useNotification()
+
 const loading = ref(false)
 
 const reloadFurnidata = async () => {
@@ -25,7 +27,7 @@ const reloadFurnidata = async () => {
     try {
         loading.value = true
 
-        await useFetchAPI('FurnitureData', { method: 'PATCH' })
+        await useCsrfFetch('FurnitureData', { method: 'PATCH' })
 
         showMessage({ message: 'Le furnitureData.json a été regénérer', success: true })
     } catch (e) {

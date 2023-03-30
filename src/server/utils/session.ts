@@ -1,10 +1,7 @@
 import { H3Event, getCookie } from 'h3'
-
 import cookieSignature from 'cookie-signature'
 
-import { getUserById } from '../models/user'
-
-export function serialize(obj: object) {
+export const serialize = (obj: object) => {
     const value = Buffer.from(JSON.stringify(obj), 'utf-8').toString('base64')
     const length = Buffer.byteLength(value)
 
@@ -13,20 +10,21 @@ export function serialize(obj: object) {
     return value
 }
 
-export function deserialize<T>(value: string) {
+export const deserialize = <T>(value: string) => {
     return JSON.parse(Buffer.from(value, 'base64').toString('utf-8')) as T
 }
 
-export function sign(value: string, secret: string) {
+export const sign = (value: string, secret: string) => {
     return cookieSignature.sign(value, secret)
 }
 
-export function unsign(value: string, secret: string) {
+export const unsign = (value: string, secret: string) => {
     return cookieSignature.unsign(value, secret)
 }
 
-export async function getUserFromSession(event: H3Event) {
+export const getUserFromSession = async (event: H3Event) => {
     const config = useRuntimeConfig()
+    const userDTO = useUserDao()
 
     const cookie = getCookie(event, config.cookieName)
 
@@ -38,5 +36,24 @@ export async function getUserFromSession(event: H3Event) {
 
     const session = deserialize<{ userId: number }>(unsignedSession)
 
-    return getUserById(session.userId)
+    const userWithPassword = await userDTO.getOne(session.userId)
+
+    if(!userWithPassword) return null
+
+    const { password: _password, ...userWithoutPassword } = userWithPassword
+
+    return userWithoutPassword
+}
+
+export const getSessionUser = (event: H3Event) => {
+    const sessionUser = event.context.user
+
+    if (!sessionUser) {
+        throw createError({
+            statusCode: 401,
+            message: 'Accès refuser'
+        })
+    }
+
+    return sessionUser
 }

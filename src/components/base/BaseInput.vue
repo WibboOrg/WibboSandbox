@@ -3,10 +3,10 @@
         <span v-if="props.boolean">{{ valueUpdated === '1' ? 'Activer' : 'Désactiver' }}</span>
         <span v-else>{{ valueUpdated }}</span>
     </div>
-    <div>
+    <div v-else>
         <input 
-            class="w-full px-4 py-2 bg-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600 whitespace-pre-wrap"
-            type="text"
+            class="w-full px-4 py-2 whitespace-pre-wrap bg-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
+            :type="type"
             :placeholder="placeholder"
             :value="modelValue"
             @input="updateValue($event.target as HTMLInputElement)" 
@@ -14,12 +14,13 @@
         >
         <div
             v-else
-            class="w-full px-4 py-2 bg-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600 whitespace-pre-wrap"
+            class="w-full px-4 py-2 whitespace-pre-wrap bg-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600"
             :class="{ 'text-center': center }"
             @keyup.enter="props.number ? onExit() : null"
             @blur="onExit"
             :value="modelValue"
             @keypress="isValidValue"
+            @input="updateValue($event.target as HTMLInputElement)" 
             :contenteditable="props.textToEdit"
             ref="componentElement"
         >
@@ -37,6 +38,7 @@ const props = defineProps({
     number: { type: Boolean, default: false },
     delay: { type: Number, default: 0 },
     placeholder: { type: String, default: '' },
+    type: { type: String, default: 'text' },
 })
 
 const emit = defineEmits(['update:modelValue'])

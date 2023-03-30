@@ -1,7 +1,5 @@
-export interface User {
-  id: number
-  name: string
-  password: string
-  rank: number
-  ticket: string
+import type { User } from '@prisma/client'
+
+export interface UserData extends Omit<User, 'password'> {
+
 }

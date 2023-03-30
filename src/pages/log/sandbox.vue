@@ -2,7 +2,7 @@
     <div class="grid grid-cols-1 gap-4">
         <div class="col-span-1">
             <label class="text-xl font-bold">Recherche</label>
-            <BaseInput placeholder="Filter les resultats" v-model.trim="pageSearch" :delay="500" />
+            <BaseInput placeholder="Filter les resultats" v-model="pageSearch" :delay="500" />
         </div>
         <div class="col-span-1">
             <label class="text-xl font-bold">Choisir une option</label>
@@ -19,18 +19,18 @@
                         <template #head>
                             <BaseTableHead>#</BaseTableHead>
                             <BaseTableHead>Pseudo</BaseTableHead>
-                            <BaseTableHead>Methode</BaseTableHead>
+                            <BaseTableHead>Méthode</BaseTableHead>
                             <BaseTableHead>Action nom</BaseTableHead>
                             <BaseTableHead>Action Id</BaseTableHead>
                             <BaseTableHead>Date</BaseTableHead>
                         </template>
                         <template #body>
-                            <BaseTableBody v-for="file in filesPage" :key="file.id">
+                            <BaseTableBody v-for="file in filesPage" :key="file.id" v-if="filesPage">
                                 <BaseTableColunm>
                                     <div class="w-full px-4 py-2">{{ file.id }}</div>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
-                                    <div class="w-full px-4 py-2">{{ file.user_name }}</div>
+                                    <div class="w-full px-4 py-2">{{ file.user.username }}</div>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="w-full px-4 py-2">{{ methodToText(file.method) }}</div>
@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, getFiles } = useFetchData<ApiData>('LogSandbox')
+const { getFiles, filesPage, pageId, pageCount, updatePageCurrent, isLoading, pageSearch } = await useFetchData<ApiData>('/api/log/sandbox')
 
 const methodToText = (method: string) => {
     switch (method) {
@@ -84,7 +84,9 @@ const timestampToDate = (timestamp: number) => {
 
 interface ApiData {
     id: number
-    user_name: number
+    user: {
+        username: string
+    }
     method: string
     edit_name: string
     edit_key: string

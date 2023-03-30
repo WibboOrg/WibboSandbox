@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-1 gap-4 h-full">
+    <div class="grid h-full grid-cols-1 gap-4">
         <div class="col-span-1">
             <BaseCard>
                 <template #title>Importer un fichier (Mobilier)</template>
@@ -55,7 +55,7 @@ const submitPost = async () => {
     try {
         loading.value = true
 
-        await useFetchAPI('UploadFurni', { body: postForm.value, method: 'POST' })
+        await useFetch('UploadFurni', { body: postForm.value, method: 'POST' })
 
         showMessage({ message: 'Le mobilier a bien été ajouté', success: true })
 

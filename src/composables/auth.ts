@@ -1,53 +1,39 @@
-import type { User } from "../types"
+import type { UserData } from '~/types'
 
-const DEFAULT_USER: User = { id: 0, rank: 1, name: '', ticket: '' }
-
-export const useAuthUser = () => useState<User>('user', () => DEFAULT_USER)
+export const useAuthUser = () => useState<UserData | null>('user', () => null)
 
 export const useAuth = () => {
     const authUser = useAuthUser()
-    const authToken = useCookie('auth-token')
 
-    const setUser = (user: User) => {
+    const setUser = (user: UserData | null) => {
         authUser.value = user
     }
 
-    const setCookie = (token: string) => {
-        authToken.value = token
+    const login = async(name: string, password: string, rememberMe: boolean) => {
+        const { data: user } = await useFetch('/auth/login', { body: { name, password, rememberMe }, method: 'POST' })
+
+        setUser(user.value)
     }
 
-    const login = async({ address = '', signature = '', messageToken = '', username = '' }) => {
-        const data = await useFetchAPI<{ token: string }>('web3', {
-            body: { address, signature, message_token: messageToken, username }, method: 'POST'
-        })
+    const logout = async () => {
+        try {
+            await useFetch('/auth/logout', { method: 'post' })
 
-        setCookie(data.token)
-
-        await nextTick()
-
-        await me()
-    }
-
-    const logout = () => {
-        setUser({ id: 0, rank: 1, name: '', ticket: '' })
-        setCookie('')
-
-        navigateTo('/')
+            setUser(null)
+            navigateTo('/')
+        } catch (e: unknown) {
+            console.error(e)
+        }
     }
 
     const me = async () => {
         try {
-            if (authToken.value) {
-                const data = await useFetchAPI<{ id: number; rank: number; name: string; ticket: string }>('UserData')
+            if (!authUser.value) {
+                const { data: user } = await useFetch('/auth/me')
 
-                if (!data) {
-                    throw new Error()
-                }
-
-                setUser(data)
+                setUser(user.value)
             }
         } catch (e: unknown) {
-            setCookie('')
             console.error(e)
         }
     }
@@ -56,7 +42,6 @@ export const useAuth = () => {
         login,
         logout,
         me,
-        authUser,
-        authToken
+        authUser
     }
 }

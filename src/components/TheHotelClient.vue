@@ -1,8 +1,8 @@
 <template>
     <iframe
         class="absolute top-0 bottom-0 left-0 right-0 z-0 w-full h-full"
-        :src="'https://sandbox.wibbo.org/nitro/?local=' + isLocal + '&sso=' + authUser.ticket"
-        v-if="authUser.ticket !== ''"
+        :src="'https://sandbox.wibbo.org/nitro/?local=' + isLocal + '&sso=' + authUser?.auth_ticket"
+        v-if="authUser?.auth_ticket !== ''"
     ></iframe>
 </template>
 

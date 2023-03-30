@@ -1,5 +1,5 @@
 <template>
-    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-900">
+    <tr class="bg-gray-800 border-b border-gray-700 hover:bg-gray-900">
         <slot></slot>
     </tr>
 </template>

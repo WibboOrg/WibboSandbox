@@ -1,35 +1,37 @@
-import { getUserByName } from '../../models/user'
-  
 export default defineEventHandler(async (event) => {
-    const body = await readBody<{ name: string; password: string; rememberMe: boolean }>(event)
-
-    const { name, password, rememberMe } = body
+    const { name, password, rememberMe } = await readBody<{ name: string; password: string; rememberMe: boolean }>(event)
 
     if (!name || !password) {
-        return createError({
-            fatal: false,
+        throw createError({
             statusCode: 400,
-            message: 'Email address and password are required',
+            message: 'Le pseudo et le mot de passe est requis',
         })
     }
 
-    const userWithPassword = await getUserByName(name)
+    const userDTO = useUserDao()
+
+    const userWithPassword = await userDTO.getOneByName(name)
 
     if (!userWithPassword) {
-        return createError({
-            fatal: false,
+        throw createError({
             statusCode: 400,
-            message: 'Bad credentials',
+            message: 'Identifiants incorrects',
         })
     }
 
-    const verified = await verify(password, userWithPassword.password)
+    if (userWithPassword.password === '') {
+        const hashPassword = await hash(password)
 
-    if (!verified) {
-        return createError({
-            statusCode: 401,
-            message: 'Bad credentials',
-        })
+        await userDTO.update(userWithPassword.id, { password: hashPassword })
+    } else {
+        const verified = await verify(password, userWithPassword.password)
+
+        if (!verified) {
+            throw createError({
+                statusCode: 400,
+                message: 'Identifiants incorrects',
+            })
+        }
     }
 
     const config = useRuntimeConfig()
@@ -45,10 +47,7 @@ export default defineEventHandler(async (event) => {
         expires: rememberMe ? new Date(Date.now() + config.cookieRememberMeExpires) : new Date(Date.now() + config.cookieExpires),
     })
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _password, ...userWithoutPassword } = userWithPassword
 
-    return {
-        user: userWithoutPassword,
-    }
+    return userWithoutPassword
 })

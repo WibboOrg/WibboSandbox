@@ -34,6 +34,8 @@
 import { VNodeRef } from 'vue'
 import { NitroBundle, ArrayBufferToBase64, Base64ToArrayBuffer, IAssetData } from '../../utils'
 
+const { showMessage } = useNotification()
+
 const loading = ref(false)
 const postForm = ref({ name: '' })
 const baseUploadFileRef = ref<VNodeRef | null>(null)

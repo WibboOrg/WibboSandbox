@@ -2,7 +2,7 @@
     <div class="grid grid-cols-1 gap-4">
         <div class="col-span-1">
             <label class="text-xl font-bold">Recherche</label>
-            <BaseInput placeholder="Filter les resultats" v-model.trim="pageSearch" :delay="500" />
+            <BaseInput placeholder="Filter les resultats" v-model="pageSearch" :delay="500" />
         </div>
         <div class="col-span-1">
             <label class="text-xl font-bold">Choisir une option</label>

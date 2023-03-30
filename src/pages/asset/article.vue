@@ -2,12 +2,12 @@
     <div class="grid grid-cols-1 gap-4">
         <div class="col-span-1">
             <label class="text-xl font-bold">Recherche</label>
-            <BaseInput placeholder="Filter les resultats" v-model.trim="pageSearch" :delay="500" />
+            <BaseInput placeholder="Filter les resultats" v-model="pageSearch" :delay="500" />
         </div>
         <div class="col-span-1">
             <label class="text-xl font-bold">Importer un fichier (.png)</label>
             <BaseUploadFile accept="image/png" @upload="handleFileUpload" ref="baseUploadFileRef" />
-            <BaseButton @click="importFile(fileUpload).then(() => baseUploadFileRef?.reset())">Importer</BaseButton>
+            <BaseButton @click="createFile(fileUpload).then(() => baseUploadFileRef?.reset())">Importer</BaseButton>
         </div>
         <div class="col-span-1">
             <label class="text-xl font-bold">Choisir une option</label>
@@ -37,8 +37,8 @@
                                     </div>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
-                                    <div class="flex justify-around items-center w-full px-4 py-2">
-                                        <IconClose @click="deleteFile(file.id)" class="h-6 w-6 cursor-pointer hover:text-white" />
+                                    <div class="flex items-center justify-around w-full px-4 py-2">
+                                        <IconClose @click="deleteFile(file.id)" class="w-6 h-6 cursor-pointer hover:text-white" />
                                     </div>
                                 </BaseTableColunm>
                             </BaseTableBody>
@@ -52,10 +52,8 @@
 </template>
 
 <script lang="ts" setup>
-import { VNodeRef } from 'vue'
-
-const baseUploadFileRef = ref<VNodeRef | null>(null)
-const { isLoading, deleteFile, getFiles, importFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('Asset&category=article', true)
+const baseUploadFileRef = ref<any | null>(null)
+const { isLoading, deleteFile, getFiles, createFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = await useFetchData<ApiData>('/api/asset/article', true)
 
 const fileUpload = ref({ file: { base64: '', name: '' } })
 const handleFileUpload = (file: { base64: string; name: string }) => (fileUpload.value.file = file)

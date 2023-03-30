@@ -15,29 +15,29 @@
             <div class="flex justify-between mb-2">
                 <span class="font-bold">SandBox</span>
 
-                <div class="flex gap-1 items-center">
+                <div class="flex items-center gap-1">
                     <div class="cursor-pointer" @click="logout()">
                         <IconLogout class="w-4 h-4" />
                     </div>
                 </div>
             </div>
-            <div v-for="cate in categoryList.filter((x) => x.minRank <= authUser.rank)" :key="cate.category">
-                <div class="border-b-2 mb-2 cursor-pointer flex justify-between items-center" @click="cate.open = !cate.open">
-                    <span>{{ cate.text }}</span> <IconSortDown class="w-4 h-4 duration-300 transition-transform" :class="{ '-rotate-180': cate.open }" />
+            <div v-for="cate in categoryList.filter((x) => x.minRank <= (authUser?.rank || 1))" :key="cate.category">
+                <div class="flex items-center justify-between mb-2 border-b-2 cursor-pointer" @click="cate.open = !cate.open">
+                    <span>{{ cate.text }}</span> <IconSortDown class="w-4 h-4 transition-transform duration-300" :class="{ '-rotate-180': cate.open }" />
                 </div>
                 <transition
                     enter-active-class="duration-300 select-none"
-                    enter-from-class="opacity-0 -translate-y-5"
-                    enter-to-class="opacity-100 translate-y-0"
+                    enter-from-class="-translate-y-5 opacity-0"
+                    enter-to-class="translate-y-0 opacity-100"
                     leave-active-class="duration-300 select-none"
-                    leave-from-class="opacity-100 translate-y-0"
-                    leave-to-class="opacity-0 -translate-y-5"
+                    leave-from-class="translate-y-0 opacity-100"
+                    leave-to-class="-translate-y-5 opacity-0"
                     mode="out-in"
                 >
                     <ul class="flex flex-col gap-1 overflow-hidden" v-show="cate.open">
                         <li
                             :class="{ 'bg-gray-600': nav.path === $route.path }"
-                            class="w-full px-4 rounded transition-colors cursor-pointer hover:bg-gray-600"
+                            class="w-full px-4 transition-colors rounded cursor-pointer hover:bg-gray-600"
                             @click="$router.push(nav.path)"
                             v-for="(nav, index) of navList.filter((x) => x.category === cate.category)"
                             :key="index"

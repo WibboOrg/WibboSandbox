@@ -1,8 +1,8 @@
-import { User } from '~~/types'
+import type { user } from '@prisma/client'
 
 declare module 'h3' {
     interface H3EventContext {
-        user?: User
+        user?: user
     }
 }
 

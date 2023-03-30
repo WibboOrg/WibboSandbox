@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-1 gap-4 h-full">
+    <div class="grid h-full grid-cols-1 gap-4">
         <div class="col-span-1">
             <BaseCard>
                 <template #title>Importer un fichier (Vêtement)</template>
@@ -38,7 +38,7 @@
                                         <BaseTableColunm><BaseInput v-model="part.colorindex" number /></BaseTableColunm>
                                         <BaseTableColunm><BaseInput v-model="part.type" /></BaseTableColunm>
                                         <BaseTableColunm><BaseInput v-model="part.colorable" boolean /></BaseTableColunm>
-                                        <BaseTableColunm><IconClose @click="deletePart(part.id)" class="h-6 w-6 cursor-pointer hover:text-white" /></BaseTableColunm>
+                                        <BaseTableColunm><IconClose @click="deletePart(part.id)" class="w-6 h-6 cursor-pointer hover:text-white" /></BaseTableColunm>
                                     </BaseTableBody>
                                 </template>
                             </BaseTable>
@@ -76,7 +76,7 @@ const submitPost = async () => {
     try {
         loading.value = true
 
-        await useFetchAPI('UploadClothe', { body: postForm.value, method: 'POST' })
+        await useFetch('UploadClothe', { body: postForm.value, method: 'POST' })
 
         showMessage({ message: 'Le vêtement a bien été ajouté', success: true })
 

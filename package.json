@@ -11,10 +11,11 @@
     "lint:js": "eslint src --ext .ts,.vue --fix"
   },
   "dependencies": {
-    "@prisma/client": "^4.11.0",
+    "@prisma/client": "^4.12.0",
     "bcryptjs": "^2.4.3",
-    "ethers": "^5.7.2",
     "mysql": "^2.18.1",
+    "nuxt-csurf": "^1.2.0",
+    "nuxt-security": "^0.13.0",
     "pako": "^2.1.0",
     "prisma": "^4.11.0"
   },

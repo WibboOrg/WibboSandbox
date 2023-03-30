@@ -2,7 +2,7 @@
     <div class="grid grid-cols-1 gap-4">
         <div class="col-span-1">
             <label class="text-xl font-bold">Recherche</label>
-            <BaseInput placeholder="Filter les resultats" v-model.trim="pageSearch" :delay="500" />
+            <BaseInput placeholder="Filter les resultats" v-model="pageSearch" :delay="500" />
         </div>
         <div class="col-span-1">
             <label class="text-xl font-bold">Importer un fichier (.gif)</label>
@@ -55,7 +55,7 @@
 import { VNodeRef } from 'vue'
 
 const baseUploadFileRef = ref<VNodeRef | null>(null)
-const { isLoading, deleteFile, getFiles, importFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('Asset&category=badge', true)
+const { isLoading, deleteFile, getFiles, importFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('/api/asset/badge', true)
 
 const fileUpload = ref({ file: { base64: '', name: '' } })
 const handleFileUpload = (file: { base64: string; name: string }) => (fileUpload.value.file = file)

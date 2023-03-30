@@ -8,7 +8,5 @@ export default defineEventHandler(async (event) => {
         secure: process.env.NODE_ENV === 'production',
     })
 
-    return {
-        user: null,
-    }
+    return null
 })

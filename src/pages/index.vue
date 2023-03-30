@@ -3,12 +3,21 @@
         <BaseCard>
             <template #title>SandBox</template>
             <template #body>
-                <form @submit.prevent="web3Login" class="flex flex-col gap-2">
+                <form @submit.prevent="formLogin" class="flex flex-col gap-2">
                     <div>
                         <label class="block mb-1">Pseudo</label>
-                        <BaseInput placeholder="Pseudo" v-model="loginName" />
+                        <BaseInput placeholder="Pseudo" v-model="loginForm.username" />
                     </div>
-                    <BaseButton class="my-2 flex gap-2 justify-center"><span>Connexion</span><IconMetaMask class="h-6 w-6" /></BaseButton>
+                    <div>
+                        <label class="block mb-1">Mot de passe</label>
+                        <BaseInput type="password" placeholder="Mot de passe" v-model="loginForm.password" />
+                    </div>
+                    <label for="rememberMe" class="flex items-center justify-between cursor-pointer">
+                        <div class="leading-8">Se souvenir de moi</div>
+                        <BaseCheckBox id="rememberMe" name="remember" v-model="loginForm.rememberMe" />
+                    </label>
+                    
+                    <BaseButton class="flex justify-center">Connexion</BaseButton>
                 </form>
             </template>
         </BaseCard>
@@ -16,28 +25,30 @@
 </template>
 
 <script lang="ts" setup>
-import { ethers } from 'ethers'
-
 const { showMessage } = useNotification()
-const { logout, login } = useAuth()
+const { login } = useAuth()
 
-const loginName = ref('')
+const loginForm = ref({ username: '', password: '', rememberMe: false })
 const loading = ref(false)
+
+useHead({
+    title: 'Connexion',
+})
 
 onMounted(() => {
     const username = localStorage.getItem('username')
 
     if (username) {
-        loginName.value = username
+        loginForm.value.username = username
     }
 })
 
-const web3Login = async () => {
+const formLogin = async () => {
     if (loading.value) {
         return
     }
 
-    if (loginName.value.length < 3) {
+    if (loginForm.value.username.length < 3 || loginForm.value.password.length < 3) {
         showMessage({ message: 'Veuillez remplir tous les champs' })
         return
     }
@@ -45,30 +56,13 @@ const web3Login = async () => {
     loading.value = true
 
     try {
-        if (!window.ethereum) {
-            showMessage({ message: "MetaMask non détecté. Veuillez d'abord installer MetaMask" })
-            return
-        }
+        await login(loginForm.value.username, loginForm.value.password, loginForm.value.rememberMe)
 
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
-
-        const messageToken = await (await useFetchAPI<{ token: string }>('web3')).token
-
-        const messageSign = parseJwt<{ message: string }>(messageToken).message
-
-        await provider.send('eth_requestAccounts', [])
-        const address = await provider.getSigner().getAddress()
-        const signature = await provider.getSigner().signMessage(messageSign)
-        const username = loginName.value
-
-        await login({ address, signature, messageToken, username })
-
-        localStorage.setItem('username', username)
+        localStorage.setItem('username', loginForm.value.username)
 
         navigateTo('/home')
     } catch (e: unknown) {
-        loginName.value = ''
-        logout()
+        console.error(e)
     }
 
     loading.value = false

@@ -2,7 +2,7 @@
     <div class="grid grid-cols-1 gap-4">
         <div class="col-span-1">
             <label class="text-xl font-bold">Recherche</label>
-            <BaseInput placeholder="Filter les resultats" v-model.trim="pageSearch" :delay="500" />
+            <BaseInput placeholder="Filter les resultats" v-model="pageSearch" :delay="500" />
         </div>
         <div class="col-span-1">
             <label class="text-xl font-bold">Choisir une option</label>
@@ -36,7 +36,7 @@
                                 </BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="flex justify-around items-center w-full px-4 py-2">
-                                        <IconSave @click="file.id === -1 ? createFile(file) : patchFile(file)" class="h-6 w-6 cursor-pointer hover:text-white" />
+                                        <IconSave @click="file.id === -1 ? createFile(file) : updateFile(file)" class="h-6 w-6 cursor-pointer hover:text-white" />
                                         <IconClose @click="deleteFile(file.id)" class="h-6 w-6 cursor-pointer hover:text-white" />
                                     </div>
                                 </BaseTableColunm>
@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, patchFile, deleteFile, createFile, getFiles, addEmptyFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('EmulatorText')
+const { isLoading, updateFile, deleteFile, createFile, getFiles, addEmptyFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('EmulatorText')
 
 interface ApiData {
     id: number
