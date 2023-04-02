@@ -4,10 +4,7 @@ export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)
 
   if (sessionUser.rank < 11) {
-    throw createError({
-        statusCode: 400,
-        message: 'Permission requis'
-    })
+    throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
   const { id, input, minrank, description_fr } = await readBody<Partial<EmulatorCommand>>(event)

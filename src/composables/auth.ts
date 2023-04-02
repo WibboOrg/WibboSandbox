@@ -10,14 +10,14 @@ export const useAuth = () => {
     }
 
     const login = async(name: string, password: string, rememberMe: boolean) => {
-        const { data: user } = await useFetch('/auth/login', { body: { name, password, rememberMe }, method: 'POST' })
+        const { data: user } = await useCsrfFetch('/auth/login', { body: { name, password, rememberMe }, method: 'post' })
 
         setUser(user.value)
     }
 
     const logout = async () => {
         try {
-            await useFetch('/auth/logout', { method: 'post' })
+            await useCsrfFetch('/auth/logout', { method: 'post' })
 
             setUser(null)
             navigateTo('/')
@@ -29,7 +29,7 @@ export const useAuth = () => {
     const me = async () => {
         try {
             if (!authUser.value) {
-                const { data: user } = await useFetch('/auth/me')
+                const { data: user } = await useCsrfFetch('/auth/me')
 
                 setUser(user.value)
             }

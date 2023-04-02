@@ -38,7 +38,7 @@
                         <li
                             :class="{ 'bg-gray-600': nav.path === $route.path }"
                             class="w-full px-4 transition-colors rounded cursor-pointer hover:bg-gray-600"
-                            @click="$router.push(nav.path)"
+                            @click="navigateTo(nav.path)"
                             v-for="(nav, index) of navList.filter((x) => x.category === cate.category)"
                             :key="index"
                         >

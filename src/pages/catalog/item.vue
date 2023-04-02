@@ -45,9 +45,9 @@
                                 <BaseTableColunm><BaseInput v-model="file.offer_active" text-to-edit boolean></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.badge" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm>
-                                    <div class="flex justify-around items-center w-full px-4 py-2">
-                                        <IconSave @click="file.id === -1 ? createFile(file) : updateFile(file)" class="h-6 w-6 cursor-pointer hover:text-white" />
-                                        <IconClose @click="deleteFile(file.id)" class="h-6 w-6 cursor-pointer hover:text-white" />
+                                    <div class="flex items-center justify-around w-full px-4 py-2">
+                                        <IconSave @click="file.id === -1 ? createFile(file) : updateFile(file)" class="w-6 h-6 cursor-pointer hover:text-white" />
+                                        <IconClose @click="deleteFile(file.id)" class="w-6 h-6 cursor-pointer hover:text-white" />
                                     </div>
                                 </BaseTableColunm>
                             </BaseTableBody>
@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, updateFile, deleteFile, createFile, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = useFetchData<ApiData>('CatalogItem')
+const { isLoading, updateFile, deleteFile, createFile, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = await useFetchData<ApiData>('/api/catalog-item')
 
 const defaultFile = { id: -1, item_id: 0, page_id: 0, catalog_name: '', cost_credits: 3, cost_diamonds: 0, cost_limitcoins: 0, amount: 1, offer_active: 1, badge: '' } satisfies ApiData
 

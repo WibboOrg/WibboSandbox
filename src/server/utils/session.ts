@@ -49,10 +49,7 @@ export const getSessionUser = (event: H3Event) => {
     const sessionUser = event.context.user
 
     if (!sessionUser) {
-        throw createError({
-            statusCode: 401,
-            message: 'Accès refuser'
-        })
+        throw createError({ statusCode: 401, message: 'Accès refuser' })
     }
 
     return sessionUser

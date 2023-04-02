@@ -1,10 +1,14 @@
-export const useFetchData = async <T extends Object>(url: string, reverse = false) => {
+import type { NitroFetchRequest } from 'nitropack';
+
+export const useFetchData = async <T extends Object, ReqT extends NitroFetchRequest = NitroFetchRequest>(request: Ref<ReqT> | ReqT | (() => ReqT), reverse = false) => {
+    const url = request.toString()
+
     const isLoading = ref(false)
     const files = ref<T[]>([]) as Ref<T[]>
     const pageCurrent = ref(0)
     const pageCountItem = ref(100)
     const pageSearch = ref('')
-    const categoryFilter = ref<{ key: string; content: string }>({ key: '', content: '' })
+    const categoryFilter = ref({ key: '', content: '' })
     
     const route = useRoute()
     const { showMessage } = useNotification()
@@ -18,7 +22,7 @@ export const useFetchData = async <T extends Object>(url: string, reverse = fals
     const deleteFile = async (id: number | string) => {
         isLoading.value = true
 
-        if (id !== -1 && id !== '') useCsrfFetch(url, { body: { id, test: '123' }, method: 'delete' })
+        if (id !== -1 && id !== '') useCsrfFetch(url, { body: { id }, method: 'delete' })
         files.value = files.value.filter((x) => Object.values(x)[0] !== id)
         showMessage({ message: 'Suppression effectuée', success: true })
 

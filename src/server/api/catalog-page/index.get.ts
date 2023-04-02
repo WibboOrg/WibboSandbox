@@ -1,11 +1,11 @@
-export default defineEventHandler(async (event) => {
+export default defineEventHandler((event) => {
   const sessionUser = getSessionUser(event)
 
   if (sessionUser.rank < 11) {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
+  
+  const catalogPageDao = useCatalogPageDao()
 
-  const emulatorComandDao = useEmulatorCommandDao()
-
-  return emulatorComandDao.getAll()
+  return catalogPageDao.getAll()
 })

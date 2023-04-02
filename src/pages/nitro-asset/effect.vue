@@ -28,10 +28,10 @@
                                     </div>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
-                                    <div class="flex justify-around items-center w-full px-4 py-2 flex-col">
-                                        <div class="cursor-pointer hover:underline hover:text-white" @click="$router.push({ path: 'nitro-extract', query: { url: file.link } })">Extraire</div>
-                                        <div class="cursor-pointer hover:underline hover:text-white" @click="$router.push({ path: 'nitro-preview', query: { url: file.link } })">Aperçu</div>
-                                        <div class="cursor-pointer hover:underline hover:text-white" @click="$router.push({ path: 'nitro-rename', query: { url: file.link } })">Renommer</div>
+                                    <div class="flex flex-col items-center justify-around w-full px-4 py-2">
+                                        <div class="cursor-pointer hover:underline hover:text-white" @click="navigateTo({ path: 'nitro-extract', query: { url: file.link } })">Extraire</div>
+                                        <div class="cursor-pointer hover:underline hover:text-white" @click="navigateTo({ path: 'nitro-preview', query: { url: file.link } })">Aperçu</div>
+                                        <div class="cursor-pointer hover:underline hover:text-white" @click="navigateTo({ path: 'nitro-rename', query: { url: file.link } })">Renommer</div>
                                     </div>
                                 </BaseTableColunm>
                             </BaseTableBody>
@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('AssetNitro&category=effect', true)
+const { isLoading, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = await useFetchData<ApiData>('/api/asset/effect', true)
 
 interface ApiData {
     id: string

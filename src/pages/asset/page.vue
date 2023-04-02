@@ -7,7 +7,7 @@
         <div class="col-span-1">
             <label class="text-xl font-bold">Importer un fichier (pas d'extension)</label>
             <BaseUploadFile @upload="handleFileUpload" ref="baseUploadFileRef" />
-            <BaseButton @click="importFile(fileUpload).then(() => baseUploadFileRef?.reset())">Importer</BaseButton>
+            <BaseButton @click="createFile(fileUpload).then(() => baseUploadFileRef?.reset())">Importer</BaseButton>
         </div>
         <div class="col-span-1">
             <label class="text-xl font-bold">Choisir une option</label>
@@ -51,7 +51,7 @@
 import { VNodeRef } from 'vue'
 
 const baseUploadFileRef = ref<VNodeRef | null>(null)
-const { isLoading, deleteFile, getFiles, importFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFetchData<ApiData>('/api/asset/wibbopages', true)
+const { isLoading, deleteFile, getFiles, createFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = await useFetchData<ApiData>('/api/asset/wibbopages', true)
 
 const fileUpload = ref({ file: { base64: '', name: '' } })
 const handleFileUpload = (file: { base64: string; name: string }) => (fileUpload.value.file = file)

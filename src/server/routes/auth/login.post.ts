@@ -2,10 +2,7 @@ export default defineEventHandler(async (event) => {
     const { name, password, rememberMe } = await readBody<{ name: string; password: string; rememberMe: boolean }>(event)
 
     if (!name || !password) {
-        throw createError({
-            statusCode: 400,
-            message: 'Le pseudo et le mot de passe est requis',
-        })
+        throw createError({ statusCode: 400, message: 'Permission requis' })
     }
 
     const userDTO = useUserDao()
@@ -13,10 +10,7 @@ export default defineEventHandler(async (event) => {
     const userWithPassword = await userDTO.getOneByName(name)
 
     if (!userWithPassword) {
-        throw createError({
-            statusCode: 400,
-            message: 'Identifiants incorrects',
-        })
+        throw createError({ statusCode: 400, message: 'Identifiants incorrects' })
     }
 
     if (userWithPassword.password === '') {
@@ -27,10 +21,7 @@ export default defineEventHandler(async (event) => {
         const verified = await verify(password, userWithPassword.password)
 
         if (!verified) {
-            throw createError({
-                statusCode: 400,
-                message: 'Identifiants incorrects',
-            })
+            throw createError({ statusCode: 400, message: 'Identifiants incorrects' })
         }
     }
 

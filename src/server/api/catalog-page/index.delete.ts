@@ -15,9 +15,9 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
   }
 
-  const catalogItemBaseDao = useItemBaseDao()
+  const catalogPageDao = useCatalogPageDao()
 
-  await catalogItemBaseDao.remove(id)
+  await catalogPageDao.remove(id)
 
   return null
 })
