@@ -25,18 +25,18 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page', mode: 'out-in' },
   },
 
-  security: {
-    rateLimiter: {
-      tokensPerInterval: 150,
-      interval: 'hour',
-      fireImmediately: true,
-    },
-  },
+  // security: {
+  //   rateLimiter: {
+  //     tokensPerInterval: 150,
+  //     interval: 'hour',
+  //     fireImmediately: true,
+  //   },
+  // },
   
   typescript: {
     shim: false,
     strict: true,
   },
   
-  modules: ['@nuxtjs/tailwindcss', 'nuxt-security', 'nuxt-csurf'],
+  modules: ['@nuxtjs/tailwindcss', 'nuxt-csurf'],
 })

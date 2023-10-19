@@ -3,7 +3,7 @@
         <span class="flex flex-row p-1">
             <a class="px-2 border-r border-white cursor-pointer" @click.prevent="goFirst">«</a>
             <a class="px-2 border-r border-white cursor-pointer" @click.prevent="goTo(pageId - 1)">‹</a>
-            <div class="px-2 border-r border-white cursor-pointer" v-show="pageId > 4">…</div>
+            <div class="px-2 border-r border-white cursor-pointer" v-show="pageId > 5">…</div>
 
             <a
                 class="px-2 border-r border-white cursor-pointer"
@@ -18,7 +18,7 @@
                 pageId + index
             }}</a>
 
-            <div class="px-2 border-r border-white cursor-pointer" v-show="pageId <= pageCount - 4">…</div>
+            <div class="px-2 border-r border-white cursor-pointer" v-show="pageId < pageCount - 5">…</div>
             <a class="px-2 border-r border-white cursor-pointer" @click.prevent="goTo(pageId + 1)">›</a>
             <a class="px-2 border-r border-white cursor-pointer" @click.prevent="goLast">»</a>
         </span>

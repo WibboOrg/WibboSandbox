@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client"
+import { Prisma } from "wibboprisma"
 import prisma from "../database"
 
 export const useUserDao = () => {

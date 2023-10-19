@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-definePageMeta({
+useHead({
     title: 'Page introuvable',
 })
 

@@ -7,12 +7,12 @@
         <TheButtonReturn @click="navigateTo('/')" v-if="$route.path != '/'" />
         <TheNavbar v-if="$route.path != '/'" />
         <transition
-            enter-active-class="duration-300"
-            enter-from-class="opacity-0"
-            enter-to-class="opacity-100"
-            leave-active-class="duration-300"
-            leave-from-class="opacity-100"
-            leave-to-class="opacity-0"
+            enterActiveClass="duration-300"
+            enterFromClass="opacity-0"
+            enterToClass="opacity-100"
+            leaveActiveClass="duration-300"
+            leaveFromClass="opacity-100"
+            leaveToClass="opacity-0"
         >
             <div class="absolute top-0 bottom-0 left-0 right-0 overflow-hidden bg-gray-900 bg-opacity-75 backdrop-blur" v-show="$route.path !== '/hotel'">
                 <div class="w-full h-full overflow-y-overlay" :class="{ 'pl-[200px]': $route.path != '/' }" id="main">

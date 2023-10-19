@@ -11,16 +11,18 @@
     "lint:js": "eslint src --ext .ts,.vue --fix"
   },
   "dependencies": {
-    "@prisma/client": "^4.12.0",
     "bcryptjs": "^2.4.3",
     "mysql": "^2.18.1",
     "nuxt-csurf": "^1.2.0",
     "nuxt-security": "^0.13.0",
     "pako": "^2.1.0",
-    "prisma": "^4.11.0"
+    "postcss-custom-properties": "13.2.0",
+    "sharp": "^0.32.4",
+    "wibboprisma": "link:..\\WibboPrisma"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "^6.3.1",
+    "@nuxt/devtools": "^0.7.1",
+    "@nuxtjs/tailwindcss": "6.7.2",
     "@types/bcryptjs": "^2.4.2",
     "@types/cookie-signature": "^1.1.0",
     "@types/node": "^18.15.6",
@@ -34,7 +36,7 @@
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.8.0",
-    "nuxt": "^3.4.1",
+    "nuxt": "^3.5.3",
     "prettier": "^2.8.2",
     "vue-eslint-parser": "^9.1.0"
   }

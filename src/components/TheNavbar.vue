@@ -1,11 +1,11 @@
 <template>
     <transition
-        enter-active-class="duration-300"
-        enter-from-class="-translate-x-full"
-        enter-to-class="translate-x-0"
-        leave-active-class="duration-300"
-        leave-from-class="translate-x-0"
-        leave-to-class="-translate-x-full"
+        enterActiveClass="duration-300"
+        enterFromClass="-translate-x-full"
+        enterToClass="translate-x-0"
+        leaveActiveClass="duration-300"
+        leaveFromClass="translate-x-0"
+        leaveToClass="-translate-x-full"
     >
         <nav
             class="absolute top-0 bottom-0 left-0 z-10 flex flex-col h-full gap-1 p-2 bg-gray-800 shadow shadow-gray-600 w-[200px] overflow-y-auto"
@@ -26,12 +26,12 @@
                     <span>{{ cate.text }}</span> <IconSortDown class="w-4 h-4 transition-transform duration-300" :class="{ '-rotate-180': cate.open }" />
                 </div>
                 <transition
-                    enter-active-class="duration-300 select-none"
-                    enter-from-class="-translate-y-5 opacity-0"
-                    enter-to-class="translate-y-0 opacity-100"
-                    leave-active-class="duration-300 select-none"
-                    leave-from-class="translate-y-0 opacity-100"
-                    leave-to-class="-translate-y-5 opacity-0"
+                    enterActiveClass="duration-300 select-none"
+                    enterFromClass="-translate-y-5 opacity-0"
+                    enterToClass="translate-y-0 opacity-100"
+                    leaveActiveClass="duration-300 select-none"
+                    leaveFromClass="translate-y-0 opacity-100"
+                    leaveToClass="-translate-y-5 opacity-0"
                     mode="out-in"
                 >
                     <ul class="flex flex-col gap-1 overflow-hidden" v-show="cate.open">

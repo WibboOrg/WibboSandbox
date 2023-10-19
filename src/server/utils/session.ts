@@ -1,5 +1,6 @@
 import { H3Event, getCookie } from 'h3'
 import cookieSignature from 'cookie-signature'
+import { User } from 'wibboprisma'
 
 export const serialize = (obj: object) => {
     const value = Buffer.from(JSON.stringify(obj), 'utf-8').toString('base64')
@@ -24,7 +25,7 @@ export const unsign = (value: string, secret: string) => {
 
 export const getUserFromSession = async (event: H3Event) => {
     const config = useRuntimeConfig()
-    const userDTO = useUserDao()
+    const userDao = useUserDao()
 
     const cookie = getCookie(event, config.cookieName)
 
@@ -36,7 +37,7 @@ export const getUserFromSession = async (event: H3Event) => {
 
     const session = deserialize<{ userId: number }>(unsignedSession)
 
-    const userWithPassword = await userDTO.getOne(session.userId)
+    const userWithPassword = await userDao.getOne(session.userId)
 
     if(!userWithPassword) return null
 
@@ -46,7 +47,7 @@ export const getUserFromSession = async (event: H3Event) => {
 }
 
 export const getSessionUser = (event: H3Event) => {
-    const sessionUser = event.context.user
+    const sessionUser = event.context.user as User
 
     if (!sessionUser) {
         throw createError({ statusCode: 401, message: 'Accès refuser' })

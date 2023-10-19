@@ -1,6 +1,6 @@
 <template>
     <div v-if="!isEditing" class="w-full px-4 py-2 whitespace-pre-wrap" :class="{ 'cursor-pointer': props.boolean }" @click="onClick">
-        <span v-if="props.boolean">{{ valueUpdated === '1' ? 'Activer' : 'Désactiver' }}</span>
+        <span v-if="props.boolean">{{ valueUpdated === true ? 'Activer' : 'Désactiver' }}</span>
         <span v-else>{{ valueUpdated }}</span>
     </div>
     <div v-else>
@@ -64,7 +64,7 @@ const isValidValue = (evt: KeyboardEvent) => {
 
 const onClick = () => {
     if (props.boolean) {
-        valueUpdated.value = valueUpdated.value === '1' ? '0' : '1'
+        valueUpdated.value = valueUpdated.value === true ? false : true
         emit('update:modelValue', valueUpdated.value)
         return
     }

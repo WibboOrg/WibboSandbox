@@ -1,6 +1,6 @@
 import type { NitroFetchRequest } from 'nitropack';
 
-export const useFetchData = async <T extends Object, ReqT extends NitroFetchRequest = NitroFetchRequest>(request: Ref<ReqT> | ReqT | (() => ReqT), reverse = false) => {
+export const useFetchData = async <T extends Object, ReqT extends NitroFetchRequest = NitroFetchRequest>(request: Ref<ReqT> | ReqT | (() => ReqT), notReverse = false) => {
     const url = request.toString()
 
     const isLoading = ref(false)
@@ -16,7 +16,7 @@ export const useFetchData = async <T extends Object, ReqT extends NitroFetchRequ
     const getFiles = async () => {
         const fileList = await $fetch(url) as T[]
 
-        files.value = reverse ? fileList.reverse() : fileList
+        files.value = notReverse ? fileList : fileList.reverse()
     }
 
     const deleteFile = async (id: number | string) => {
