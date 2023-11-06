@@ -1,4 +1,4 @@
-import { CatalogPage } from "@prisma/client"
+import { CatalogPage } from "wibboprisma"
 
 export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)
@@ -7,21 +7,21 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const { id, caption, enabled, icon_image, is_premium, order_num, page_layout, page_link, page_strings_1, page_strings_2, parent_id, required_right } = await readBody<CatalogPage>(event)
+  const { id, caption, enabled, iconImage, isPremium, orderNum, pageLayout, pageLink, pageStrings1, pageStrings2, parentId, requiredRight } = await readBody<CatalogPage>(event)
 
-  if (isValidField(id, caption, enabled, icon_image, is_premium, order_num, page_layout, page_link, page_strings_1, page_strings_2, parent_id, required_right) === false) {
+  if (isValidField(id, caption, enabled, iconImage, isPremium, orderNum, pageLayout, pageLink, pageStrings1, pageStrings2, parentId, requiredRight) === false) {
     throw createError({ statusCode: 400, message: 'Un champ est manquant' })
   }
 
-  if (isValidNumber(id, icon_image, order_num, parent_id) === false ||
-    isValidString(caption, page_layout, page_link, page_strings_1, page_strings_2, required_right) === false ||
-    isValidBoolean(enabled, is_premium)) {
+  if (isValidNumber(id, iconImage, orderNum, parentId) === false ||
+    isValidString(caption, pageLayout, pageLink, pageStrings1, pageStrings2, requiredRight) === false ||
+    isValidBoolean(enabled, isPremium)) {
     throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
   }
 
   const catalogPageDao = useCatalogPageDao()
 
-  catalogPageDao.update(id, { caption, enabled, icon_image, is_premium, order_num, page_layout, page_link, page_strings_1, page_strings_2, parent_id, required_right })
+  catalogPageDao.update(id, { caption, enabled, iconImage, isPremium, orderNum, pageLayout, pageLink, pageStrings1, pageStrings2, parentId, requiredRight })
 
   return null
 })

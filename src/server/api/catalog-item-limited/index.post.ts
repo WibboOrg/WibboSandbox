@@ -1,4 +1,4 @@
-import { CatalogItemLimited } from "@prisma/client"
+import { CatalogItemLimited } from "wibboprisma"
 
 export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)
@@ -7,17 +7,25 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const { catalog_item_id, limited_sells, limited_stack } = await readBody<CatalogItemLimited>(event)
+  const { catalogItemId, limitedSells, limitedStack } = await readBody<CatalogItemLimited>(event)
 
-  if (isValidField(catalog_item_id, limited_sells, limited_stack) === false) {
+  if (isValidField(catalogItemId, limitedSells, limitedStack) === false) {
     throw createError({ statusCode: 400, message: 'Un champ est manquant' })
   }
 
-  if (isValidNumber(catalog_item_id, limited_sells, limited_stack) === false) {
+  if (isValidNumber(catalogItemId, limitedSells, limitedStack) === false) {
     throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+  }
+
+  const catalogItemDao = useCatalogItemDao()
+
+  const catalogItem = await catalogItemDao.getOne(catalogItemId)
+
+  if (!catalogItem) {
+    throw createError({ statusCode: 400, message: 'Categorie introuvable' })
   }
 
   const catalogItemLimitedDao = useCatalogItemLimitedDao()
 
-  return catalogItemLimitedDao.create({ catalog_item_id, limited_sells, limited_stack })
+  return catalogItemLimitedDao.create({ catalogItem, limitedSells, limitedStack })
 })

@@ -52,9 +52,9 @@
 </template>
 
 <script lang="ts" setup>
-import { VNodeRef } from 'vue'
+import type { LazyBaseUploadFile } from '#build/components';
 
-const baseUploadFileRef = ref<VNodeRef | null>(null)
+const baseUploadFileRef = ref<InstanceType<typeof LazyBaseUploadFile> | null>(null)
 const { isLoading, deleteFile, getFiles, createFile, filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = await useFetchData<ApiData>('/api/asset/notifications', true)
 
 const fileUpload = ref({ file: { base64: '', name: '' } })

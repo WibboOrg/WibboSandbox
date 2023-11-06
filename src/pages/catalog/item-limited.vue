@@ -29,9 +29,9 @@
                                 <BaseTableColunm>
                                     <div class="w-full px-4 py-2">{{ file.id }}</div>
                                 </BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.catalog_item_id" text-to-edit number></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.limited_sells" text-to-edit number></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.limited_stack" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.catalogItemId" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.limitedSells" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.limitedStack" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="flex items-center justify-around w-full px-4 py-2">
                                         <IconSave @click="file.id === -1 ? createFile(file) : updateFile(file)" class="w-6 h-6 cursor-pointer hover:text-white" />
@@ -51,12 +51,12 @@
 <script lang="ts" setup>
 const { isLoading, updateFile, deleteFile, createFile, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = await useFetchData<ApiData>('/api/catalog-item-limited')
 
-const defaultFile = { id: -1, catalog_item_id: -1, limited_sells: 0, limited_stack: 0 } satisfies ApiData
+const defaultFile = { id: -1, catalogItemId: -1, limitedSells: 0, limitedStack: 0 } satisfies ApiData
 
 interface ApiData {
     id: number
-    catalog_item_id: number
-    limited_sells: number
-    limited_stack: number
+    catalogItemId: number
+    limitedSells: number
+    limitedStack: number
 }
 </script>

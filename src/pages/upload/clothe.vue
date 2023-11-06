@@ -55,13 +55,13 @@
 </template>
 
 <script lang="ts" setup>
-import { VNodeRef } from 'vue'
+import type { LazyBaseUploadFile } from '#build/components';
 
 const { showMessage } = useNotification()
 
 const loading = ref(false)
 const postForm = ref({ type: 'ha', id: '', parts: [{ id: 0, type: 'ha', colorable: 0, index: 0, colorindex: 0 }], file: { base64: '', name: '' } })
-const baseUploadFileRef = ref<VNodeRef | null>(null)
+const baseUploadFileRef = ref<InstanceType<typeof LazyBaseUploadFile> | null>(null)
 const categoryType = ref({ hr: 'hr', hd: 'hd', ch: 'ch', lg: 'lg', sh: 'sh', ha: 'ha', he: 'he', ea: 'ea', fa: 'fa', ca: 'ca', wa: 'wa', cc: 'cc', cp: 'cp' })
 
 const addPart = () => {

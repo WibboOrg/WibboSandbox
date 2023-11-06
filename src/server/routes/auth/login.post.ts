@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
     const userWithPassword = await userDTO.getOneByName(name)
 
     if (!userWithPassword) {
-        throw createError({ statusCode: 400, message: 'Identifiants incorrects' })
+        throw createError({ statusCode: 400, message: 'Ce compte n\'existe pas' })
     }
 
     if (userWithPassword.password === '') {

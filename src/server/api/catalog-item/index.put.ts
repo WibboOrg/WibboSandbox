@@ -1,4 +1,4 @@
-import { CatalogItem } from "@prisma/client"
+import { CatalogItem } from "wibboprisma"
 
 export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)
@@ -7,22 +7,22 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const { id, page_id, item_id, catalog_name, cost_credits, cost_pixels, cost_diamonds, cost_limitcoins, amount, offer_active, badge } = await readBody<CatalogItem>(event)
+  const { id, pageId, itemId, catalogName, costCredits, costPixels, costDiamonds, costLimitcoins, amount, offerActive, badge } = await readBody<CatalogItem>(event)
 
-  if (isValidField(id, page_id, item_id, catalog_name, cost_credits, cost_pixels, cost_diamonds, cost_limitcoins, amount, offer_active, badge) === false) {
+  if (isValidField(id, pageId, itemId, catalogName, costCredits, costPixels, costDiamonds, costLimitcoins, amount, offerActive, badge) === false) {
     throw createError({ statusCode: 400, message: 'Un champ est manquant' })
   }
 
-  if (isValidNumber(id, page_id, item_id, cost_credits, cost_pixels, cost_diamonds, cost_limitcoins, amount) === false ||
-    isValidString(catalog_name, badge) === false ||
-    isValidBoolean(offer_active) === false
+  if (isValidNumber(id, pageId, itemId, costCredits, costPixels, costDiamonds, costLimitcoins, amount) === false ||
+    isValidString(catalogName, badge) === false ||
+    isValidBoolean(offerActive) === false
   ) {
     throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
   }
 
   const catalogItemDao = useCatalogItemDao()
 
-  catalogItemDao.update(id, { page_id, item_id, catalog_name, cost_credits, cost_pixels, cost_diamonds, cost_limitcoins, amount, offer_active, badge })
+  catalogItemDao.update(id, { pageId, itemId, catalogName, costCredits, costPixels, costDiamonds, costLimitcoins, amount, offerActive, badge })
 
   return null
 })

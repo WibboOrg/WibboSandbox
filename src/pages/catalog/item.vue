@@ -35,14 +35,14 @@
                                 <BaseTableColunm>
                                     <div class="w-full px-4 py-2">{{ file.id }}</div>
                                 </BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.item_id" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.page_id" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.catalog_name" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.cost_credits" text-to-edit number></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.cost_diamonds" text-to-edit number></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.cost_limitcoins" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.itemId" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.pageId" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.catalogName" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.costCredits" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.costDiamonds" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.costLimitcoins" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.amount" text-to-edit number></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.offer_active" text-to-edit boolean></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.offerActive" text-to-edit boolean></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.badge" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="flex items-center justify-around w-full px-4 py-2">
@@ -63,18 +63,18 @@
 <script lang="ts" setup>
 const { isLoading, updateFile, deleteFile, createFile, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, addEmptyFile } = await useFetchData<ApiData>('/api/catalog-item')
 
-const defaultFile = { id: -1, item_id: 0, page_id: 0, catalog_name: '', cost_credits: 3, cost_diamonds: 0, cost_limitcoins: 0, amount: 1, offer_active: 1, badge: '' } satisfies ApiData
+const defaultFile = { id: -1, itemId: 0, pageId: 0, catalogName: '', costCredits: 3, costDiamonds: 0, costLimitcoins: 0, amount: 1, offerActive: 1, badge: '' } satisfies ApiData
 
 interface ApiData {
     id: number
-    item_id: number
-    page_id: number
-    catalog_name: string
-    cost_credits: number
-    cost_diamonds: number
-    cost_limitcoins: number
+    itemId: number
+    pageId: number
+    catalogName: string
+    costCredits: number
+    costDiamonds: number
+    costLimitcoins: number
     amount: number
-    offer_active: number
+    offerActive: number
     badge: string
 }
 </script>

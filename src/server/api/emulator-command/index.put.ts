@@ -1,4 +1,4 @@
-import { EmulatorCommand } from "@prisma/client"
+import { EmulatorCommand } from "wibboprisma"
 
 export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)
@@ -7,19 +7,19 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const { id, input, minrank, description_fr } = await readBody<Partial<EmulatorCommand>>(event)
+  const { id, input, minrank, descriptionFr } = await readBody<Partial<EmulatorCommand>>(event)
 
-  if (!id || !input || !minrank || !description_fr) {
+  if (!id || !input || !minrank || !descriptionFr) {
     throw createError({ statusCode: 400, message: 'Un champ est manquant' })
   }
 
-  if (isValidNumber(id, minrank) === false || isValidString(input, description_fr) === false ) {
+  if (isValidNumber(id, minrank) === false || isValidString(input, descriptionFr) === false ) {
     throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
   }
 
   const emulatorComandDao = useEmulatorCommandDao()
 
-  emulatorComandDao.update(id, { input, minrank, description_fr })
+  emulatorComandDao.update(id, { input, minrank, descriptionFr })
 
   return null
 })

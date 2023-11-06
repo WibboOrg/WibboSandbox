@@ -8,7 +8,7 @@
             <label class="text-xl font-bold">Choisir une option</label>
             <div class="flex flex-row gap-2 mt-2">
                 <BaseButton @click="getFiles">Recharger la page</BaseButton>
-                <BaseButton @click="addEmptyFile({ id: -1, identifiant: '', value_fr: '' })">+ Ajouté</BaseButton>
+                <BaseButton @click="addEmptyFile({ id: -1, identifiant: '', valueFr: '' })">+ Ajouté</BaseButton>
             </div>
         </div>
         <div class="col-span-1">
@@ -32,7 +32,7 @@
                                     <BaseInput v-model="file.identifiant" text-to-edit></BaseInput>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
-                                    <BaseInput v-model="file.value_fr" text-to-edit></BaseInput>
+                                    <BaseInput v-model="file.valueFr" text-to-edit></BaseInput>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="flex items-center justify-around w-full px-4 py-2">
@@ -56,6 +56,6 @@ const { isLoading, updateFile, deleteFile, createFile, getFiles, addEmptyFile, f
 interface ApiData {
     id: number
     identifiant: string
-    value_fr: string
+    valueFr: string
 }
 </script>

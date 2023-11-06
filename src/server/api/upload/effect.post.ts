@@ -7,9 +7,9 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const { id, only_staff, file } = await readBody < { id: number, only_staff: boolean, file: { base64: string, name: string } }>(event)
+  const { id, onlyStaff, file } = await readBody < { id: number, onlyStaff: boolean, file: { base64: string, name: string } }>(event)
 
-  if (isValidField(id, only_staff, file, file?.base64) === false) {
+  if (isValidField(id, onlyStaff, file, file?.base64) === false) {
     throw createError({ statusCode: 400, message: 'Un champ est manquant' })
   }
 
@@ -46,7 +46,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const emulatorEffetDto = useEmulatorEffectDao()
-  emulatorEffetDto.create({ id, only_staff })
+  emulatorEffetDto.create({ id, onlyStaff })
 
   return null
 })

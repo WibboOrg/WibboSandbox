@@ -36,13 +36,13 @@
                                     <div class="w-full px-4 py-2">{{ methodToText(file.method) }}</div>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
-                                    <div class="w-full px-4 py-2">{{ file.edit_name }}</div>
+                                    <div class="w-full px-4 py-2">{{ file.editName }}</div>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
-                                    <div class="w-full px-4 py-2">{{ file.edit_key }}</div>
+                                    <div class="w-full px-4 py-2">{{ file.editKey }}</div>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
-                                    <div class="w-full px-4 py-2">{{ timestampToDate(file.timestamp_created) }}</div>
+                                    <div class="w-full px-4 py-2">{{ timestampToDate(file.timestampCreated) }}</div>
                                 </BaseTableColunm>
                             </BaseTableBody>
                         </template>
@@ -88,8 +88,8 @@ interface ApiData {
         username: string
     }
     method: string
-    edit_name: string
-    edit_key: string
-    timestamp_created: number
+    editName: string
+    editKey: string
+    timestampCreated: number
 }
 </script>

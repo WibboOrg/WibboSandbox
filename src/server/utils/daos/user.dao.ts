@@ -1,5 +1,4 @@
-import { Prisma } from "wibboprisma"
-import prisma from "../database"
+import { prisma, Prisma } from "wibboprisma"
 
 export const useUserDao = () => {
   const getAll = async () => prisma.user.findMany()

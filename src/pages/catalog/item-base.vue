@@ -42,19 +42,19 @@
                                     <div class="w-full px-4 py-2">{{ file.id }}</div>
                                 </BaseTableColunm>
                                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.type" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.item_name" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.itemName" text-to-edit></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.width" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.length" text-to-edit number></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.stack_height" text-to-edit number></BaseInput></BaseTableColunm>
-                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.can_stack" text-to-edit boolean></BaseInput></BaseTableColunm>
-                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.can_sit" text-to-edit boolean></BaseInput></BaseTableColunm>
-                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.is_walkable" text-to-edit boolean></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.interaction_type" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.interaction_modes_count" text-to-edit number></BaseInput></BaseTableColunm>
-                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.vending_ids" text-to-edit number></BaseInput></BaseTableColunm>
-                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.height_adjustable" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.effect_id" text-to-edit number></BaseInput></BaseTableColunm>
-                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.sprite_id" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.stackHeight" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.canStack" text-to-edit boolean></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.canSit" text-to-edit boolean></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.isWalkable" text-to-edit boolean></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.interactionType" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.interactionModesCount" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.vendingIds" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.heightAdjustable" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.effectId" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.spriteId" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="flex items-center justify-around w-full px-4 py-2">
                                         <IconSave @click="file.id === -1 ? createFile(file) : updateFile(file)" class="w-6 h-6 cursor-pointer hover:text-white" />
@@ -79,36 +79,36 @@ const fullEdit = ref(false)
 const defaultFile = {
     id: -1,
     type: 's',
-    item_name: '',
+    itemName: '',
     width: 1,
     length: 1,
-    stack_height: 1,
-    can_stack: 0,
-    can_sit: 0,
-    is_walkable: 0,
-    interaction_type: 'default',
-    interaction_modes_count: 1,
-    vending_ids: 0,
-    height_adjustable: '',
-    effect_id: 0,
-    sprite_id: 0,
+    stackHeight: 1,
+    canStack: 0,
+    canSit: 0,
+    isWalkable: 0,
+    interactionType: 'default',
+    interactionModesCount: 1,
+    vendingIds: 0,
+    heightAdjustable: '',
+    effectId: 0,
+    spriteId: 0,
 } satisfies ApiData
 
 interface ApiData {
     id: number
     type: string
-    item_name: string
+    itemName: string
     width: number
     length: number
-    stack_height: number
-    can_stack: number
-    can_sit: number
-    is_walkable: number
-    interaction_type: string
-    interaction_modes_count: number
-    vending_ids: number
-    height_adjustable: string
-    effect_id: number
-    sprite_id: number
+    stackHeight: number
+    canStack: number
+    canSit: number
+    isWalkable: number
+    interactionType: string
+    interactionModesCount: number
+    vendingIds: number
+    heightAdjustable: string
+    effectId: number
+    spriteId: number
 }
 </script>

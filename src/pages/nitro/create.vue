@@ -31,14 +31,14 @@
 </template>
 
 <script lang="ts" setup>
-import { VNodeRef } from 'vue'
-import { NitroBundle, ArrayBufferToBase64, Base64ToArrayBuffer, IAssetData } from '../../utils'
+import type { LazyBaseUploadFile } from '#build/components';
+import { NitroBundle, ArrayBufferToBase64, Base64ToArrayBuffer, type IAssetData } from '../../utils'
 
 const { showMessage } = useNotification()
 
 const loading = ref(false)
 const postForm = ref({ name: '' })
-const baseUploadFileRef = ref<VNodeRef | null>(null)
+const baseUploadFileRef = ref<InstanceType<typeof LazyBaseUploadFile> | null>(null)
 const nitroImage = ref<string>('')
 const nitroJson = ref<IAssetData | null>(null)
 

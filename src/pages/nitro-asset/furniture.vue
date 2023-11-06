@@ -29,9 +29,9 @@
                                 </BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="flex flex-col items-center justify-around w-full px-4 py-2">
-                                        <div class="cursor-pointer hover:underline hover:text-white" @click="navigateTo({ path: 'nitro-extract', query: { url: file.link } })">Extraire</div>
-                                        <div class="cursor-pointer hover:underline hover:text-white" @click="navigateTo({ path: 'nitro-preview', query: { url: file.link } })">Aperçu</div>
-                                        <div class="cursor-pointer hover:underline hover:text-white" @click="navigateTo({ path: 'nitro-rename', query: { url: file.link } })">Renommer</div>
+                                        <div class="cursor-pointer hover:underline hover:text-white" @click="navigateTo({ path: '/nitro/extract', query: { url: file.link } })">Extraire</div>
+                                        <div class="cursor-pointer hover:underline hover:text-white" @click="navigateTo({ path: '/nitro/preview', query: { url: file.link } })">Aperçu</div>
+                                        <div class="cursor-pointer hover:underline hover:text-white" @click="navigateTo({ path: '/nitro/rename', query: { url: file.link } })">Renommer</div>
                                     </div>
                                 </BaseTableColunm>
                             </BaseTableBody>

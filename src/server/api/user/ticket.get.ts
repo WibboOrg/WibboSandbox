@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
 
   const userDao = useUserDao()
 
-  await userDao.update(sessionUser.id, { auth_ticket: authTicket })
+  await userDao.update(sessionUser.id, { authTicket: authTicket })
 
   return authTicket
 })

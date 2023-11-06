@@ -8,7 +8,7 @@
             <label class="text-xl font-bold">Choisir une option</label>
             <div class="flex flex-row gap-2 mt-2">
                 <BaseButton @click="getFiles">Recharger la page</BaseButton>
-                <BaseButton @click="addEmptyFile({ id: -1, input: 'Input', minrank: 1, description_fr: 'Description' })">+ Ajouté</BaseButton>
+                <BaseButton @click="addEmptyFile({ id: -1, input: 'Input', minrank: 1, descriptionFr: 'Description' })">+ Ajouté</BaseButton>
             </div>
         </div>
         <div class="col-span-1">
@@ -36,7 +36,7 @@
                                     <BaseInput v-model="file.minrank" text-to-edit number></BaseInput>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
-                                    <BaseInput v-model="file.description_fr" text-to-edit></BaseInput>
+                                    <BaseInput v-model="file.descriptionFr" text-to-edit></BaseInput>
                                 </BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="flex items-center justify-around w-full px-4 py-2">
@@ -61,6 +61,6 @@ interface ApiData {
     id: number
     input: string
     minrank: number
-    description_fr: string
+    descriptionFr: string
 }
 </script>

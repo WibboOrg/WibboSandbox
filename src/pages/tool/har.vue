@@ -21,14 +21,14 @@
 </template>
 
 <script lang="ts" setup>
-import { VNodeRef } from 'vue'
+import type { LazyBaseUploadFile } from '#build/components';
 import { Base64ToArrayBuffer, NitroBundle } from '../../utils'
 
 const { showMessage } = useNotification()
 
 const loading = ref(false)
 const postForm = ref({ file: { base64: '', name: '' } })
-const baseUploadFileRef = ref<VNodeRef | null>(null)
+const baseUploadFileRef = ref<InstanceType<typeof LazyBaseUploadFile> | null>(null)
 const handleFileUpload = (file: { base64: string; name: string }) => (postForm.value.file = file)
 
 const submitPost = async () => {

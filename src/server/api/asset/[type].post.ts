@@ -36,9 +36,9 @@ export default defineEventHandler(async (event) => {
   const logSandboxDao = useLogSandboxDao()
   logSandboxDao.create({
     method: 'post',
-    edit_name: 'asset',
-    edit_key: file.name,
-    timestamp_created: Math.floor(Date.now() / 1000),
+    editName: 'asset',
+    editKey: file.name,
+    timestampCreated: Math.floor(Date.now() / 1000),
     user: {
       connect: { id: sessionUser.id }
     }

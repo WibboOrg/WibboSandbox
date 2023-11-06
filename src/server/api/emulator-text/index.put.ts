@@ -1,4 +1,4 @@
-import { EmulatorText } from "@prisma/client"
+import { EmulatorText } from "wibboprisma"
 
 export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)
@@ -7,19 +7,19 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const { id, identifiant, value_fr } = await readBody<EmulatorText>(event)
+  const { id, identifiant, valueFr } = await readBody<EmulatorText>(event)
 
-  if (isValidField(id, identifiant, value_fr) === false) {
+  if (isValidField(id, identifiant, valueFr) === false) {
     throw createError({ statusCode: 400, message: 'Un champ est manquant' })
   }
 
-  if (isValidNumber(id) === false || isValidString(identifiant, value_fr) === false) {
+  if (isValidNumber(id) === false || isValidString(identifiant, valueFr!) === false) {
     throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
   }
 
   const emulatorTextDao = useEmulatorTextDao()
 
-  emulatorTextDao.update(id, { identifiant, value_fr })
+  emulatorTextDao.update(id, { identifiant, valueFr })
 
   return null
 })

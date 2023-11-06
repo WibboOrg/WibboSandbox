@@ -1,4 +1,4 @@
-import { Prisma } from "wibboprisma"
+import { prisma, Prisma } from "wibboprisma"
 
 export const useEmulatorCommandDao = () => {
   const getAll = async () => prisma.emulatorCommand.findMany({ select: { id: true, input: true, minrank: true, descriptionFr: true } })

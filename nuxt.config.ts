@@ -4,6 +4,9 @@ const ONE_WEEK = ONE_DAY * 7
 
 export default defineNuxtConfig({
   srcDir: 'src/',
+  devServer: {
+    port: 3001
+  },
 
   runtimeConfig: {
     cookieName: process.env.COOKIE_NAME || '__session',

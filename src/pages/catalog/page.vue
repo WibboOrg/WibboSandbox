@@ -48,16 +48,16 @@
                                         </div>
                                     </div>
                                 </BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.parent_id" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.parentId" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm><BaseInput v-model="file.caption" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.icon_image" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.iconImage" text-to-edit number></BaseInput></BaseTableColunm>
                                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.enabled" text-to-edit boolean></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.required_right" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.order_num" text-to-edit number></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.page_layout" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.page_strings_1" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.page_strings_2" text-to-edit></BaseInput></BaseTableColunm>
-                                <BaseTableColunm><BaseInput v-model="file.is_premium" text-to-edit boolean></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.requiredRight" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.orderNum" text-to-edit number></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.pageLayout" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.pageStrings1" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.pageStrings2" text-to-edit></BaseInput></BaseTableColunm>
+                                <BaseTableColunm><BaseInput v-model="file.isPremium" text-to-edit boolean></BaseInput></BaseTableColunm>
                                 <BaseTableColunm>
                                     <div class="flex items-center justify-around w-full px-4 py-2">
                                         <IconSave @click="file.id === -1 ? createFile(file) : updateFile(file)" class="w-6 h-6 cursor-pointer hover:text-white" />
@@ -81,29 +81,29 @@ const fullEdit = ref(false)
 
 const defaultValue: ApiData = {
     id: -1,
-    parent_id: -1,
+    parentId: -1,
     caption: '',
-    icon_image: 1,
+    iconImage: 1,
     enabled: true,
-    required_right: '',
-    order_num: 1,
-    page_layout: 'default_3x3',
-    page_strings_1: 'wibbo|catalog_base',
-    page_strings_2: '',
-    is_premium: false,
+    requiredRight: '',
+    orderNum: 1,
+    pageLayout: 'default_3x3',
+    pageStrings1: 'wibbo|catalog_base',
+    pageStrings2: '',
+    isPremium: false,
 }
 
 interface ApiData {
     id: number
-    parent_id: number
+    parentId: number
     caption: string
-    icon_image: number
+    iconImage: number
     enabled: boolean
-    required_right: string
-    order_num: number
-    page_layout: string
-    page_strings_1: string
-    page_strings_2: string
-    is_premium: boolean
+    requiredRight: string
+    orderNum: number
+    pageLayout: string
+    pageStrings1: string
+    pageStrings2: string
+    isPremium: boolean
 }
 </script>
