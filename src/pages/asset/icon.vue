@@ -36,7 +36,7 @@
                                         <a :href="file.link" target="_blank" class="hover:underline hover:text-white">{{ file.link }}</a>
                                     </div>
                                 </BaseTableColunm>
-                                <BaseTableColunm>
+                                <BaseTableColunm> <!-- SUPRESSION DES BADGES -->
                                     <div class="flex justify-around items-center w-full px-4 py-2">
                                         <IconClose @click="deleteFile(file.id)" class="h-6 w-6 cursor-pointer hover:text-white" />
                                     </div>
