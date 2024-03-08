@@ -19,6 +19,9 @@ useHead({
     link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ],
+    htmlAttrs: {
+        lang: 'fr',
+    },
 })
 </script>
 
@@ -41,6 +44,7 @@ body { overflow: hidden; }
 ::-webkit-scrollbar-thumb:hover {
     background-color: rgba(255, 255, 255, 0.6);
 }
+
 .overflow-y-overlay {
     overflow-y: overlay!important;
 }

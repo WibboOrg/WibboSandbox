@@ -4,7 +4,7 @@
             <BaseCard>
                 <template #title>Extraire un fichier har</template>
                 <template #body>
-                    <form @submit.prevent="submitPost" enctype="multipart/form-data" class="grid grid-cols-4 gap-3">
+                    <form @submit.prevent="submitPost" enctype="multipart/form-data" class="grid grid-cols-4 gap-3 p-4">
                         <div class="col-span-full">
                             <label class="block mb-1">Fichier (.har)</label>
                             <BaseUploadFile accept=".har" @upload="handleFileUpload" ref="baseUploadFileRef" />

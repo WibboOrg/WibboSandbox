@@ -7,22 +7,26 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const { id, pageId, itemId, catalogName, costCredits, costPixels, costDiamonds, costLimitcoins, amount, offerActive, badge } = await readBody<CatalogItem>(event)
+  const catalogItems = await readBody<CatalogItem[]>(event)
 
-  if (isValidField(id, pageId, itemId, catalogName, costCredits, costPixels, costDiamonds, costLimitcoins, amount, offerActive, badge) === false) {
-    throw createError({ statusCode: 400, message: 'Un champ est manquant' })
-  }
+  for (const { id, pageId, itemId, catalogName, costCredits, costPixels, costDiamonds, costLimitcoins, amount, offerActive, badge } of catalogItems) {
+    if (isValidField(id, pageId, itemId, catalogName, costCredits, costPixels, costDiamonds, costLimitcoins, amount, offerActive, badge) === false) {
+      throw createError({ statusCode: 400, message: 'Un champ est manquant' })
+    }
 
-  if (isValidNumber(id, pageId, itemId, costCredits, costPixels, costDiamonds, costLimitcoins, amount) === false ||
-    isValidString(catalogName, badge) === false ||
-    isValidBoolean(offerActive) === false
-  ) {
-    throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+    if (isValidNumber(id, pageId, itemId, costCredits, costPixels, costDiamonds, costLimitcoins, amount) === false ||
+      isValidString(catalogName, badge) === false ||
+      isValidBoolean(offerActive) === false
+    ) {
+      throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+    }
   }
 
   const catalogItemDao = useCatalogItemDao()
 
-  catalogItemDao.update(id, { pageId, itemId, catalogName, costCredits, costPixels, costDiamonds, costLimitcoins, amount, offerActive, badge })
+  for (const { id, pageId, itemId, catalogName, costCredits, costPixels, costDiamonds, costLimitcoins, amount, offerActive, badge } of catalogItems) {
+    await catalogItemDao.update(id, { pageId, catalogName, costCredits, costPixels, costDiamonds, costLimitcoins, amount, offerActive, badge, itemBase: { connect: { id: itemId } } })
+  }
 
   return null
 })

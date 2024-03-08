@@ -5,32 +5,36 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const { id, text } = await readBody<{ id?: string, text: string }>(event)
+  const textExternals = await readBody<{ id: string, text: string }[]>(event)
 
-  if (!id) {
-    throw createError({ statusCode: 400, message: 'Un champ est manquant' })
-  }
+  for (const { id, text } of textExternals) {
+    if (!id || !text) {
+      throw createError({ statusCode: 400, message: 'Un champ est manquant' })
+    }
 
-  if (isValidString(id, text) === false) {
-    throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+    if (isValidString(id, text) === false) {
+      throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+    }
   }
 
   const config = useRuntimeConfig()
 
-  const data = await $fetch<Record<string, string>>(config.urlAssets + 'gamedata-sandbox/ExternalTexts.json');
+  const data = await fetchServer<Record<string, string>>(config.urlAssets + 'gamedata-sandbox/ExternalTexts.json');
 
-  if (data[id] !== undefined) {
-    throw createError({ statusCode: 400, message: 'Une erreur est survenu' })
+  for (const { id, text } of textExternals) {
+    if (data[id] !== undefined) {
+      continue
+    }
+
+    data[id] = text
   }
-
-  data[id] = text
 
   const uploadData = [{
       'action': 'upload',
       'path': 'gamedata-sandbox/ExternalTexts.json',
       'data': Buffer.from(JSON.stringify(data)).toString('base64'),
   }]
-  
+
   if (await uploadApi('assets', uploadData) === false) {
     throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
   }

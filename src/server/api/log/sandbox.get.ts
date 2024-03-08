@@ -1,11 +1,11 @@
 export default defineEventHandler((event) => {
-  const sessionUser = getSessionUser(event)
+    const sessionUser = getSessionUser(event)
 
-  if (sessionUser.rank < 11) {
-    throw createError({ statusCode: 400, message: 'Permission requis' })
-  }
+    if (sessionUser.rank < 11) {
+      throw createError({ statusCode: 400, message: 'Permission requis' })
+    }
   
-  const logSandboxDao = useLogSandboxDao()
+    const logSandboxDao = useLogSandboxDao()
 
-  return logSandboxDao.getAll()
+    return logSandboxDao.getAll()
 })

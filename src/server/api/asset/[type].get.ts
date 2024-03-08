@@ -5,9 +5,13 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const category = event.context.params?.type || ''
+  const category: CategoryKey | undefined = event.context.params?.type as CategoryKey ?? undefined
 
-  const categoryAndPath = getCategoryAndPath(category);
+  if (!category) {
+    throw createError({ statusCode: 400, message: 'Categorie introuvable' })
+  }
+
+  const categoryAndPath = uploadCategoryPath[category] ?? undefined;
 
   if (!categoryAndPath) {
     throw createError({ statusCode: 400, message: 'Categorie introuvable' })
@@ -15,14 +19,14 @@ export default defineEventHandler(async (event) => {
 
   const config = useRuntimeConfig()
 
-  const { path, categoryType, ext } = categoryAndPath
+  const { categoryType } = categoryAndPath
 
   const date = new Date();
   const cache = date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
 
   const startUrl = categoryType === 'assets' ? config.urlAssets : config.urlCdn;
 
-  const data = await $fetch<string[]>(startUrl + 'scanDirApi.php?cate=' + category + '&cache=' + cache);
+  const data = await fetchServer<string[]>(startUrl + 'scanDirApi.php?cate=' + category + '&cache=' + cache);
 
   return data.map(value => { return { id: value, link: startUrl + value } })
 })

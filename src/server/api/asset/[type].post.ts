@@ -5,31 +5,46 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const { file } = await readBody<{ file: { base64: string, name: string } }>(event)
+  const files = await readBody<{ base64: string, name: string }[]>(event)
 
-  if (isValidField(file, file?.base64) === false) {
-    throw createError({ statusCode: 400, message: 'Fichier introuvable' })
+  for (const file of files) {
+    if (isValidField(file, file?.base64) === false) {
+      throw createError({ statusCode: 400, message: 'Fichier introuvable' })
+    }
   }
 
-  const category = event.context.params?.type || ''
+  const category: CategoryKey | undefined = event.context.params?.type as CategoryKey ?? undefined
 
-  const categoryAndPath = getCategoryAndPath(category);
+  if (!category) {
+    throw createError({ statusCode: 400, message: 'Categorie introuvable' })
+  }
+
+  const categoryAndPath = uploadCategoryPath[category] ?? undefined;
 
   if (!categoryAndPath) {
     throw createError({ statusCode: 400, message: 'Categorie introuvable' })
   }
 
+  const config = useRuntimeConfig()
+
   const { path, categoryType, ext } = categoryAndPath
+  const uploadDatas: UploadApiData[] = []
+  const newFiles: { id: string, link: string }[] = []
 
-  const fullPath = path + '/' + ((ext === '') ? 'custom/sandbox_' + Math.floor(Date.now() / 1000) : file.name);
-    
-  const uploadData = [{
-    'action': 'upload',
-    'path': fullPath,
-    'data': file.base64
-  }]
+  for (const file of files) {
+    const startUrl = categoryType === 'assets' ? config.urlAssets : config.urlCdn;
+    const fullPath = path + '/' + ((ext === '') ? 'custom/sandbox_' + Math.floor(Date.now() / 1000) : file.name);
 
-  if (await uploadApi(categoryType === 'assets' ? 'assets' : 'cdn', uploadData) === false) {
+    uploadDatas.push({
+      'action': 'upload',
+      'path': fullPath,
+      'data': file.base64
+    })
+
+    newFiles.push({ id: fullPath, link: startUrl + fullPath })
+  }
+
+  if (await uploadApi(categoryType === 'assets' ? 'assets' : 'cdn', uploadDatas) === false) {
     throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
   }
 
@@ -37,16 +52,12 @@ export default defineEventHandler(async (event) => {
   logSandboxDao.create({
     method: 'post',
     editName: 'asset',
-    editKey: file.name,
+    editKey: files.map(file => file.name).join(', '),
     timestampCreated: Math.floor(Date.now() / 1000),
     user: {
       connect: { id: sessionUser.id }
     }
   })
 
-  const config = useRuntimeConfig()
-
-  const startUrl = categoryType === 'assets' ? config.urlAssets : config.urlCdn;
-
-  return { id: fullPath, link: startUrl + fullPath };
+  return newFiles;
 })

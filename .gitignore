@@ -3,6 +3,7 @@
 .cache
 .output
 .env
+.env.production
 
 # Logs
 logs

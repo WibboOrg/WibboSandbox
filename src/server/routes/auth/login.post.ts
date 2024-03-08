@@ -1,3 +1,5 @@
+import { createToken } from "~/server/utils/session";
+
 export default defineEventHandler(async (event) => {
     const { name, password, rememberMe } = await readBody<{ name: string; password: string; rememberMe: boolean }>(event)
 
@@ -27,18 +29,8 @@ export default defineEventHandler(async (event) => {
 
     const config = useRuntimeConfig()
 
-    const session = serialize({ userId: userWithPassword.id })
-    const signedSession = sign(session, config.cookieSecret)
+    const session = { userId: userWithPassword.id }
+    const signedSession = await createToken(session, config.tokenSecret, rememberMe ? config.tokenRememberMeExpires : config.tokenExpires)
 
-    setCookie(event, config.cookieName, signedSession, {
-        httpOnly: true,
-        path: '/',
-        sameSite: 'strict',
-        secure: process.env.NODE_ENV === 'production',
-        expires: rememberMe ? new Date(Date.now() + config.cookieRememberMeExpires) : new Date(Date.now() + config.cookieExpires),
-    })
-
-    const { password: _password, ...userWithoutPassword } = userWithPassword
-
-    return userWithoutPassword
+    return signedSession
 })

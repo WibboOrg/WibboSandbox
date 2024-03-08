@@ -1,11 +1,9 @@
 export default defineEventHandler(async (event) => {
-    const userWithPassword = event.context.user
+    const userWithoutPassword = event.context.user
 
-    if (!userWithPassword) {
+    if (!userWithoutPassword) {
         return null
     }
-
-    const { password: _password, ...userWithoutPassword } = userWithPassword
 
     return userWithoutPassword
 })

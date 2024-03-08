@@ -1,36 +1,40 @@
 export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)
 
-  if (sessionUser.rank < 11) {
+  if (sessionUser.rank < 14) {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const { id } = await readBody<{ id?: string }>(event)
+  const ids = await readBody<{ id: string }[]>(event)
 
-  if (!id) {
-    throw createError({ statusCode: 400, message: 'Un champ est manquant' })
-  }
+  for (const { id } of ids) {
+    if (!id) {
+      throw createError({ statusCode: 400, message: 'Un champ est manquant' })
+    }
 
-  if (isValidString(id) === false) {
-    throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+    if (isValidString(id) === false) {
+      throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+    }
   }
 
   const config = useRuntimeConfig()
 
-  const data = await $fetch<Record<string, string>>(config.urlAssets + 'gamedata-sandbox/UITexts.json');
+  const data = await fetchServer<Record<string, string>>(config.urlAssets + 'gamedata-sandbox/UITexts.json');
 
-  if (data[id] === undefined) {
-    throw createError({ statusCode: 400, message: 'Une erreur est survenu' })
+  for (const { id } of ids) {
+    if (data[id] === undefined) {
+      continue
+    }
+
+    delete data[id]
   }
-
-  delete data[id]
 
   const uploadData = [{
       'action': 'upload',
       'path': 'gamedata-sandbox/UITexts.json',
       'data': Buffer.from(JSON.stringify(data)).toString('base64'),
   }]
-  
+
   if (await uploadApi('assets', uploadData) === false) {
     throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
   }

@@ -1,23 +1,25 @@
 export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)
 
-  if (sessionUser.rank < 11) {
+  if (sessionUser.rank < 14) {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const { id } = await readBody(event)
+  const ids = await readBody<{ id: number }[]>(event)
 
-  if (!id) {
-    throw createError({ statusCode: 400, message: 'Un champ est manquant' })
-  }
+  for (const { id } of ids) {
+    if (!id) {
+      throw createError({ statusCode: 400, message: 'Un champ est manquant' })
+    }
 
-  if (isValidNumber(id) === false) {
-    throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+    if (isValidNumber(id) === false) {
+      throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+    }
   }
 
   const userDao = useUserDao()
 
-  userDao.remove(id)
+  userDao.removeAll(ids.map(({ id }) => id))
 
   return null
 })

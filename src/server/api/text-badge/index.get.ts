@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
 
   const config = useRuntimeConfig()
 
-  const data = await $fetch<Record<string, string>>(config.urlAssets + 'gamedata-sandbox/BadgeTexts.json');
+  const data = await fetchServer<Record<string, string>>(config.urlAssets + 'gamedata-sandbox/BadgeTexts.json');
 
   return Object.entries(data).map(([key, value]) => { return { id: key, code: key, text: value } })
 })

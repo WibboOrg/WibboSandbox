@@ -13,8 +13,16 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Un champ est manquant' })
   }
 
+  if (isValidString(code, name, description) === false) {
+    throw createError({ statusCode: 400, message: 'Un champ est invalide' })
+  }
+
   if (!/^[A-Za-z0-9_]+\.gif$/.test(file.name)) {
     throw createError({ statusCode: 400, message: 'Nom du fichier ou extension incorrecte (mon_fichier_123.gif)' })
+  }
+
+  if (!/^[A-Za-z0-9_]+$/.test(code)) {
+    throw createError({ statusCode: 400, message: 'Le code du badge est incorrect (mon_badge_123)' })
   }
 
   const imageBuffer = Buffer.from(file.base64, "base64");
@@ -32,7 +40,7 @@ export default defineEventHandler(async (event) => {
 
   const uploadData = [
     { 'action': 'upload', 'path': `c_images/album1584/${code}.gif`, 'data': file.base64 },
-    { 'action': 'json', 'path': 'gamedata-sandbox/BadgeTexts.json', 'data': Buffer.from(JSON.stringify(data)).toString('base64') }
+    { 'action': 'json', 'path': 'gamedata-sandbox/BadgeTexts.json', 'data': JSON.stringify(data) }
   ]
 
   if (await uploadApi('assets', uploadData) === false) {

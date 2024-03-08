@@ -9,11 +9,13 @@
     >
         <nav
             class="absolute top-0 bottom-0 left-0 z-10 flex flex-col h-full gap-1 p-2 bg-gray-800 shadow shadow-gray-600 w-[200px] overflow-y-auto"
-            v-show="$route.path !== '/hotel'"
-            :key="$route.path !== '/hotel' ? 'yes' : 'no'"
+            v-show="$route.path !== '/hotel' && props.openMenu"
         >
             <div class="flex justify-between mb-2">
-                <span class="font-bold">SandBox</span>
+                <div class="flex gap-2">
+                    <IconMenu class="w-6 h-6 cursor-pointer" @click="toggleSidebar" />
+                    <span class="font-bold">SandBox</span>
+                </div>
 
                 <div class="flex items-center gap-1">
                     <div class="cursor-pointer" @click="logout()">
@@ -54,6 +56,12 @@
 <script lang="ts" setup>
 const { authUser, logout } = useAuth()
 
+const props = defineProps({
+    openMenu: { type: Boolean, default: true },
+})
+
+const emit = defineEmits(['closeSidebar'])
+
 const categoryList = ref<{ category: string; text: string; minRank: number; open: boolean }[]>([])
 const navList = ref<{ category: string; text: string; path: string }[]>([])
 
@@ -93,7 +101,7 @@ navList.value.push({ category: 'text', text: 'Badge', path: '/text/badge' })
 navList.value.push({ category: 'text', text: 'External Nitro', path: '/text/external' })
 navList.value.push({ category: 'text', text: 'UI Nitro', path: '/text/ui' })
 
-navList.value.push({ category: 'emulator', text: 'Texte', path: '/emulator/text' })
+navList.value.push({ category: 'emulator', text: 'Texte', path: '/emulator/text-edit' })
 navList.value.push({ category: 'emulator', text: 'Command', path: '/emulator/command' })
 
 navList.value.push({ category: 'catalog', text: 'Page', path: '/catalog/page' })
@@ -101,6 +109,7 @@ navList.value.push({ category: 'catalog', text: 'Objet', path: '/catalog/item' }
 navList.value.push({ category: 'catalog', text: 'Objet limitée', path: '/catalog/item-limited' })
 navList.value.push({ category: 'catalog', text: 'Objet config', path: '/catalog/item-base' })
 
+navList.value.push({ category: 'asset', text: 'Banner', path: '/asset/banner' })
 navList.value.push({ category: 'asset', text: 'Badge', path: '/asset/badge' })
 navList.value.push({ category: 'asset', text: 'Article', path: '/asset/article' })
 navList.value.push({ category: 'asset', text: 'Mobilier', path: '/asset/furni' })
@@ -120,4 +129,8 @@ navList.value.push({ category: 'asset', text: 'Icon', path: '/asset/icon' })
 navList.value.push({ category: 'user', text: 'Compte', path: '/user/account' })
 
 navList.value.push({ category: 'log', text: 'Sandbox', path: '/log/sandbox' })
+
+const toggleSidebar = () => {
+    emit('closeSidebar')
+}
 </script>

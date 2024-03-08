@@ -4,7 +4,7 @@
             <BaseCard>
                 <template #title>Crée un fichier Nitro</template>
                 <template #body>
-                    <form @submit.prevent="submitPost" enctype="multipart/form-data" class="grid grid-cols-1 gap-3">
+                    <form @submit.prevent="submitPost" enctype="multipart/form-data" class="grid grid-cols-1 gap-3 p-4">
                         <div class="col-span-full">
                             <label class="block mb-1">Fichier (.png)</label>
                             <BaseUploadFile accept="image/png" @upload="handleFileUploadPng" ref="baseUploadFileRef" />

@@ -1,25 +1,34 @@
 import type { UserData } from '~/types'
 
 export const useAuthUser = () => useState<UserData | null>('user', () => null)
+export const useTokenJwt = () => useCookie<string | null>('token-jwt')
 
 export const useAuth = () => {
     const authUser = useAuthUser()
+    const tokenJwt = useTokenJwt()
 
     const setUser = (user: UserData | null) => {
         authUser.value = user
     }
 
-    const login = async(name: string, password: string, rememberMe: boolean) => {
-        const { data: user } = await useCsrfFetch('/auth/login', { body: { name, password, rememberMe }, method: 'post' })
+    const setTokenJwt = (token: string | null) => {
+        tokenJwt.value = token
+    }
 
-        setUser(user.value)
+    const login = async(name: string, password: string, rememberMe: boolean): Promise<boolean> => {
+        const token = await $fetch('/auth/login', { body: { name, password, rememberMe }, method: 'post' })
+
+        setTokenJwt(token)
+
+        await nextTick(async () => await me());
+
+        return true
     }
 
     const logout = async () => {
         try {
-            await useCsrfFetch('/auth/logout', { method: 'post' })
-
             setUser(null)
+            setTokenJwt(null)
             navigateTo('/')
         } catch (e: unknown) {
             console.error(e)
@@ -29,9 +38,9 @@ export const useAuth = () => {
     const me = async () => {
         try {
             if (!authUser.value) {
-                const { data: user } = await useCsrfFetch('/auth/me')
+                const user = await $fetch('/auth/me')
 
-                setUser(user.value)
+                setUser(user)
             }
         } catch (e: unknown) {
             console.error(e)
@@ -42,6 +51,7 @@ export const useAuth = () => {
         login,
         logout,
         me,
-        authUser
+        authUser,
+        tokenJwt
     }
 }

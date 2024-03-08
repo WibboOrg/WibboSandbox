@@ -1,7 +1,11 @@
-export const isValidField = (...args: any[]) => args.find((value) => typeof value === 'undefined') === undefined
+// Vérifie si tous les arguments sont définis et non vides
+export const isValidField = (...args: any[]) => args.every(value => value !== undefined && value !== null);
 
-export const isValidNumber = (...args: number[]) => args.find((value) => Number.isNaN(value)) === undefined
+// Vérifie si tous les arguments sont des nombres valides
+export const isValidNumber = (...args: number[]) => args.every(value => typeof value === 'number' && !Number.isNaN(value));
 
-export const isValidString = (...args: string[]) => args.find((value) => typeof value !== 'string') === undefined
+// Vérifie si tous les arguments sont des chaînes de caractères non vides
+export const isValidString = (...args: string[]) => args.every(value => typeof value === 'string');
 
-export const isValidBoolean = (...args: boolean[]) => args.find((value) => typeof value !== 'boolean') === undefined
+// Vérifie si tous les arguments sont des booléens
+export const isValidBoolean = (...args: boolean[]) => args.every(value => typeof value === 'boolean');

@@ -1,37 +1,45 @@
 export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)
 
-  if (sessionUser.rank < 11) {
+  if (sessionUser.rank < 14) {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const { id } = await readBody<{ id: string }>(event)
-  const category = event.context.params?.type || ''
+  const ids = await readBody<{ id: string }[]>(event)
+  const category: CategoryKey | undefined = event.context.params?.type as CategoryKey ?? undefined
 
-  const categoryAndPath = getCategoryAndPath(category);
+  if (!category) {
+    throw createError({ statusCode: 400, message: 'Categorie introuvable' })
+  }
+
+  const categoryAndPath = uploadCategoryPath[category] ?? undefined;
 
   if (!categoryAndPath) {
     throw createError({ statusCode: 400, message: 'Categorie introuvable' })
   }
 
-  if (isValidField(id) === false) {
-    throw createError({ statusCode: 400, message: 'Champ manquant' })
-  }
+  for (const { id } of ids) {
+    if (isValidField(id) === false) {
+      throw createError({ statusCode: 400, message: 'Champ manquant' })
+    }
 
-  if (isValidString(id) === false) {
-    throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+    if (isValidString(id) === false) {
+      throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+    }
   }
 
   const { path, categoryType, ext } = categoryAndPath
 
-  const fullPath = path + '/' + id.split('/').reverse()[0];
+  const uploadDatas: UploadApiData[] = []
 
-  const uploadData = [{
-    'action': 'remove',
-    'path': fullPath,
-  }]
+  for(const { id } of ids) {
+    uploadDatas.push({
+      action: 'remove',
+      path: path + '/' + id.split('/').reverse()[0],
+    })
+  }
 
-  if (await uploadApi(categoryType === 'assets' ? 'assets' : 'cdn', uploadData) === false) {
+  if (await uploadApi(categoryType === 'assets' ? 'assets' : 'cdn', uploadDatas) === false) {
     throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
   }
 
@@ -39,12 +47,12 @@ export default defineEventHandler(async (event) => {
   logSandboxDao.create({
     method: 'delete',
     editName: 'asset',
-    editKey: fullPath,
+    editKey: ids.join(', '),
     timestampCreated: Math.floor(Date.now() / 1000),
     user: {
       connect: { id: sessionUser.id }
     }
   })
-  
+
   return null
 })

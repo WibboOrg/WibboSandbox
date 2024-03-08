@@ -1,41 +1,30 @@
-import { H3Event, getCookie } from 'h3'
-import cookieSignature from 'cookie-signature'
-import { User } from 'wibboprisma'
+import { H3Event, getHeader } from 'h3'
+import jwt from "jsonwebtoken"
+import type { User } from 'wibboprisma'
 
-export const serialize = (obj: object) => {
-    const value = Buffer.from(JSON.stringify(obj), 'utf-8').toString('base64')
-    const length = Buffer.byteLength(value)
-
-    if (length > 4096) throw new Error('Session value is too long')
-
-    return value
+export const createToken = async (session: object, tokenSecret: string, tokenExpiration: number) => {
+    return jwt.sign(session, tokenSecret, { expiresIn: tokenExpiration })
 }
 
-export const deserialize = <T>(value: string) => {
-    return JSON.parse(Buffer.from(value, 'base64').toString('utf-8')) as T
-}
-
-export const sign = (value: string, secret: string) => {
-    return cookieSignature.sign(value, secret)
-}
-
-export const unsign = (value: string, secret: string) => {
-    return cookieSignature.unsign(value, secret)
+export const verifyToken = <T>(token: string, tokenSecret: string) => {
+    try {
+        return jwt.verify(token, tokenSecret) as T
+    } catch {
+      return null
+    }
 }
 
 export const getUserFromSession = async (event: H3Event) => {
     const config = useRuntimeConfig()
     const userDao = useUserDao()
 
-    const cookie = getCookie(event, config.cookieName)
+    const tokenJwt = getHeader(event, 'Authorization')
 
-    if (!cookie) return null
+    if (!tokenJwt) return null
 
-    const unsignedSession = unsign(cookie, config.cookieSecret)
+    const session = verifyToken<{ userId: number }>(tokenJwt, config.tokenSecret)
 
-    if (!unsignedSession) return null
-
-    const session = deserialize<{ userId: number }>(unsignedSession)
+    if (!session) return null
 
     const userWithPassword = await userDao.getOne(session.userId)
 

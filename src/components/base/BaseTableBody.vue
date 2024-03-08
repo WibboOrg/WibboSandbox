@@ -1,5 +1,15 @@
 <template>
-    <tr class="bg-gray-800 border-b border-gray-700 hover:bg-gray-900">
-        <slot></slot>
-    </tr>
+  <tr
+    class="border-b bg-gray-800 hover:bg-gray-900 border-gray-700"
+    :class="props.isDeleted ? 'ring ring-red-700 ring-inset bg-red-900 text-white hover:bg-red-800' : props.isUpdated ? 'ring ring-green-700 ring-inset bg-green-900 text-white hover:bg-green-800' : ''"
+  >
+    <slot></slot>
+  </tr>
 </template>
+
+<script lang="ts" setup>
+const props = defineProps({
+  isUpdated: { type: Boolean, default: false },
+  isDeleted: { type: Boolean, default: false }
+})
+</script>

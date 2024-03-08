@@ -1,9 +1,10 @@
-import { prisma, Prisma } from "wibboprisma"
+import { Prisma } from "wibboprisma"
 
 export const useEmulatorEffectDao = () => {
   const getAll = async () => prisma.emulatorEffect.findMany()
   const getOne = async (id: number) => prisma.emulatorEffect.findFirst({ where: { id } })
   const remove = async (id: number) => prisma.emulatorEffect.delete({ where: { id } })
+  const removeAll = async (ids: number[]) => prisma.emulatorEffect.deleteMany({ where: { id: { in: ids } } })
   const update = async (id: number, data: Prisma.EmulatorEffectUpdateInput) => prisma.emulatorEffect.update({ where: { id }, data })
   const create = async (data: Prisma.EmulatorEffectCreateInput) => prisma.emulatorEffect.create({ data })
 
@@ -11,6 +12,7 @@ export const useEmulatorEffectDao = () => {
     getAll,
     getOne,
     remove,
+    removeAll,
     update,
     create
   }

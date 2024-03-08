@@ -9,37 +9,29 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    cookieName: process.env.COOKIE_NAME || '__session',
-    cookieSecret: process.env.COOKIE_SECRET || 'secret',
-    cookieExpires: parseInt(process.env.COOKIE_EXPIRES || ONE_DAY.toString(), 10), // 1 day
-    cookieRememberMeExpires: parseInt(process.env.COOKIE_REMEMBER_ME_EXPIRES || ONE_WEEK.toString(), 10), // 7 days
+    databaseUrl: process.env.DATABASE_URL || '',
+    tokenSecret: process.env.TOKEN_SECRET || '',
+    tokenExpires: parseInt(process.env.TOKEN_EXPIRES || ONE_DAY.toString(), 10), // 1 day
+    tokenRememberMeExpires: parseInt(process.env.TOKEN_REMEMBER_ME_EXPIRES || ONE_WEEK.toString(), 10), // 7 days
 
     urlAssets: process.env.NUXT_PRIVATE_URL_ASSETS || '',
     urlCdn: process.env.NUXT_PRIVATE_URL_CDN || '',
     uploadUrl: process.env.NUXT_PRIVATE_UPLOAD_URL || '',
 
     public: {
-        apiBase: process.env.NUXT_PUBLIC_API_BASE || '/',
         enableLocal: process.env.NUXT_PUBLIC_ENABLE_LOCAL || "false",
     },
   },
 
   app: {
-    pageTransition: { name: 'page', mode: 'out-in' },
+      pageTransition: { name: 'page', mode: 'out-in' },
+      keepalive: true,
   },
 
-  // security: {
-  //   rateLimiter: {
-  //     tokensPerInterval: 150,
-  //     interval: 'hour',
-  //     fireImmediately: true,
-  //   },
-  // },
-  
   typescript: {
     shim: false,
     strict: true,
   },
-  
-  modules: ['@nuxtjs/tailwindcss', 'nuxt-csurf'],
+
+  modules: ['@nuxtjs/tailwindcss'],
 })

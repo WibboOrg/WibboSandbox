@@ -6,7 +6,7 @@
             </span>
         </h4>
 
-        <div class="px-4 py-2 overflow-auto">
+        <div class="overflow-auto">
             <slot name="body"></slot>
         </div>
     </div>

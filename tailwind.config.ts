@@ -1,6 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-// eslint-disable-next-line no-undef
-module.exports = {
+import type { Config } from 'tailwindcss'
+
+export default {
     mode: 'jit',
     content: [
       "./src/components/**/*.{js,vue,ts}",
@@ -24,5 +24,5 @@ module.exports = {
             '2xl': '1400px',
           }
         },
-      plugins: [],
-    }
+     plugins: [],
+} satisfies Config

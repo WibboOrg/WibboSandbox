@@ -7,21 +7,25 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const { id, caption, enabled, iconImage, isPremium, orderNum, pageLayout, pageLink, pageStrings1, pageStrings2, parentId, requiredRight } = await readBody<CatalogPage>(event)
+  const catalogPages = await readBody<CatalogPage[]>(event)
 
-  if (isValidField(id, caption, enabled, iconImage, isPremium, orderNum, pageLayout, pageLink, pageStrings1, pageStrings2, parentId, requiredRight) === false) {
-    throw createError({ statusCode: 400, message: 'Un champ est manquant' })
-  }
+  for (const { id, caption, enabled, iconImage, isPremium, orderNum, pageLayout, pageLink, pageStrings1, pageStrings2, parentId, requiredRight } of catalogPages) {
+    if (isValidField(id, caption, enabled, iconImage, isPremium, orderNum, pageLayout, pageLink, pageStrings1, pageStrings2, parentId, requiredRight) === false) {
+      throw createError({ statusCode: 400, message: 'Un champ est manquant' })
+    }
 
-  if (isValidNumber(id, iconImage, orderNum, parentId) === false ||
-    isValidString(caption, pageLayout, pageLink, pageStrings1, pageStrings2, requiredRight) === false ||
-    isValidBoolean(enabled, isPremium)) {
-    throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+    if (isValidNumber(id, iconImage, orderNum, parentId) === false ||
+      isValidString(caption, pageLayout, pageLink, pageStrings1, pageStrings2, requiredRight) === false ||
+      isValidBoolean(enabled, isPremium)) {
+      throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+    }
   }
 
   const catalogPageDao = useCatalogPageDao()
 
-  catalogPageDao.update(id, { caption, enabled, iconImage, isPremium, orderNum, pageLayout, pageLink, pageStrings1, pageStrings2, parentId, requiredRight })
+  for (const { id, caption, enabled, iconImage, isPremium, orderNum, pageLayout, pageLink, pageStrings1, pageStrings2, parentId, requiredRight } of catalogPages) {
+    await catalogPageDao.update(id, { caption, enabled, iconImage, isPremium, orderNum, pageLayout, pageLink, pageStrings1, pageStrings2, parentId, requiredRight })
+  }
 
   return null
 })

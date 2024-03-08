@@ -24,10 +24,10 @@ const loading = ref(false)
 const reloadFurnidata = async () => {
     if (loading.value) return
 
-    try {
-        loading.value = true
+    loading.value = true
 
-        await useCsrfFetch('FurnitureData', { method: 'PATCH' })
+    try {
+        await $fetch('FurnitureData', { method: 'patch' })
 
         showMessage({ message: 'Le furnitureData.json a été regénérer', success: true })
     } catch (e) {

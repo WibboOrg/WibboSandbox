@@ -7,17 +7,25 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const { input, minrank, descriptionFr } = await readBody<Partial<EmulatorCommand>>(event)
+  const emulatorCommands = await readBody<EmulatorCommand[]>(event)
 
-  if (!input || !minrank || !descriptionFr) {
-    throw createError({ statusCode: 400, message: 'Un champ est manquant' })
-  }
+  for (const { input, minrank, descriptionFr } of emulatorCommands) {
+    if (!input || !minrank || !descriptionFr) {
+      throw createError({ statusCode: 400, message: 'Un champ est manquant' })
+    }
 
-  if (isValidNumber(minrank) === false || isValidString(input, descriptionFr) === false ) {
-    throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+    if (isValidNumber(minrank) === false || isValidString(input, descriptionFr) === false) {
+      throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+    }
   }
 
   const emulatorComandDao = useEmulatorCommandDao()
 
-  return emulatorComandDao.create({ input, minrank, descriptionFr })
+  const results: EmulatorCommand[] = []
+
+  for (const { input, minrank, descriptionFr } of emulatorCommands) {
+    results.push(await emulatorComandDao.create({ input, minrank, descriptionFr }))
+  }
+
+  return results
 })
