@@ -20,6 +20,7 @@ export default defineNuxtConfig({
 
     public: {
         enableLocal: process.env.NUXT_PUBLIC_ENABLE_LOCAL || "false",
+        nitroClientUrl: process.env.NITRO_CLIENT_URL || "",
     },
   },
 
