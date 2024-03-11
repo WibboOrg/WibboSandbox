@@ -1,6 +1,6 @@
 import { Prisma } from "wibboprisma"
 
-export const useUserDao = () => {
+const useUserDao = () => {
   const getAll = async () => prisma.user.findMany()
   const getOne = async (id: number) => prisma.user.findFirst({ where: { id } })
   const getOneByName = async (username: string) => prisma.user.findFirst({ where: { username } })
@@ -19,3 +19,5 @@ export const useUserDao = () => {
     create
   }
 }
+
+export const userDao = useUserDao()

@@ -19,13 +19,21 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const emulatorComandDao = useEmulatorCommandDao()
-
   const results: EmulatorCommand[] = []
 
   for (const { input, minrank, descriptionFr } of emulatorCommands) {
-    results.push(await emulatorComandDao.create({ input, minrank, descriptionFr }))
+    results.push(await emulatorCommandDao.create({ input, minrank, descriptionFr }))
   }
+
+  await logSandboxDao.create({
+    method: 'post',
+    editName: 'emulator-command',
+    editKey: results.map(x => x.id).join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
+
 
   return results
 })

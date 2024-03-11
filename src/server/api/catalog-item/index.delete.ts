@@ -17,9 +17,16 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const catalogItemDao = useCatalogItemDao()
-
   await catalogItemDao.removeAll(ids.map(({ id }) => id))
+
+  await logSandboxDao.create({
+    method: 'delete',
+    editName: 'catalog-item',
+    editKey: ids.join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
 
   return null
 })

@@ -17,9 +17,16 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const emulatorComandDao = useEmulatorCommandDao()
+  await emulatorCommandDao.removeAll(ids.map(({ id }) => id))
 
-  await emulatorComandDao.removeAll(ids.map(({ id }) => id))
+  await logSandboxDao.create({
+    method: 'delete',
+    editName: 'emulator-command',
+    editKey: ids.map(x => x.id).join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
 
   return null
 })

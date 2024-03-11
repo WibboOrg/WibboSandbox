@@ -1,6 +1,6 @@
 import { Prisma } from "wibboprisma"
 
-export const useCatalogPageDao = () => {
+const useCatalogPageDao = () => {
   const getAll = async () => prisma.catalogPage.findMany()
   const getOne = async (id: number) => prisma.catalogPage.findFirst({ where: { id } })
   const remove = async (id: number) => prisma.catalogPage.delete({ where: { id } })
@@ -17,3 +17,5 @@ export const useCatalogPageDao = () => {
     create
   }
 }
+
+export const catalogPageDao = useCatalogPageDao()

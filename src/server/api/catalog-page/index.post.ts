@@ -21,13 +21,20 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const catalogPageDao = useCatalogPageDao()
-
   const results: CatalogPage[] = []
 
   for (const { caption, enabled, iconImage, isPremium, orderNum, pageLayout, pageLink, pageStrings1, pageStrings2, parentId, requiredRight } of catalogPages) {
     results.push(await catalogPageDao.create({ caption, enabled, iconImage, isPremium, orderNum, pageLayout, pageLink, pageStrings1, pageStrings2, parentId, requiredRight }))
   }
+
+  await logSandboxDao.create({
+    method: 'post',
+    editName: 'catalog-page',
+    editKey: results.map(x => x.id).join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
 
   return results
 })

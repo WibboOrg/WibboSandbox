@@ -35,8 +35,16 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
   }
 
-  const emulatorEffetDao = useEmulatorEffectDao()
-  emulatorEffetDao.create({ id, onlyStaff })
+  await emulatorEffectDao.create({ id, onlyStaff })
+
+  await logSandboxDao.create({
+    method: 'post',
+    editName: 'upload-effect',
+    editKey: id.toString(),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
 
   return null
 })

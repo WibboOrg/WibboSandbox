@@ -5,7 +5,5 @@ export default defineEventHandler((event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const userDao = useUserDao()
-
   return userDao.getAll()
 })

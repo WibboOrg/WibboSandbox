@@ -19,11 +19,18 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const userDao = useUserDao()
-
   for (const { id, username, rank } of users) {
     await userDao.update(id, { username, rank })
   }
+
+  await logSandboxDao.create({
+    method: 'put',
+    editName: 'user',
+    editKey: users.map(x => x.id).join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
 
   return null
 })

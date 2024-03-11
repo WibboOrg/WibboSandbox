@@ -23,8 +23,6 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Type incorrect' })
   }
 
-  const itemBaseDao = useItemBaseDao()
-
   const furniName = file.name.split(".nitro")[0]
 
   const furniId = await itemBaseDao.getLastId()
@@ -33,14 +31,16 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
   }
 
-  const furniExist = await itemBaseDao.getOneByIdOrName(furniId.id + 1, furniName)
+  const newFurniId = furniId.id + 1
+
+  const furniExist = await itemBaseDao.getOneByIdOrName(newFurniId, furniName)
 
   if (furniExist !== null) {
     throw createError({ statusCode: 400, message: 'Mobilier déjà existant' })
   }
 
   const funidataCode: Record<string, any> = {
-    "id": furniId?.id + 1,
+    "id": newFurniId,
     "classname": furniName,
     "revision": 0,
     "category": "",
@@ -92,7 +92,16 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
   }
 
-  itemBaseDao.create({ catalogItem: { create: { id: furniId.id, catalogName: furniName, pageId: 1546145145 } }, itemName: furniName, spriteId: furniId.id })
+  await itemBaseDao.create({ catalogItem: { create: { id: newFurniId, catalogName: furniName, pageId: 1546145145 } }, itemName: furniName, spriteId: newFurniId })
+
+  await logSandboxDao.create({
+    method: 'post',
+    editName: 'upload-furni',
+    editKey: newFurniId.toString(),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
 
   return null
 })

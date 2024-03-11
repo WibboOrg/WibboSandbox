@@ -17,9 +17,16 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const userDao = useUserDao()
+  await userDao.removeAll(ids.map(({ id }) => id))
 
-  userDao.removeAll(ids.map(({ id }) => id))
+  await logSandboxDao.create({
+    method: 'delete',
+    editName: 'user',
+    editKey: ids.map(x => x.id).join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
 
   return null
 })

@@ -5,7 +5,5 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const emulatorComandDao = useEmulatorCommandDao()
-
-  return emulatorComandDao.getAll()
+  return emulatorCommandDao.getAll()
 })

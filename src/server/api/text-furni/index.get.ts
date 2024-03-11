@@ -9,5 +9,8 @@ export default defineEventHandler(async (event) => {
 
   const data = await fetchServer<IFurnitureData>(config.urlAssets + 'gamedata-sandbox/FurnitureData.json');
 
-  return [...data.wallitemtypes.furnitype, ...data.roomitemtypes.furnitype].map((value) => { return { id: value.id, classname: value.classname, name: value.name, description: value.description } })
+  const wallItems = data.wallitemtypes.furnitype.map((value) => { return { id: value.id, classname: value.classname, name: value.name, description: value.description, type: 'i' } })
+  const roomItems = data.roomitemtypes.furnitype.map((value) => { return { id: value.id, classname: value.classname, name: value.name, description: value.description, type: 's' } })
+
+  return [...wallItems, ...roomItems]
 })

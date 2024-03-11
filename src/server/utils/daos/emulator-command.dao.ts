@@ -1,6 +1,6 @@
 import { Prisma } from "wibboprisma"
 
-export const useEmulatorCommandDao = () => {
+const useEmulatorCommandDao = () => {
   const getAll = async () => prisma.emulatorCommand.findMany({ select: { id: true, input: true, minrank: true, descriptionFr: true } })
   const getOne = async (id: number) => prisma.emulatorCommand.findFirst({ where: { id } })
   const remove = async (id: number) => prisma.emulatorCommand.delete({ where: { id } })
@@ -17,3 +17,5 @@ export const useEmulatorCommandDao = () => {
     create
   }
 }
+
+export const emulatorCommandDao = useEmulatorCommandDao()

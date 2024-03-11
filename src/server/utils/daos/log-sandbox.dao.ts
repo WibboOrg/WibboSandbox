@@ -1,6 +1,6 @@
 import { Prisma } from "wibboprisma"
 
-export const useLogSandboxDao = () => {
+const useLogSandboxDao = () => {
   const getAll = async () => prisma.logSandbox.findMany({ include: { user: { select: { username: true } } }})
   const getOne = async (id: number) => prisma.logSandbox.findFirst({ where: { id } })
   const remove = async (id: number) => prisma.logSandbox.delete({ where: { id } })
@@ -17,3 +17,5 @@ export const useLogSandboxDao = () => {
     create
   }
 }
+
+export const logSandboxDao = useLogSandboxDao()

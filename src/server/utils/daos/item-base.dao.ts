@@ -1,6 +1,6 @@
 import { Prisma } from "wibboprisma"
 
-export const useItemBaseDao = () => {
+const useItemBaseDao = () => {
   const getAll = async () => prisma.itemBase.findMany()
   const getOne = async (id: number) => prisma.itemBase.findFirst({ where: { id } })
   const getOneByIdOrName = async (id: number, itemName: string) => prisma.itemBase.findFirst({ where: { OR : [{ id }, { itemName }, { spriteId: id }]} })
@@ -21,3 +21,5 @@ export const useItemBaseDao = () => {
     create
   }
 }
+
+export const itemBaseDao = useItemBaseDao()

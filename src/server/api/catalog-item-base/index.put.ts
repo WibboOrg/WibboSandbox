@@ -24,8 +24,6 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const itemBaseDao = useItemBaseDao()
-
   for (const {
     id, itemName, type, width, length, stackHeight, canStack, canSit, isWalkable, spriteId, allowRecycle, allowTrade, allowMarketplaceSell,
     allowGift, allowInventoryStack, interactionType, interactionModesCount, vendingIds, heightAdjustable, effectId, isRare, rarityLevel
@@ -35,6 +33,15 @@ export default defineEventHandler(async (event) => {
       allowGift, allowInventoryStack, interactionType, interactionModesCount, vendingIds, heightAdjustable, effectId, isRare, rarityLevel
     })
   }
+
+  await logSandboxDao.create({
+    method: 'put',
+    editName: 'catalog-item-base',
+    editKey: itemBases.map(x => x.id).join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
 
   return null
 })

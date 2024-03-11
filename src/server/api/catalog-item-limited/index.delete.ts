@@ -17,9 +17,16 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const catalogItemLimitedDao = useCatalogItemLimitedDao()
-
   await catalogItemLimitedDao.removeAll(ids.map(({ id }) => id))
+
+  await logSandboxDao.create({
+    method: 'delete',
+    editName: 'catalog-item-limited',
+    editKey: ids.map(x => x.id).join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
 
   return null
 })

@@ -5,9 +5,9 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const TextUIs = await readBody<{ id: string, text: string }[]>(event)
+  const textUIs = await readBody<{ id: string, text: string }[]>(event)
 
-  for (const { id, text } of TextUIs) {
+  for (const { id, text } of textUIs) {
     if (!id || !text) {
       throw createError({ statusCode: 400, message: 'Un champ est manquant' })
     }
@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
 
   const data = await fetchServer<Record<string, string>>(config.urlAssets + 'gamedata-sandbox/UITexts.json');
 
-  for (const { id, text } of TextUIs) {
+  for (const { id, text } of textUIs) {
     if (data[id] !== undefined) {
       continue
     }
@@ -38,6 +38,15 @@ export default defineEventHandler(async (event) => {
   if (await uploadApi('assets', uploadData) === false) {
     throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
   }
+
+  await logSandboxDao.create({
+    method: 'post',
+    editName: 'text-ui',
+    editKey: textUIs.map(x => x.id).join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
 
   return null
 })

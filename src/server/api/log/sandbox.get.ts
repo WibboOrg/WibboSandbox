@@ -4,8 +4,6 @@ export default defineEventHandler((event) => {
     if (sessionUser.rank < 11) {
       throw createError({ statusCode: 400, message: 'Permission requis' })
     }
-  
-    const logSandboxDao = useLogSandboxDao()
 
     return logSandboxDao.getAll()
 })

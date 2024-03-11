@@ -1,6 +1,6 @@
 import { Prisma } from "wibboprisma"
 
-export const useEmulatorEffectDao = () => {
+const useEmulatorEffectDao = () => {
   const getAll = async () => prisma.emulatorEffect.findMany()
   const getOne = async (id: number) => prisma.emulatorEffect.findFirst({ where: { id } })
   const remove = async (id: number) => prisma.emulatorEffect.delete({ where: { id } })
@@ -17,3 +17,5 @@ export const useEmulatorEffectDao = () => {
     create
   }
 }
+
+export const emulatorEffectDao = useEmulatorEffectDao()

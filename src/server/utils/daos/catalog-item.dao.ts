@@ -1,6 +1,6 @@
 import { ItemBaseType, Prisma } from "wibboprisma"
 
-export const useCatalogItemDao = () => {
+const useCatalogItemDao = () => {
   const getAll = async () => prisma.catalogItem.findMany()
   const getOne = async (id: number) => prisma.catalogItem.findFirst({ where: { id } })
   const getOneBySpriteIdAndType = async (id: number, type: ItemBaseType) => prisma.catalogItem.findFirst({ where: { id, itemBase: { type } } })
@@ -19,3 +19,5 @@ export const useCatalogItemDao = () => {
     create
   }
 }
+
+export const catalogItemDao = useCatalogItemDao()

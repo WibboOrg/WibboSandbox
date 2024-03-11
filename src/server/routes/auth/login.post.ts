@@ -7,9 +7,7 @@ export default defineEventHandler(async (event) => {
         throw createError({ statusCode: 400, message: 'Permission requis' })
     }
 
-    const userDTO = useUserDao()
-
-    const userWithPassword = await userDTO.getOneByName(name)
+    const userWithPassword = await userDao.getOneByName(name)
 
     if (!userWithPassword) {
         throw createError({ statusCode: 400, message: 'Ce compte n\'existe pas' })
@@ -18,7 +16,7 @@ export default defineEventHandler(async (event) => {
     if (userWithPassword.password === '') {
         const hashPassword = await hash(password)
 
-        await userDTO.update(userWithPassword.id, { password: hashPassword })
+        await userDao.update(userWithPassword.id, { password: hashPassword })
     } else {
         const verified = await verify(password, userWithPassword.password)
 

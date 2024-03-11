@@ -36,7 +36,7 @@
               <BaseTableHead>Action</BaseTableHead>
             </template>
             <template #body>
-              <BaseTableBody v-for="file in filesPage" :key="file.keyIndex" :is-updated="updateFileIds.includes(file.id) || file.id <= -1" :is-deleted="deleteFileIds.includes(file.id)">
+              <BaseTableBody v-for="file in filesPage" :key="file.keyIndex" :is-updated="updateFileIds.includes(file.keyIndex || 0) || file.id <= -1" :is-deleted="deleteFileIds.includes(file.keyIndex || 0)">
                 <BaseTableColunm>
                   <div class="w-full px-4 py-2">
                     {{ file.id }}

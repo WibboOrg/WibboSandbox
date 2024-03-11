@@ -25,5 +25,14 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
   }
 
+  await logSandboxDao.create({
+    method: 'post',
+    editName: 'upload-pet',
+    editKey: id.toString(),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
+
   return null
 })

@@ -39,5 +39,14 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
   }
 
+  await logSandboxDao.create({
+    method: 'post',
+    editName: 'text-badge',
+    editKey: textBadges.map(x => x.id).join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
+
   return null
 })

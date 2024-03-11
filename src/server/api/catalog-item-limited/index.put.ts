@@ -19,11 +19,18 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const catalogItemLimitedDao = useCatalogItemLimitedDao()
-
   for (const { catalogItemId, limitedSells, limitedStack } of catalogItemLimiteds) {
     catalogItemLimitedDao.update(catalogItemId, { limitedSells, limitedStack })
   }
+
+  await logSandboxDao.create({
+    method: 'put',
+    editName: 'catalog-item-limited',
+    editKey: catalogItemLimiteds.map(x => x.catalogItemId).join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
 
   return null
 })

@@ -19,13 +19,20 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const emulatorTextDao = useEmulatorTextDao()
-
-  const result: EmulatorText[] = []
+  const results: EmulatorText[] = []
 
   for (const { identifiant, valueFr } of emulatorTexts) {
-    result.push(await emulatorTextDao.create({ identifiant, valueFr }))
+    results.push(await emulatorTextDao.create({ identifiant, valueFr }))
   }
 
-  return result
+  await logSandboxDao.create({
+    method: 'put',
+    editName: 'emulator-text',
+    editKey: results.map(x => x.id).join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
+
+  return results
 })

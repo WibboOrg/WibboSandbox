@@ -16,7 +16,6 @@ export const verifyToken = <T>(token: string, tokenSecret: string) => {
 
 export const getUserFromSession = async (event: H3Event) => {
     const config = useRuntimeConfig()
-    const userDao = useUserDao()
 
     const tokenJwt = getHeader(event, 'Authorization')
 

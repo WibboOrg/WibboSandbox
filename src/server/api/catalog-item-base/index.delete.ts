@@ -16,10 +16,16 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
     }
   }
+  await itemBaseDao.removeAll(ids.map(({ id }) => id))
 
-  const catalogItemBaseDao = useItemBaseDao()
-
-  await catalogItemBaseDao.removeAll(ids.map(({ id }) => id))
+  await logSandboxDao.create({
+    method: 'put',
+    editName: 'catalog-item-base',
+    editKey: ids.join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
 
   return null
 })

@@ -21,11 +21,18 @@ export default defineEventHandler(async (event) => {
 
   const results: User[] = []
 
-  const userDao = useUserDao()
-
   for (const { username, rank } of users) {
     results.push(await userDao.create({ username, rank, password: '' }))
   }
+
+  await logSandboxDao.create({
+    method: 'post',
+    editName: 'user',
+    editKey: results.map(x => x.id).join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
 
   return results
 })

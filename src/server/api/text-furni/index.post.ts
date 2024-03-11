@@ -5,6 +5,8 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
+  throw createError({ statusCode: 400, message: 'Pas disponible' })
+
   const furniTypes = await readBody<IFurnitureType[]>(event)
 
   for (const { id, classname, name, description, type } of furniTypes) {
@@ -24,7 +26,7 @@ export default defineEventHandler(async (event) => {
   const results: IFurnitureType[] = []
 
   for (const { id, classname, name, description, type } of furniTypes) {
-    const furniTypeLine = data.wallitemtypes.furnitype.find(x => x.id === id)
+    const furniTypeLine = type === 's' ? data.roomitemtypes.furnitype.find(x => x.id === id) : data.wallitemtypes.furnitype.find(x => x.id === id)
     if (furniTypeLine !== undefined) {
       continue
     }
@@ -48,6 +50,15 @@ export default defineEventHandler(async (event) => {
   if (await uploadApi('assets', uploadData) === false) {
     throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
   }
+
+  await logSandboxDao.create({
+    method: 'post',
+    editName: 'text-furni',
+    editKey: furniTypes.map(x => x.id).join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
 
   return results
 })

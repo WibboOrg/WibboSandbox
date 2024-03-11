@@ -1,6 +1,6 @@
 import { Prisma } from "wibboprisma"
 
-export const useCatalogItemLimitedDao = () => {
+const useCatalogItemLimitedDao = () => {
   const getAll = async () => prisma.catalogItemLimited.findMany()
   const getOne = async (id: number) => prisma.catalogItemLimited.findFirst({ where: { catalogItemId: id } })
   const remove = async (id: number) => prisma.catalogItemLimited.delete({ where: { catalogItemId: id } })
@@ -17,3 +17,5 @@ export const useCatalogItemLimitedDao = () => {
     create
   }
 }
+
+export const catalogItemLimitedDao = useCatalogItemLimitedDao()

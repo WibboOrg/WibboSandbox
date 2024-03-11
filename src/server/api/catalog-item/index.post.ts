@@ -22,13 +22,20 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const catalogItemDao = useCatalogItemDao()
-
   const results: CatalogItem[] = []
 
   for (const { pageId, itemId, catalogName, costCredits, costPixels, costDiamonds, costLimitcoins, amount, offerActive, badge } of catalogItems) {
     results.push(await catalogItemDao.create({ pageId, catalogName, costCredits, costPixels, costDiamonds, costLimitcoins, amount, offerActive, badge, itemBase: { connect: { id: itemId } } }))
   }
+
+  await logSandboxDao.create({
+    method: 'post',
+    editName: 'catalog-item',
+    editKey: results.map(x => x.id).join(', '),
+    user: {
+      connect: { id: sessionUser.id }
+    }
+  })
 
   return results
 })

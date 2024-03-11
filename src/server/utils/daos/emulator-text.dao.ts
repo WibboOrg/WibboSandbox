@@ -1,6 +1,6 @@
 import { Prisma } from "wibboprisma"
 
-export const useEmulatorTextDao = () => {
+const useEmulatorTextDao = () => {
   const getAll = async () => prisma.emulatorText.findMany()
   const getOne = async (id: number) => prisma.emulatorText.findFirst({ where: { id } })
   const remove = async (id: number) => prisma.emulatorText.delete({ where: { id } })
@@ -17,3 +17,5 @@ export const useEmulatorTextDao = () => {
     create,
   }
 }
+
+export const emulatorTextDao = useEmulatorTextDao()

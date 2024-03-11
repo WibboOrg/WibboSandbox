@@ -48,10 +48,9 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
   }
 
-  const logSandboxDao = useLogSandboxDao()
-  logSandboxDao.create({
+  await logSandboxDao.create({
     method: 'post',
-    editName: 'asset',
+    editName: categoryType + '-' + category,
     editKey: files.map(file => file.name).join(', '),
     user: {
       connect: { id: sessionUser.id }
