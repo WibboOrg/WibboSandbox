@@ -48,7 +48,6 @@ export default defineEventHandler(async (event) => {
     method: 'delete',
     editName: 'asset',
     editKey: ids.join(', '),
-    timestampCreated: Math.floor(Date.now() / 1000),
     user: {
       connect: { id: sessionUser.id }
     }

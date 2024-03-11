@@ -42,7 +42,7 @@
                   <div class="w-full px-4 py-2">{{ file.editKey }}</div>
                 </BaseTableColunm>
                 <BaseTableColunm>
-                  <div class="w-full px-4 py-2">{{ timestampToDate(file.timestampCreated) }}</div>
+                  <div class="w-full px-4 py-2">{{ formatDate(file.createdAt) }}</div>
                 </BaseTableColunm>
               </BaseTableBody>
             </template>
@@ -70,8 +70,7 @@ const methodToText = (method: string) => {
   return 'Aucun'
 }
 
-const timestampToDate = (timestamp: number) => {
-  const date = new Date(timestamp * 1000)
+const formatDate = (date: Date) => {
   const day = ('0' + date.getDate()).slice(-2)
   const mounth = ('0' + (date.getMonth() + 1)).slice(-2)
   const year = ('0' + date.getFullYear()).slice(-2)
@@ -91,6 +90,6 @@ interface ApiData {
   method: string
   editName: string
   editKey: string
-  timestampCreated: number
+  createdAt: Date
 }
 </script>

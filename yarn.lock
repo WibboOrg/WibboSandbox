@@ -8710,10 +8710,10 @@ __metadata:
 
 "wibboprisma@file:../WibboPrisma::locator=wibbo-sandbox%40workspace%3A.":
   version: 1.0.0
-  resolution: "wibboprisma@file:../WibboPrisma#../WibboPrisma::hash=000ee9&locator=wibbo-sandbox%40workspace%3A."
+  resolution: "wibboprisma@file:../WibboPrisma#../WibboPrisma::hash=62d4c1&locator=wibbo-sandbox%40workspace%3A."
   dependencies:
     "@prisma/client": "npm:^5.10.2"
-  checksum: 10c0/d13d023ad4d2d78dc0a6c1728f5638daf61083e0b5f13f18fc0ac1658b451dabba00f63067a893106f05a6d5b6de28c2293e7606c421d38688b7ee6f554cef5a
+  checksum: 10c0/a493efe34c4791d3a0da8d7f942665f03869c219a09f7b642c72b3d9216343ec2b0369809828080746dbd2ea8a24fd097c7d5d0082c02cdc398f5725ebdbe09c
   languageName: node
   linkType: hard
 

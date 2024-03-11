@@ -13,9 +13,9 @@
       <label class="text-xl font-bold">Choisir une option</label>
       <div class="flex flex-row gap-2 mt-2">
         <BaseButton @click="getFiles">Recharger la page</BaseButton>
-        <BaseButton @click="saveAllfiles" :disabled="fileNeedSaveCount === 0" :loading="isLoading" class="relative"
-          >Sauvegarder <BaseBadge class="top-0 right-0 translate-x-1/2 -translate-y-1/2 absolute">{{ fileNeedSaveCount }}</BaseBadge></BaseButton
-        >
+        <BaseButton @click="saveAllfiles" :disabled="fileNeedSaveCount === 0" :loading="isLoading" class="relative">
+          Sauvegarder <BaseBadge class="top-0 right-0 translate-x-1/2 -translate-y-1/2 absolute">{{ fileNeedSaveCount }}</BaseBadge>
+        </BaseButton>
       </div>
     </div>
     <div class="col-span-1">
@@ -58,10 +58,7 @@
 import type { LazyBaseUploadFile } from '#build/components'
 
 const baseUploadFileRef = ref<InstanceType<typeof LazyBaseUploadFile> | null>(null)
-const { isLoading, getFiles, addDeleteFileId, addEmptyFile, uploadFiles, saveAllfiles, filesPage, pageCount, pageId, pageSearch, deleteFileIds, addUpdateFileId, updateFileIds, fileNeedSaveCount, updatePageCurrent } = await useFetchData<ApiData>(
-  '/api/asset/article',
-  true
-)
+const { isLoading, getFiles, addDeleteFileId, uploadFiles, saveAllfiles, filesPage, pageCount, pageId, pageSearch, deleteFileIds, updateFileIds, fileNeedSaveCount, updatePageCurrent } = await useFetchData<ApiData>('/api/asset/article', true)
 
 const fileUploads = ref<{ base64: string; name: string }[]>([])
 const handleFileUpload = (files: { base64: string; name: string }[]) => (fileUploads.value = files)

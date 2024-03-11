@@ -53,7 +53,6 @@ export default defineEventHandler(async (event) => {
     method: 'post',
     editName: 'asset',
     editKey: files.map(file => file.name).join(', '),
-    timestampCreated: Math.floor(Date.now() / 1000),
     user: {
       connect: { id: sessionUser.id }
     }
