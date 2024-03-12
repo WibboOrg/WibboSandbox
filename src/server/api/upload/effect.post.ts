@@ -11,6 +11,14 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Un champ est manquant' })
   }
 
+  if(isValidBoolean(onlyStaff) === false) {
+    throw createError({ statusCode: 400, message: 'Un champ est manquant' })
+  }
+
+  if(isValidNumber(id) === false) {
+    throw createError({ statusCode: 400, message: 'Un champ est manquant' })
+  }
+
   if (!/^[A-Za-z0-9_]+\.nitro$/.test(file.name)) {
     throw createError({ statusCode: 400, message: 'Nom du fichier ou extension incorrecte (mon_fichier_123.nitro)' })
   }
