@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
 
   const data = {
     effects: [{
-      id: id,
+      id: id.toString(),
       lib: fileName,
       type: 'fx',
       revision: 55555
