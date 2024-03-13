@@ -11,6 +11,7 @@
       :autocomplete="autocomplete"
       :value="modelValue"
       @input="updateValue($event.target as HTMLInputElement)"
+      @keypress="isValidValue"
       v-if="!textToEdit"
     />
     <div
@@ -89,8 +90,11 @@ const onExit = () => {
 }
 
 const updateValue = (event: HTMLInputElement | HTMLInputElement | string) => {
-  if (typeof event === 'string') valueUpdated.value = event
-  else valueUpdated.value = props.textToEdit ? event.innerText : event.value
+  let newValue = ''
+  if (typeof event === 'string') newValue = event
+  else newValue = props.textToEdit ? event.innerText : event.value
+
+  valueUpdated.value = props.number ? Number(newValue) : newValue
 
   if (props.delay > 0) {
     clearTimeout(timeoutId.value)

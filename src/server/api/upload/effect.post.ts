@@ -12,11 +12,11 @@ export default defineEventHandler(async (event) => {
   }
 
   if(isValidBoolean(onlyStaff) === false) {
-    throw createError({ statusCode: 400, message: 'Un champ est manquant' })
+    throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
   }
 
   if(isValidNumber(id) === false) {
-    throw createError({ statusCode: 400, message: 'Un champ est manquant' })
+    throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
   }
 
   if (!/^[A-Za-z0-9_]+\.nitro$/.test(file.name)) {
