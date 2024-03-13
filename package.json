@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build": "nuxt build --dotenv .env.production",
     "dev": "nuxt dev",
     "generate": "nuxt generate --dotenv .env.production",
