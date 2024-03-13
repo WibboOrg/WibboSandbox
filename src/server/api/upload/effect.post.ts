@@ -23,6 +23,10 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Nom du fichier ou extension incorrecte (mon_fichier_123.nitro)' })
   }
 
+  if(await emulatorEffectDao.getOne(id) !== null) {
+    throw createError({ statusCode: 400, message: 'Cet effet existe déja' })
+  }
+
   const fileName = file.name.split(".nitro")[0];
 
   const data = {
