@@ -1,4 +1,4 @@
-import { Prisma } from "wibboprisma"
+import { Prisma } from "@wibbo/prisma"
 
 const useCatalogPageDao = () => {
   const getAll = async () => prisma.catalogPage.findMany()

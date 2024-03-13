@@ -1,4 +1,4 @@
-import { Prisma } from "wibboprisma"
+import { Prisma } from "@wibbo/prisma"
 
 const useEmulatorEffectDao = () => {
   const getAll = async () => prisma.emulatorEffect.findMany()

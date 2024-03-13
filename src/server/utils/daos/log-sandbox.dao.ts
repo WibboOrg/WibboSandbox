@@ -1,4 +1,4 @@
-import { Prisma } from "wibboprisma"
+import { Prisma } from "@wibbo/prisma"
 
 const useLogSandboxDao = () => {
   const getAll = async () => prisma.logSandbox.findMany({ include: { user: { select: { username: true } } }})

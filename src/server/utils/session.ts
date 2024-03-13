@@ -1,6 +1,6 @@
 import { H3Event, getHeader } from 'h3'
 import jwt from "jsonwebtoken"
-import type { User } from 'wibboprisma'
+import type { User } from '@wibbo/prisma'
 
 export const createToken = async (session: object, tokenSecret: string, tokenExpiration: number) => {
     return jwt.sign(session, tokenSecret, { expiresIn: tokenExpiration })

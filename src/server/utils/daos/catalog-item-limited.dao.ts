@@ -1,4 +1,4 @@
-import { Prisma } from "wibboprisma"
+import { Prisma } from "@wibbo/prisma"
 
 const useCatalogItemLimitedDao = () => {
   const getAll = async () => prisma.catalogItemLimited.findMany()

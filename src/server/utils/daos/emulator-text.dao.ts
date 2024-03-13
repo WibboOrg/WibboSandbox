@@ -1,4 +1,4 @@
-import { Prisma } from "wibboprisma"
+import { Prisma } from "@wibbo/prisma"
 
 const useEmulatorTextDao = () => {
   const getAll = async () => prisma.emulatorText.findMany()

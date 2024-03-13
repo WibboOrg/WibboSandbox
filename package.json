@@ -1,5 +1,5 @@
 {
-  "name": "wibbo-sandbox",
+  "name": "@wibbo/sandbox",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -16,7 +16,7 @@
     "jsonwebtoken": "^9.0.2",
     "pako": "^2.1.0",
     "sharp": "^0.33.2",
-    "wibboprisma": "file:../WibboPrisma"
+    "@wibbo/prisma": "file:../WibboPrisma"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "6.11.4",

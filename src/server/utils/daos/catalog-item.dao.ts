@@ -1,4 +1,4 @@
-import { ItemBaseType, Prisma } from "wibboprisma"
+import { ItemBaseType, Prisma } from "@wibbo/prisma"
 
 const useCatalogItemDao = () => {
   const getAll = async () => prisma.catalogItem.findMany()

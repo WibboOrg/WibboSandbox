@@ -1,4 +1,4 @@
-import type { User } from 'wibboprisma'
+import type { User } from '@wibbo/prisma'
 
 type UserWithoutPassword = Omit<User, 'password'>
 
