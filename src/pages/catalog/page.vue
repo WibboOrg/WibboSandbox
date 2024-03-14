@@ -40,8 +40,8 @@
                 <BaseTableColunm>
                   <div class="w-full px-4 py-2">
                     {{ file.id }}
-                    <div @click="navigateTo({ path: '/catalog/item', query: { page_id: file.id } })" class="cursor-pointer whitespace-nowrap hover:underline hover:text-white">Editer object</div>
-                    <div @click="navigateTo({ path: '/catalog/item-base', query: { page_id: file.id } })" class="cursor-pointer whitespace-nowrap hover:underline hover:text-white">Editer config</div>
+                    <div @click="navigateTo({ path: '/catalog/item', query: { pageId: file.id } })" class="cursor-pointer whitespace-nowrap hover:underline hover:text-white">Editer object</div>
+                    <div @click="navigateTo({ path: '/catalog/item-base', query: { pageId: file.id } })" class="cursor-pointer whitespace-nowrap hover:underline hover:text-white">Editer config</div>
                   </div>
                 </BaseTableColunm>
                 <BaseTableColunm><BaseInput v-model="file.parentId" text-to-edit number @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>

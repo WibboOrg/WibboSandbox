@@ -15,13 +15,13 @@ export const verifyToken = <T>(token: string, tokenSecret: string) => {
 }
 
 export const getUserFromSession = async (event: H3Event) => {
-    const config = useRuntimeConfig()
+    const { tokenSecret } = useRuntimeConfig()
 
     const tokenJwt = getHeader(event, 'Authorization')
 
     if (!tokenJwt) return null
 
-    const session = verifyToken<{ userId: number }>(tokenJwt, config.tokenSecret)
+    const session = verifyToken<{ userId: number }>(tokenJwt, tokenSecret)
 
     if (!session) return null
 

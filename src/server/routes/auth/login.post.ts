@@ -25,10 +25,10 @@ export default defineEventHandler(async (event) => {
         }
     }
 
-    const config = useRuntimeConfig()
+    const { tokenSecret, tokenRememberMeExpires, tokenExpires } = useRuntimeConfig()
 
     const session = { userId: userWithPassword.id }
-    const signedSession = await createToken(session, config.tokenSecret, rememberMe ? config.tokenRememberMeExpires : config.tokenExpires)
+    const signedSession = await createToken(session, tokenSecret, rememberMe ? tokenRememberMeExpires : tokenExpires)
 
     return signedSession
 })

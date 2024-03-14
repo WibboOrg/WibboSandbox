@@ -1,5 +1,5 @@
 export const uploadApi = async (type: UploadApiType, uploadDatas: UploadApiData[]) => {
-    const config = useRuntimeConfig()
+    const { urlAssets, urlCdn, uploadUrl } = useRuntimeConfig()
 
     try {
         const payload = new URLSearchParams()
@@ -13,7 +13,7 @@ export const uploadApi = async (type: UploadApiType, uploadDatas: UploadApiData[
         })
 
         const response = await fetch(
-            (type === 'assets' ? config.urlAssets : config.urlCdn) + config.uploadUrl,
+            (type === 'assets' ? urlAssets : urlCdn) + uploadUrl,
             {
                 body: payload,
                 method: 'post',

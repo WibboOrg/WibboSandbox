@@ -9,18 +9,18 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    databaseUrl: process.env.DATABASE_URL || '',
-    tokenSecret: process.env.TOKEN_SECRET || '',
-    tokenExpires: parseInt(process.env.TOKEN_EXPIRES || ONE_DAY.toString(), 10), // 1 day
-    tokenRememberMeExpires: parseInt(process.env.TOKEN_REMEMBER_ME_EXPIRES || ONE_WEEK.toString(), 10), // 7 days
+    databaseUrl: process.env.NUXT_DATABASE_URL || '',
 
-    urlAssets: process.env.NUXT_PRIVATE_URL_ASSETS || '',
-    urlCdn: process.env.NUXT_PRIVATE_URL_CDN || '',
-    uploadUrl: process.env.NUXT_PRIVATE_UPLOAD_URL || '',
+    tokenSecret: process.env.NUXT_TOKEN_SECRET || '',
+    tokenExpires: parseInt(process.env.NUXT_TOKEN_EXPIRES || ONE_DAY.toString(), 10), // 1 day
+    tokenRememberMeExpires: parseInt(process.env.NUXT_TOKEN_REMEMBER_ME_EXPIRES || ONE_WEEK.toString(), 10), // 7 days
+
+    urlAssets: process.env.NUXT_URL_ASSETS || '',
+    urlCdn: process.env.NUXT_URL_CDN || '',
+    uploadUrl: process.env.NUXT_UPLOAD_URL || '',
 
     public: {
-        enableLocal: process.env.NUXT_PUBLIC_ENABLE_LOCAL || "false",
-        nitroClientUrl: process.env.NITRO_CLIENT_URL || "",
+        nitroClientUrl: process.env.NUXT_NITRO_CLIENT_URL || "",
     },
   },
 

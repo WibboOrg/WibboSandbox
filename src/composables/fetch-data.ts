@@ -201,11 +201,14 @@ export const useFilesRoute = <T extends FetchData>(files: Ref<T[]>) => {
     const updateCategoryFitler = () =>
         (categoryFilter.value = Object.keys(route.query)[0] == null ? { key: '', content: '' } : { key: Object.keys(route.query)[0], content: Object.values(route.query)[0]?.toString() || '' })
 
-    watch(() => route.query, updateCategoryFitler, { immediate: true })
+  watch(() => route.query, () => {
+    updateCategoryFitler();
+    console.log(categoryFilter.value)
+  }, { immediate: true })
 
     const filesByCategory = computed(() => categoryFilter.value.key === ''
                 ? files.value
-                : files.value?.filter((x) => Object.entries(x).some((k) => k[0]?.toString() === categoryFilter.value.key && k[1]?.toString().includes(categoryFilter.value.content))))
+                : files.value.filter((x) => Object.entries(x).some(([key, value]) => key?.toString() == categoryFilter.value.key && value?.toString().includes(categoryFilter.value.content))))
     const filesSearch = computed(() => filesByCategory.value?.filter((x) => Object.values(x).some((k) => k != null && k.toString().toLowerCase().includes(pageSearch.value.toLowerCase()))) ?? [])
     const pageCount = computed(() => (filesSearch.value.length > pageCountItem.value ? Math.floor(filesSearch.value.length / pageCountItem.value) + 1 : 1))
     const pageId = computed(() => (pageCurrent.value > pageCount.value ? pageCount.value : pageCurrent.value < 1 ? 1 : pageCurrent.value))
