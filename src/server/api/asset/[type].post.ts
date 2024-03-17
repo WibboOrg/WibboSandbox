@@ -25,14 +25,14 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Categorie introuvable' })
   }
 
-  const config = useRuntimeConfig()
+  const { urlAssets, urlCdn } = useRuntimeConfig().public
 
   const { path, categoryType, ext } = categoryAndPath
   const uploadDatas: UploadApiData[] = []
   const newFiles: { id: string, link: string }[] = []
 
   for (const file of files) {
-    const startUrl = categoryType === 'assets' ? config.urlAssets : config.urlCdn;
+    const startUrl = categoryType === 'assets' ? urlAssets : urlCdn;
     const fullPath = path + '/' + ((ext === '') ? 'custom/sandbox_' + Math.floor(Date.now() / 1000) : file.name);
 
     uploadDatas.push({

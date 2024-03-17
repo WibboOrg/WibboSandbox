@@ -24,6 +24,6 @@
     "@types/jsonwebtoken": "^9",
     "@types/node": "^20.11.19",
     "@types/pako": "^2.0.3",
-    "nuxt": "^3.10.2"
+    "nuxt": "^3.11.0"
   }
 }

@@ -17,9 +17,9 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const config = useRuntimeConfig()
+  const { urlAssets } = useRuntimeConfig().public
 
-  const data = await fetchServer<Record<string, string>>(config.urlAssets + 'gamedata-sandbox/BadgeTexts.json');
+  const data = await fetchServer<Record<string, string>>(urlAssets + 'gamedata-sandbox/BadgeTexts.json');
 
   for (const { id } of ids) {
     if (data[id] === undefined) {

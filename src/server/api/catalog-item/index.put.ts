@@ -1,4 +1,4 @@
-import { CatalogItem } from "wibboprisma"
+import { CatalogItem } from "@wibbo/prisma"
 
 export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)

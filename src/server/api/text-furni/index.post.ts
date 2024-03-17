@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
 
   throw createError({ statusCode: 400, message: 'Pas disponible' })
 
-  const furniTypes = await readBody<IFurnitureType[]>(event)
+  const furniTypes = await readBody<IFurnitureTypeWithType[]>(event)
 
   for (const { id, classname, name, description, type } of furniTypes) {
     if (!id || !classname || !name || !description || !type) {
@@ -19,9 +19,9 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const config = useRuntimeConfig()
+  const { urlAssets } = useRuntimeConfig().public
 
-  const data = await fetchServer<IFurnitureData>(config.urlAssets + 'gamedata-sandbox/FurnitureData.json');
+  const data = await fetchServer<IFurnitureData>(urlAssets + 'gamedata-sandbox/FurnitureData.json');
 
   const results: IFurnitureType[] = []
 
@@ -62,3 +62,7 @@ export default defineEventHandler(async (event) => {
 
   return results
 })
+
+interface IFurnitureTypeWithType extends IFurnitureType {
+  type: 's' | 'i'
+}

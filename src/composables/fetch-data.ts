@@ -121,15 +121,18 @@ export const useFetchData = async <T extends FetchData, ReqT extends NitroFetchR
         isLoading.value = false
     }
 
-    const uploadFiles = async (files: { base64: string; name: string; }[]) => {
+    const uploadFiles = async (uploadFiles: { base64: string; name: string; }[]) => {
         isLoading.value = true
 
         try {
-            const createFileCount = files?.length || 0
+          const createFileCount = uploadFiles?.length || 0
 
-            await $fetch<T[]>(url, { body: files, method: 'post' })
+          const newFiles = await $fetch<T[]>(url, { body: uploadFiles, method: 'post' })
 
-            showMessage({ message: 'Création effectuée (' + createFileCount + ')', success: true })
+          files.value = [...newFiles, ...files.value || []].filter((x) => x.id !== null && x.id !== undefined)
+          files.value.map((x, i) => x.keyIndex = i)
+
+          showMessage({ message: 'Création effectuée (' + createFileCount + ')', success: true })
         } catch (e: unknown) {
             console.error(e)
         }
@@ -201,10 +204,7 @@ export const useFilesRoute = <T extends FetchData>(files: Ref<T[]>) => {
     const updateCategoryFitler = () =>
         (categoryFilter.value = Object.keys(route.query)[0] == null ? { key: '', content: '' } : { key: Object.keys(route.query)[0], content: Object.values(route.query)[0]?.toString() || '' })
 
-  watch(() => route.query, () => {
-    updateCategoryFitler();
-    console.log(categoryFilter.value)
-  }, { immediate: true })
+  watch(() => route.query, () => updateCategoryFitler(), { immediate: true })
 
     const filesByCategory = computed(() => categoryFilter.value.key === ''
                 ? files.value

@@ -17,9 +17,9 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const config = useRuntimeConfig()
+  const { urlAssets } = useRuntimeConfig().public
 
-  const data = await fetchServer<Record<string, string>>(config.urlAssets + 'gamedata-sandbox/ExternalTexts.json');
+  const data = await fetchServer<Record<string, string>>(urlAssets + 'gamedata-sandbox/ExternalTexts.json');
 
   for (const { id, text } of textExternals) {
     if (data[id] !== undefined) {

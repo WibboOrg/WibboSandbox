@@ -58,7 +58,7 @@
 import type { LazyBaseUploadFile } from '#build/components'
 
 const baseUploadFileRef = ref<InstanceType<typeof LazyBaseUploadFile> | null>(null)
-const { isLoading, getFiles, addDeleteFileId, addEmptyFile, uploadFiles, saveAllfiles, filesPage, pageCount, pageId, pageSearch, deleteFileIds, addUpdateFileId, updateFileIds, fileNeedSaveCount, updatePageCurrent } = await useFetchData<ApiData>(
+const { isLoading, getFiles, addDeleteFileId, uploadFiles, saveAllfiles, filesPage, pageCount, pageId, pageSearch, deleteFileIds, addUpdateFileId, updateFileIds, fileNeedSaveCount, updatePageCurrent } = await useFetchData<ApiData>(
   '/api/asset/catalogue',
   true
 )

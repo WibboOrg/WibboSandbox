@@ -1,4 +1,4 @@
-import { EmulatorText } from 'wibboprisma'
+import { EmulatorText } from '@wibbo/prisma'
 
 export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)

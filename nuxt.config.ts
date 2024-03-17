@@ -15,12 +15,12 @@ export default defineNuxtConfig({
     tokenExpires: parseInt(process.env.NUXT_TOKEN_EXPIRES || ONE_DAY.toString(), 10), // 1 day
     tokenRememberMeExpires: parseInt(process.env.NUXT_TOKEN_REMEMBER_ME_EXPIRES || ONE_WEEK.toString(), 10), // 7 days
 
-    urlAssets: process.env.NUXT_URL_ASSETS || '',
-    urlCdn: process.env.NUXT_URL_CDN || '',
     uploadUrl: process.env.NUXT_UPLOAD_URL || '',
 
     public: {
-        nitroClientUrl: process.env.NUXT_NITRO_CLIENT_URL || "",
+        urlAssets: process.env.NUXT_PUBLIC_URL_ASSETS || '',
+        urlCdn: process.env.NUXT_PUBLIC_URL_CDN || '',
+        nitroClientUrl: process.env.NUXT_PUBLIC_NITRO_CLIENT_URL || "",
     },
   },
 

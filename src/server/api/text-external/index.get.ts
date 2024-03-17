@@ -5,9 +5,9 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const config = useRuntimeConfig()
+  const { urlAssets } = useRuntimeConfig().public
 
-  const data = await fetchServer<Record<string, string>>(config.urlAssets + 'gamedata-sandbox/ExternalTexts.json');
+  const data = await fetchServer<Record<string, string>>(urlAssets + 'gamedata-sandbox/ExternalTexts.json');
 
   return Object.entries(data).map(([key, value]) => { return { id: key, code: key, text: value } })
 })

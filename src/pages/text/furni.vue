@@ -30,7 +30,7 @@
             <template #body>
               <BaseTableBody v-for="file in filesPage" :key="file.keyIndex" :is-updated="updateFileIds.includes(file.keyIndex || 0) || file.id <= -1" :is-deleted="deleteFileIds.includes(file.keyIndex || 0)">
                 <BaseTableColunm>
-                  <div class="w-full px-4 py-2">{{ file.classname }} ({{ file.id }})</div>
+                  <div class="w-full px-4 py-2 flex gap-2"><img :src="urlAssets + getFurnitureIconPath(file.classname)" class="max-w-6 max-h-6" loading="lazy" /> {{ file.classname }} ({{ file.id }})</div>
                 </BaseTableColunm>
                 <BaseTableColunm><BaseInput v-model="file.name" text-to-edit @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
                 <BaseTableColunm>
@@ -56,6 +56,8 @@
 
 <script lang="ts" setup>
 const { isLoading, addEmptyFile, getFiles, addDeleteFileId, saveAllfiles, addUpdateFileId, updateFileIds, filesPage, pageCount, pageId, pageSearch, deleteFileIds, fileNeedSaveCount, updatePageCurrent } = await useFetchData<ApiData>('/api/text-furni')
+
+const { urlAssets } = useRuntimeConfig().public
 
 interface ApiData {
   keyIndex?: number

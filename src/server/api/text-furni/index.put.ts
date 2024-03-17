@@ -17,9 +17,9 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const config = useRuntimeConfig()
+  const { urlAssets } = useRuntimeConfig().public
 
-  const data = await fetchServer<IFurnitureData>(config.urlAssets + 'gamedata-sandbox/FurnitureData.json');
+  const data = await fetchServer<IFurnitureData>(urlAssets + 'gamedata-sandbox/FurnitureData.json');
 
   for (const { id, classname, name, description, type } of furniTypes) {
     const furniTypeLine = type === 's' ? data.roomitemtypes.furnitype.find(x => x.id === id) : data.wallitemtypes.furnitype.find(x => x.id === id)
@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
   }
 
   await logSandboxDao.create({
-    method: 'delete',
+    method: 'put',
     editName: 'text-furni',
     editKey: furniTypes.map(x => x.id).join(', '),
     user: {

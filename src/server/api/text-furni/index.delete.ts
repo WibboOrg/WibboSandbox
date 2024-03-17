@@ -17,9 +17,9 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    const config = useRuntimeConfig()
+    const { urlAssets } = useRuntimeConfig().public
 
-    const data = await fetchServer<IFurnitureData>(config.urlAssets + 'gamedata-sandbox/FurnitureData.json');
+    const data = await fetchServer<IFurnitureData>(urlAssets + 'gamedata-sandbox/FurnitureData.json');
 
     const deleteRoomIds = ids.filter(({ type }) => type === 's').map(({ id }) => id)
     const deleteWallIds = ids.filter(({ type }) => type === 'i').map(({ id }) => id)

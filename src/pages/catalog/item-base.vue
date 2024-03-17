@@ -42,7 +42,7 @@
             <template #body>
               <BaseTableBody v-for="file in filesPage" :key="file.keyIndex" :is-updated="updateFileIds.includes(file.keyIndex || 0) || file.id <= -1" :is-deleted="deleteFileIds.includes(file.keyIndex || 0)">
                 <BaseTableColunm>
-                  <div class="w-full px-4 py-2">{{ file.id }}</div>
+                  <div class="w-full px-4 py-2 flex gap-2"><img :src="urlAssets + getFurnitureIconPath(file.itemName)" class="max-w-6 max-h-6" loading="lazy" /> {{ file.id }}</div>
                 </BaseTableColunm>
                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.type" text-to-edit @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
                 <BaseTableColunm><BaseInput v-model="file.itemName" text-to-edit @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
@@ -74,9 +74,11 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, getFiles, addEmptyFile, addDeleteFileId, uploadFiles, saveAllfiles, addUpdateFileId, filesPage, pageCount, pageId, pageSearch, deleteFileIds, updateFileIds, fileNeedSaveCount, updatePageCurrent } = await useFetchData<ApiData>(
+const { isLoading, getFiles, addEmptyFile, addDeleteFileId, saveAllfiles, addUpdateFileId, filesPage, pageCount, pageId, pageSearch, deleteFileIds, updateFileIds, fileNeedSaveCount, updatePageCurrent } = await useFetchData<ApiData>(
   '/api/catalog-item-base'
 )
+
+const { urlAssets } = useRuntimeConfig().public
 
 const fullEdit = ref(false)
 

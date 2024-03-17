@@ -5,9 +5,17 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const config = useRuntimeConfig()
+  const { urlAssets } = useRuntimeConfig().public
 
-  const data = await fetchServer<Record<string, string>>(config.urlAssets + 'gamedata-sandbox/BadgeTexts.json');
+  // const textBadge = await useStorage().getItem<Record<string, string>>('text-badge')
+
+  // if (textBadge) {
+  //   return Object.entries(textBadge).map(([key, value]) => { return { id: key, code: key, text: value } })
+  // }
+
+  const data = await fetchServer<Record<string, string>>(urlAssets + 'gamedata-sandbox/BadgeTexts.json');
+
+  await useStorage().setItem('text-badge', data)
 
   return Object.entries(data).map(([key, value]) => { return { id: key, code: key, text: value } })
 })

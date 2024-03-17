@@ -51,9 +51,7 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, getFiles, addDeleteFileId, addEmptyFile, uploadFiles, saveAllfiles, filesPage, pageCount, pageId, pageSearch, deleteFileIds, addUpdateFileId, updateFileIds, fileNeedSaveCount, updatePageCurrent } = await useFetchData<ApiData>(
-  '/api/user'
-)
+const { isLoading, getFiles, addDeleteFileId, addEmptyFile, filesPage, pageCount, pageId, pageSearch, deleteFileIds, addUpdateFileId, updateFileIds, updatePageCurrent } = await useFetchData<ApiData>('/api/user')
 
 interface ApiData {
   keyIndex?: number

@@ -59,7 +59,7 @@ const { getFiles, filesPage, pageId, pageCount, updatePageCurrent, isLoading, pa
 
 const methodToText = (method: string) => {
   switch (method) {
-    case 'patch':
+    case 'put':
       return 'Modifier'
     case 'post':
       return 'Crée'
@@ -70,7 +70,8 @@ const methodToText = (method: string) => {
   return 'Aucun'
 }
 
-const formatDate = (date: Date) => {
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString)
   const day = ('0' + date.getDate()).slice(-2)
   const mounth = ('0' + (date.getMonth() + 1)).slice(-2)
   const year = ('0' + date.getFullYear()).slice(-2)
@@ -90,6 +91,6 @@ interface ApiData {
   method: string
   editName: string
   editKey: string
-  createdAt: Date
+  createdAt: string
 }
 </script>

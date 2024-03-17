@@ -1,4 +1,4 @@
-import { ItemBase } from "wibboprisma"
+import { ItemBase } from "@wibbo/prisma"
 
 export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)

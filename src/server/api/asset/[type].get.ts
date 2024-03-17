@@ -17,14 +17,14 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Categorie introuvable' })
   }
 
-  const config = useRuntimeConfig()
+  const { urlAssets, urlCdn } = useRuntimeConfig().public
 
   const { categoryType } = categoryAndPath
 
   const date = new Date();
   const cache = date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear();
 
-  const startUrl = categoryType === 'assets' ? config.urlAssets : config.urlCdn;
+  const startUrl = categoryType === 'assets' ? urlAssets : urlCdn;
 
   const data = await fetchServer<string[]>(startUrl + 'scanDirApi.php?cate=' + category + '&cache=' + cache);
 

@@ -58,10 +58,7 @@
 import type { LazyBaseUploadFile } from '#build/components'
 
 const baseUploadFileRef = ref<InstanceType<typeof LazyBaseUploadFile> | null>(null)
-const { isLoading, getFiles, addDeleteFileId, addEmptyFile, uploadFiles, saveAllfiles, filesPage, pageCount, pageId, pageSearch, deleteFileIds, addUpdateFileId, updateFileIds, fileNeedSaveCount, updatePageCurrent } = await useFetchData<ApiData>(
-  '/api/asset/badge',
-  true
-)
+const { isLoading, getFiles, addDeleteFileId, uploadFiles, saveAllfiles, filesPage, pageCount, pageId, pageSearch, deleteFileIds, updateFileIds, fileNeedSaveCount, updatePageCurrent } = await useFetchData<ApiData>('/api/asset/badge', true)
 
 const fileUploads = ref<{ base64: string; name: string }[]>([])
 const handleFileUpload = (files: { base64: string; name: string }[]) => (fileUploads.value = files)

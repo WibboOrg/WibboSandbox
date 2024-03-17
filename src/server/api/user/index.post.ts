@@ -1,4 +1,4 @@
-import { User } from "wibboprisma"
+import { User } from "@wibbo/prisma"
 
 export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)

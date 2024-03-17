@@ -1,5 +1,6 @@
 export const uploadApi = async (type: UploadApiType, uploadDatas: UploadApiData[]) => {
-    const { urlAssets, urlCdn, uploadUrl } = useRuntimeConfig()
+    const { urlAssets, urlCdn } = useRuntimeConfig().public
+    const { uploadUrl } = useRuntimeConfig()
 
     try {
         const payload = new URLSearchParams()

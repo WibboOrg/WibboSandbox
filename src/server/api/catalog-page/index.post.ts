@@ -1,4 +1,4 @@
-import { CatalogPage } from "wibboprisma"
+import { CatalogPage } from "@wibbo/prisma"
 
 export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)
@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
 
     if (isValidNumber(iconImage, orderNum, parentId) === false ||
       isValidString(caption, pageLayout, pageLink, pageStrings1, pageStrings2, requiredRight) === false ||
-      isValidBoolean(enabled, isPremium)) {
+      isValidBoolean(enabled, isPremium) === false) {
       throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
     }
   }
