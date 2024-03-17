@@ -32,7 +32,7 @@ export const useFetchData = async <T extends FetchData, ReqT extends NitroFetchR
             files.value = notReverse ? allFiles ?? [] : allFiles?.reverse()
 
             files.value.map((x, i) => x.keyIndex = i)
-            lastKeyIndex = files.value.length
+            lastKeyIndex = files.value.length + 1
         } catch (e: unknown) {
             console.error(e)
         }
@@ -105,15 +105,15 @@ export const useFetchData = async <T extends FetchData, ReqT extends NitroFetchR
         isLoading.value = true
 
         try {
-            const createFiles = files.value?.filter((x) => x.id === null || x.id === undefined)
-            const createFileCount = createFiles?.length || 0
+          const createFiles = files.value?.filter((x) => x.id === null || x.id === undefined)
+          const createFileCount = createFiles?.length || 0
 
-            const newFiles = await $fetch<T[]>(url, { body: createFiles, method: 'post' })
+          const newFiles = await $fetch<T[]>(url, { body: createFiles, method: 'post' })
+          newFiles.map((x, i) => x.keyIndex = ++lastKeyIndex)
 
-            files.value = [...newFiles, ...files.value || []].filter((x) => x.id !== null && x.id !== undefined)
-            files.value.map((x, i) => x.keyIndex = i)
+          files.value = [...newFiles, ...files.value || []].filter((x) => x.id !== null && x.id !== undefined)
 
-            showMessage({ message: 'Création effectuée (' + createFileCount + ')', success: true })
+          showMessage({ message: 'Création effectuée (' + createFileCount + ')', success: true })
         } catch (e: unknown) {
             console.error(e)
         }
@@ -128,9 +128,9 @@ export const useFetchData = async <T extends FetchData, ReqT extends NitroFetchR
           const createFileCount = uploadFiles?.length || 0
 
           const newFiles = await $fetch<T[]>(url, { body: uploadFiles, method: 'post' })
+          newFiles.map(x => x.keyIndex = ++lastKeyIndex)
 
           files.value = [...newFiles, ...files.value || []].filter((x) => x.id !== null && x.id !== undefined)
-          files.value.map((x, i) => x.keyIndex = i)
 
           showMessage({ message: 'Création effectuée (' + createFileCount + ')', success: true })
         } catch (e: unknown) {
@@ -147,7 +147,6 @@ export const useFetchData = async <T extends FetchData, ReqT extends NitroFetchR
 
         if (fileCreateCount.value > 0){
             await createAllFile()
-            lastKeyIndex = -1
         }
 
         if (fileUpdateCount.value > 0) {
@@ -156,11 +155,11 @@ export const useFetchData = async <T extends FetchData, ReqT extends NitroFetchR
     }
 
     const addEmptyFile = (file: T) => {
-        file.id = null;
-        file.keyIndex = lastKeyIndex++;
-        files.value = [file, ...files.value || []]
+      file.id = null;
+      file.keyIndex = ++lastKeyIndex;
+      files.value = [{ ...file }, ...files.value || []]
 
-        goToTop()
+      goToTop()
     }
 
     // onServerPrefetch(async () => await getFiles(false))
