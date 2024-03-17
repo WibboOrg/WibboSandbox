@@ -30,6 +30,7 @@
               <BaseTableHead>Permission</BaseTableHead>
               <BaseTableHead>Ordre id</BaseTableHead>
               <BaseTableHead>Layout</BaseTableHead>
+              <BaseTableHead v-if="fullEdit">Page lien</BaseTableHead>
               <BaseTableHead v-if="fullEdit">Texte 1</BaseTableHead>
               <BaseTableHead v-if="fullEdit">Texte 2</BaseTableHead>
               <BaseTableHead>Premium</BaseTableHead>
@@ -51,6 +52,7 @@
                 <BaseTableColunm><BaseInput v-model="file.requiredRight" text-to-edit @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
                 <BaseTableColunm><BaseInput v-model="file.orderNum" text-to-edit number @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
                 <BaseTableColunm><BaseInput v-model="file.pageLayout" text-to-edit @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
+                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.pageLink" text-to-edit @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.pageStrings1" text-to-edit @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.pageStrings2" text-to-edit @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
                 <BaseTableColunm><BaseInput v-model="file.isPremium" text-to-edit boolean @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
@@ -85,6 +87,7 @@ const defaultValue: ApiData = {
   requiredRight: '',
   orderNum: 1,
   pageLayout: 'default_3x3',
+  pageLink: '',
   pageStrings1: 'wibbo|catalog_base',
   pageStrings2: '',
   isPremium: false
@@ -100,6 +103,7 @@ interface ApiData {
   requiredRight: string
   orderNum: number
   pageLayout: string
+  pageLink: string
   pageStrings1: string
   pageStrings2: string
   isPremium: boolean
