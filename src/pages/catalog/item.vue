@@ -38,8 +38,8 @@
                 <BaseTableColunm>
                   <div class="w-full px-4 py-2 flex gap-2"><img :src="urlAssets + getFurnitureIconPath(file.catalogName)" class="max-w-6 max-h-6" loading="lazy" /> {{ file.id }}</div>
                 </BaseTableColunm>
-                <BaseTableColunm><BaseInput v-model="file.itemId" text-to-edit @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
-                <BaseTableColunm><BaseInput v-model="file.pageId" text-to-edit @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
+                <BaseTableColunm><BaseInput v-model="file.itemId" text-to-edit number @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
+                <BaseTableColunm><BaseInput v-model="file.pageId" text-to-edit number @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
                 <BaseTableColunm><BaseInput v-model="file.catalogName" text-to-edit @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
                 <BaseTableColunm><BaseInput v-model="file.costCredits" text-to-edit number @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
                 <BaseTableColunm><BaseInput v-model="file.costDiamonds" text-to-edit number @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
