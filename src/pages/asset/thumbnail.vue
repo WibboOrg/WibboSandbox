@@ -5,8 +5,8 @@
       <BaseInput placeholder="Filter les resultats" v-model="pageSearch" :delay="500" />
     </div>
     <div class="col-span-1">
-      <label class="text-xl font-bold">Importer un fichier (.png)</label>
-      <BaseUploadFile accept="image/png" @upload="handleFileUpload" ref="baseUploadFileRef" />
+      <label class="text-xl font-bold">Importer des fichiers (.png)</label>
+      <BaseUploadFile accept="image/png" @upload="handleFileUpload" ref="baseUploadFileRef" multiple />
       <BaseButton @click="uploadFiles(fileUploads).then(() => baseUploadFileRef?.reset())">Importer</BaseButton>
     </div>
     <div class="col-span-1 sticky top-0 z-10 backdrop-blur">
