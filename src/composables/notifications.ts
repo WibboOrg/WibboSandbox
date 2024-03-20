@@ -1,25 +1,20 @@
-const timeoutId = ref<number>(0)
-const notifications = ref<Notification[]>([])
+import type { NotificationAlert } from "~/types"
 
-let NOTIFICATION_ID = 0;
+const notifications = ref<NotificationAlert[]>([])
+
+let timeoutId = 0
+let notificationId = 0
 
 export const useNotification = () => {
+  const showMessage = ({ message = '', success = false }) => {
+    notifications.value.push({ id: notificationId++, message, success })
 
-    const showMessage = ({ message = '', success = false }) => {
-        notifications.value.push({ id: NOTIFICATION_ID++, message, success })
+    if (notifications.value.length > 5) notifications.value.shift()
 
-        if (notifications.value.length > 5) notifications.value.shift()
+    if (timeoutId) clearTimeout(timeoutId)
 
-        if (timeoutId.value) clearTimeout(timeoutId.value)
+    timeoutId = window.setTimeout(() => (notifications.value = []), 30_000)
+  }
 
-        timeoutId.value = window.setTimeout(() => (notifications.value = []), 30_000)
-    }
-
-    return { notifications, showMessage }
-}
-
-interface Notification {
-    id: number
-    message: string
-    success: boolean
+  return { notifications, showMessage }
 }

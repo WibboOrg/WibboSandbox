@@ -1,4 +1,4 @@
-import { Data, inflate, deflate } from 'pako'
+import { inflate, deflate } from 'pako'
 import { BinaryReader } from './BinaryReader'
 import { BinaryWriter } from './BinaryWriter'
 
@@ -19,7 +19,7 @@ export class NitroBundle {
             const fileLength = binaryReader.readInt()
             const buffer = binaryReader.readBytes(fileLength)
 
-            const decompressed = inflate(buffer.toArrayBuffer() as Data)
+            const decompressed = inflate(buffer.toArrayBuffer())
             this.addFile(fileName, decompressed)
 
             fileCount--
