@@ -27,7 +27,7 @@
 
 <script lang="ts" setup>
 import type { LazyBaseUploadFile } from '#build/components'
-import { NitroBundle, ArrayBufferToBase64, Base64ToArrayBuffer, type IAssetData } from '../../utils'
+import { type IAssetData } from '../../types'
 
 const { showMessage } = useNotification()
 const route = useRoute()

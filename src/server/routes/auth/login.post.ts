@@ -1,5 +1,3 @@
-import { createToken } from "~/server/utils/session";
-
 export default defineEventHandler(async (event) => {
     const { name, password, rememberMe } = await readBody<{ name: string; password: string; rememberMe: boolean }>(event)
 

@@ -7,7 +7,7 @@
           <form @submit.prevent="submitPost" enctype="multipart/form-data" class="grid grid-cols-1 gap-3">
             <div class="col-span-full">
               <label class="block mb-1">Fichier (.nitro)</label>
-              <BaseUploadFile accept="image/nitro" @upload="handleFileUpload" ref="baseUploadFileRef" />
+              <BaseUploadFile accept=".nitro" @upload="handleFileUpload" ref="baseUploadFileRef" />
             </div>
 
             <div class="col-span-full">
@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import type { LazyBaseUploadFile } from '#build/components'
-import { NitroBundle, ArrayBufferToBase64, Base64ToArrayBuffer, type IAssetData } from '../../utils'
+import { type IAssetData } from '../../types'
 
 const { showMessage } = useNotification()
 const route = useRoute()

@@ -22,7 +22,6 @@
 
 <script lang="ts" setup>
 import type { LazyBaseUploadFile } from '#build/components'
-import { Base64ToArrayBuffer, NitroBundle } from '../../utils'
 
 const { showMessage } = useNotification()
 
