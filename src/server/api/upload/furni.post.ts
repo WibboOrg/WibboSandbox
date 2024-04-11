@@ -92,7 +92,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
   }
 
-  await itemBaseDao.create({ catalogItem: { create: { id: newFurniId, catalogName: furniName, pageId: 1546145145 } }, itemName: furniName, spriteId: newFurniId })
+  await itemBaseDao.create({ catalogItem: { create: { id: newFurniId, catalogName: furniName, pageId: 1546145145 } }, itemName: furniName, spriteId: newFurniId, canSit: false, canStack: false, isWalkable: false })
 
   await logSandboxDao.create({
     method: 'post',
