@@ -1,6 +1,9 @@
 <template>
   <div v-if="!isEditing" class="w-full px-4 py-2 whitespace-pre-wrap" :class="{ 'cursor-pointer': props.boolean }" @click="onClick">
-    <span v-if="props.boolean">{{ valueUpdated === true ? 'Activer' : 'Désactiver' }}</span>
+    <span class="flex gap-2 items-center justify-between" v-if="props.boolean">
+      {{ valueUpdated === true ? 'Activer' : 'Désactiver' }}
+      <div class="h-4 w-4 rounded-full" :class="valueUpdated === true ? 'bg-green-600' : 'bg-red-600'"></div>
+    </span>
     <span v-else>{{ valueUpdated }}</span>
   </div>
   <div v-else>
