@@ -5,14 +5,16 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const textExternals = await readBody<{ id: string, text: string }[]>(event)
+  const textExternals = await readBody<{ code: string, text: string }[]>(event)
 
-  for (const { id, text } of textExternals) {
-    if (!id || !text) {
+  console.log('textExternals', textExternals)
+
+  for (const { code, text } of textExternals) {
+    if (!code || !text) {
       throw createError({ statusCode: 400, message: 'Un champ est manquant' })
     }
 
-    if (isValidString(id, text) === false) {
+    if (isValidString(code, text) === false) {
       throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
     }
   }
@@ -21,12 +23,14 @@ export default defineEventHandler(async (event) => {
 
   const data = await fetchServer<Record<string, string>>(urlAssets + 'gamedata-sandbox/ExternalTexts.json');
 
-  for (const { id, text } of textExternals) {
-    if (data[id] !== undefined) {
+  const results: { id: string, code: string, text: string }[] = []
+  for (const { code, text } of textExternals) {
+    if (data[code] !== undefined) {
       continue
     }
 
-    data[id] = text
+    data[code] = text
+    results.push({ id: code, code, text })
   }
 
   const uploadData = [{
@@ -42,11 +46,11 @@ export default defineEventHandler(async (event) => {
   await logSandboxDao.create({
     method: 'post',
     editName: 'text-external',
-    editKey: textExternals.map(x => x.id).join(', '),
+    editKey: textExternals.map(x => x.code).join(', '),
     user: {
       connect: { id: sessionUser.id }
     }
   })
 
-  return null
+  return results
 })

@@ -26,7 +26,7 @@
               <BaseTableHead>Action</BaseTableHead>
             </template>
             <template #body>
-              <BaseTableBody v-for="file in filesPage" :key="file.keyIndex">
+              <BaseTableBody v-for="file in filesPage" :key="file.keyIndex" :is-updated="updateFileIds.includes(file.keyIndex || 0) || file.id === null" :is-deleted="deleteFileIds.includes(file.keyIndex || 0)">
                 <BaseTableColunm>
                   <BaseInput v-model="file.code" text-to-edit v-if="file.id === null"></BaseInput>
                   <div class="w-full px-4 py-2" v-else>{{ file.code }}</div>

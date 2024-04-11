@@ -5,14 +5,14 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Permission requis' })
   }
 
-  const textUIs = await readBody<{ id: string, text: string }[]>(event)
+  const textUIs = await readBody<{ code: string, text: string }[]>(event)
 
-  for (const { id, text } of textUIs) {
-    if (!id || !text) {
+  for (const { code, text } of textUIs) {
+    if (!code || !text) {
       throw createError({ statusCode: 400, message: 'Un champ est manquant' })
     }
 
-    if (isValidString(id, text) === false) {
+    if (isValidString(code, text) === false) {
       throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
     }
   }
@@ -21,12 +21,14 @@ export default defineEventHandler(async (event) => {
 
   const data = await fetchServer<Record<string, string>>(urlAssets + 'gamedata-sandbox/UITexts.json');
 
-  for (const { id, text } of textUIs) {
-    if (data[id] !== undefined) {
+  const results: { id: string, code: string, text: string }[] = []
+  for (const { code, text } of textUIs) {
+    if (data[code] !== undefined) {
       continue
     }
 
-    data[id] = text
+    data[code] = text
+    results.push({ id: code, code, text })
   }
 
   const uploadData = [{
@@ -42,11 +44,11 @@ export default defineEventHandler(async (event) => {
   await logSandboxDao.create({
     method: 'post',
     editName: 'text-ui',
-    editKey: textUIs.map(x => x.id).join(', '),
+    editKey: textUIs.map(x => x.code).join(', '),
     user: {
       connect: { id: sessionUser.id }
     }
   })
 
-  return null
+  return results
 })

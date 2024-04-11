@@ -1,3 +1,5 @@
+import { deflate } from 'pako'
+
 export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)
 
@@ -36,6 +38,7 @@ export default defineEventHandler(async (event) => {
     'action': 'upload',
     'path': 'gamedata-sandbox/FurnitureData.json',
     'data': Buffer.from(JSON.stringify(data)).toString('base64'),
+    'compressed': true
   }]
 
   if (await uploadApi('assets', uploadData) === false) {
