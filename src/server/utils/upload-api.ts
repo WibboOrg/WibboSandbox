@@ -1,3 +1,5 @@
+import { deflate } from "pako"
+
 export const uploadApi = async (type: UploadApiType, uploadDatas: UploadApiData[]) => {
   const { urlAssets, urlCdn } = useRuntimeConfig().public
   const { uploadUrl } = useRuntimeConfig()
@@ -5,11 +7,15 @@ export const uploadApi = async (type: UploadApiType, uploadDatas: UploadApiData[
   try {
     const payload = new URLSearchParams()
 
+
     uploadDatas.forEach((uploadData, index) => {
+
       payload.append(`${index}[action]`, uploadData.action)
       payload.append(`${index}[path]`, uploadData.path)
       if (uploadData.data) {
-        payload.append(`${index}[data]`, uploadData.data)
+        const dataCompressed = Buffer.from(deflate(uploadData.data)).toString('base64')
+        payload.append(`${index}[data]`, dataCompressed)
+        payload.append(`${index}[compressed]`, 'true')
       }
     })
 
@@ -22,6 +28,7 @@ export const uploadApi = async (type: UploadApiType, uploadDatas: UploadApiData[
     const result = await response.text()
 
     if (!result || result !== 'ok') {
+      console.log('result', result)
       return false
     }
   } catch (e: unknown) {
