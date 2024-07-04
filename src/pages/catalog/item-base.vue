@@ -54,7 +54,7 @@
                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.isWalkable" text-to-edit boolean @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
                 <BaseTableColunm><BaseInput v-model="file.interactionType" text-to-edit @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
                 <BaseTableColunm><BaseInput v-model="file.interactionModesCount" text-to-edit number @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
-                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.vendingIds" text-to-edit number @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
+                <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.vendingIds" text-to-edit @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.heightAdjustable" text-to-edit @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.effectId" text-to-edit number @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
                 <BaseTableColunm v-if="fullEdit"><BaseInput v-model="file.spriteId" text-to-edit number @value-updated="addUpdateFileId(file)"></BaseInput></BaseTableColunm>
