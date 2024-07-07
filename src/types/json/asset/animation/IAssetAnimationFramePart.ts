@@ -1,4 +1,4 @@
-import { IAssetAnimationFramePartItem } from './IAssetAnimationFramePartItem'
+import type { IAssetAnimationFramePartItem } from './IAssetAnimationFramePartItem'
 
 export interface IAssetAnimationFramePart {
     id?: string

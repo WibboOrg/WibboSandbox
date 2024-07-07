@@ -1,4 +1,4 @@
-import { IAssetVisualAnimationSequence } from './IAssetVisualAnimationSequence'
+import type { IAssetVisualAnimationSequence } from './IAssetVisualAnimationSequence'
 
 export interface IAssetVisualAnimationLayer {
     loopCount?: number

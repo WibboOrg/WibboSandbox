@@ -1,4 +1,4 @@
-import { IAssetAnimationFrame } from './IAssetAnimationFrame'
+import type { IAssetAnimationFrame } from './IAssetAnimationFrame'
 
 export interface IAssetAnimationOverride {
     name?: string

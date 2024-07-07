@@ -1,4 +1,4 @@
-import { IAssetVisualAnimationLayer } from './IAssetVisualAnimationLayer'
+import type { IAssetVisualAnimationLayer } from './IAssetVisualAnimationLayer'
 
 export interface IAssetVisualAnimation {
     transitionTo?: number

@@ -4,6 +4,7 @@ const ONE_WEEK = ONE_DAY * 7
 
 export default defineNuxtConfig({
   srcDir: 'src/',
+
   devServer: {
     port: 3001
   },
@@ -35,4 +36,5 @@ export default defineNuxtConfig({
   },
 
   modules: ['@nuxtjs/tailwindcss'],
+  compatibilityDate: '2024-07-06',
 })

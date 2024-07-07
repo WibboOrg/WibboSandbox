@@ -26,7 +26,8 @@
             <template #body>
               <BaseTableBody v-for="file in filesPage" :key="file.keyIndex" :is-updated="updateFileIds.includes(file.keyIndex || 0)">
                 <BaseTableColunm>
-                  <div class="w-full px-4 py-2">
+                  <div class="w-full px-4 py-2 flex gap-2">
+                    <img :src="urlAssets + getFurnitureIconPath(getFileName(file.link))" class="max-w-6 max-h-6" loading="lazy" />
                     <a :href="file.link" target="_blank" class="hover:underline hover:text-white">{{ file.link }}</a>
                   </div>
                 </BaseTableColunm>
@@ -49,6 +50,10 @@
 
 <script lang="ts" setup>
 const { isLoading, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, updateFileIds, saveAllfiles, fileNeedSaveCount } = await useFetchData<ApiData>('/api/asset/furniture', true)
+
+const { urlAssets } = useRuntimeConfig().public
+
+const getFileName = (url: string) => url.split('/').pop()?.split('.').slice(0, -1).join('.') || ''
 
 interface ApiData {
   keyIndex?: number

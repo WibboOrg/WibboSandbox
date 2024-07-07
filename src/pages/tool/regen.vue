@@ -4,7 +4,7 @@
       <BaseCard>
         <template #title>Outils pour regénérer des fichiers</template>
         <template #body>
-          <div class="grid grid-cols-1 gap-3">
+          <div class="grid grid-cols-1 gap-3 p-4">
             <div class="col-span-full">
               <label class="block mb-1">Permets de régénérer le furnitureData.json</label>
               <BaseButton primary :loading="loading" @click="reloadFurnidata">Regénérer le furnitureData</BaseButton>
