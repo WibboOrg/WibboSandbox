@@ -19,8 +19,8 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  for (const emulatorText of emulatorTexts) {
-    await emulatorTextDao.update(emulatorText.id, emulatorText)
+  for (const { id, identifiant, valueFr } of emulatorTexts) {
+    await emulatorTextDao.update(id, { identifiant, valueFr })
   }
 
   await logSandboxDao.create({
