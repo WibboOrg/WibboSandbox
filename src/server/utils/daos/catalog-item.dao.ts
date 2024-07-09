@@ -1,7 +1,7 @@
 import { ItemBaseType, Prisma } from "@wibbo/prisma"
 
 const useCatalogItemDao = () => {
-  const getAll = async () => prisma.catalogItem.findMany()
+  const getAll = async () => prisma.catalogItem.findMany({ orderBy: { itemId: "asc" } })
   const getOne = async (id: number) => prisma.catalogItem.findFirst({ where: { id } })
   const getOneBySpriteIdAndType = async (id: number, type: ItemBaseType) => prisma.catalogItem.findFirst({ where: { id, itemBase: { type } } })
   const remove = async (id: number) => prisma.catalogItem.delete({ where: { id } })
