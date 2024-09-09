@@ -29,7 +29,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-api/common/Config.php
-api/test.php
-api

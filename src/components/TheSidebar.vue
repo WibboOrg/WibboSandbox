@@ -1,63 +1,53 @@
 <template>
-    <transition
-        enterActiveClass="duration-300"
-        enterFromClass="-translate-x-full"
-        enterToClass="translate-x-0"
-        leaveActiveClass="duration-300"
-        leaveFromClass="translate-x-0"
-        leaveToClass="-translate-x-full"
-    >
-        <nav
-            class="absolute top-0 bottom-0 left-0 z-10 flex flex-col h-full gap-1 p-2 bg-gray-800 shadow shadow-gray-600 w-[200px] overflow-y-auto"
-            v-show="$route.path !== '/hotel' && props.openMenu"
-        >
-            <div class="flex justify-between mb-2">
-                <div class="flex gap-2">
-                    <IconMenu class="w-6 h-6 cursor-pointer" @click="toggleSidebar" />
-                    <span class="font-bold">SandBox</span>
-                </div>
+  <transition enterActiveClass="duration-300" enterFromClass="-translate-x-full" enterToClass="translate-x-0" leaveActiveClass="duration-300" leaveFromClass="translate-x-0" leaveToClass="-translate-x-full">
+    <nav class="absolute top-0 bottom-0 left-0 z-10 flex flex-col h-full gap-1 p-2 bg-gray-800 shadow shadow-gray-600 w-[200px] overflow-y-auto" v-show="$route.path !== '/hotel' && props.openMenu">
+      <div class="flex justify-between mb-2">
+        <div class="flex gap-2">
+          <IconMenu class="w-6 h-6 cursor-pointer" @click="toggleSidebar" />
+          <span class="font-bold">SandBox</span>
+        </div>
 
-                <div class="flex items-center gap-1">
-                    <div class="cursor-pointer" @click="logout()">
-                        <IconLogout class="w-4 h-4" />
-                    </div>
-                </div>
-            </div>
-            <div v-for="cate in categoryList.filter((x) => x.minRank <= (authUser?.rank || 1))" :key="cate.category">
-                <div class="flex items-center justify-between mb-2 border-b-2 cursor-pointer" @click="cate.open = !cate.open">
-                    <span>{{ cate.text }}</span> <IconSortDown class="w-4 h-4 transition-transform duration-300" :class="{ '-rotate-180': cate.open }" />
-                </div>
-                <transition
-                    enterActiveClass="duration-300 select-none"
-                    enterFromClass="-translate-y-5 opacity-0"
-                    enterToClass="translate-y-0 opacity-100"
-                    leaveActiveClass="duration-300 select-none"
-                    leaveFromClass="translate-y-0 opacity-100"
-                    leaveToClass="-translate-y-5 opacity-0"
-                    mode="out-in"
-                >
-                    <ul class="flex flex-col gap-1 overflow-hidden" v-show="cate.open">
-                        <li
-                            :class="{ 'bg-gray-600': nav.path === $route.path }"
-                            class="w-full px-4 transition-colors rounded cursor-pointer hover:bg-gray-600"
-                            @click="navigateTo(nav.path)"
-                            v-for="(nav, index) of navList.filter((x) => x.category === cate.category)"
-                            :key="index"
-                        >
-                            {{ nav.text }}
-                        </li>
-                    </ul>
-                </transition>
-            </div>
-        </nav>
-    </transition>
+        <div class="flex items-center gap-1">
+          <div class="cursor-pointer" @click="logout()">
+            <IconLogout class="w-4 h-4" />
+          </div>
+        </div>
+      </div>
+      <div v-for="cate in categoryList.filter((x) => x.minRank <= (authUser?.rank || 1))" :key="cate.category">
+        <div class="flex items-center justify-between mb-2 border-b-2 cursor-pointer" @click="cate.open = !cate.open">
+          <span>{{ cate.text }}</span> <IconSortDown class="w-4 h-4 transition-transform duration-300" :class="{ '-rotate-180': cate.open }" />
+        </div>
+        <transition
+          enterActiveClass="duration-300 select-none"
+          enterFromClass="-translate-y-5 opacity-0"
+          enterToClass="translate-y-0 opacity-100"
+          leaveActiveClass="duration-300 select-none"
+          leaveFromClass="translate-y-0 opacity-100"
+          leaveToClass="-translate-y-5 opacity-0"
+          mode="out-in"
+        >
+          <ul class="flex flex-col gap-1 overflow-hidden" v-show="cate.open">
+            <li
+              :class="{ 'bg-gray-600': nav.path === $route.path }"
+              class="w-full px-4 transition-colors rounded cursor-pointer hover:bg-gray-600"
+              @click="navigateTo(nav.path)"
+              v-for="(nav, index) of navList.filter((x) => x.category === cate.category)"
+              :key="index"
+            >
+              {{ nav.text }}
+            </li>
+          </ul>
+        </transition>
+      </div>
+    </nav>
+  </transition>
 </template>
 
 <script lang="ts" setup>
 const { authUser, logout } = useAuth()
 
 const props = defineProps({
-    openMenu: { type: Boolean, default: true },
+  openMenu: { type: Boolean, default: true }
 })
 
 const emit = defineEmits(['closeSidebar'])
@@ -103,6 +93,7 @@ navList.value.push({ category: 'text', text: 'UI Nitro', path: '/text/ui' })
 
 navList.value.push({ category: 'emulator', text: 'Texte', path: '/emulator/text-edit' })
 navList.value.push({ category: 'emulator', text: 'Command', path: '/emulator/command' })
+navList.value.push({ category: 'emulator', text: 'Economie', path: '/emulator/economy' })
 
 navList.value.push({ category: 'catalog', text: 'Page', path: '/catalog/page' })
 navList.value.push({ category: 'catalog', text: 'Objet', path: '/catalog/item' })
@@ -131,6 +122,6 @@ navList.value.push({ category: 'user', text: 'Compte', path: '/user/account' })
 navList.value.push({ category: 'log', text: 'Sandbox', path: '/log/sandbox' })
 
 const toggleSidebar = () => {
-    emit('closeSidebar')
+  emit('closeSidebar')
 }
 </script>

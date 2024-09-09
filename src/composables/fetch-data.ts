@@ -17,7 +17,7 @@ export const useFetchData = async <T extends FetchData, ReqT extends NitroFetchR
   const { showMessage } = useNotification()
   const { filesPage, pageCount, pageId, pageSearch, updatePageCurrent } = useFilesRoute<T>(files)
 
-  const goToTop = () => (process.server ? null : document.getElementById('main')?.scrollTo({ top: 0, behavior: 'smooth' }))
+  const goToTop = () => (import.meta.server ? null : document.getElementById('main')?.scrollTo({ top: 0, behavior: 'smooth' }))
 
   const getFiles = async () => {
     isLoading.value = true

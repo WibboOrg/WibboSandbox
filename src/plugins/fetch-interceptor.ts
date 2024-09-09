@@ -1,14 +1,14 @@
 export default defineNuxtPlugin(async (nuxtApp) => {
     globalThis.$fetch = $fetch.create({
-        onRequest({ request, options }) {
+        onRequest({ options }) {
             const { tokenJwt } = useAuth()
 
             options.headers = (options.headers || {}) as Record<string, string>
 
             if (tokenJwt.value) options.headers['Authorization'] = tokenJwt.value
         },
-        onResponseError({ request, options, response, error }) {
-            if (!process.server) {
+        onResponseError({ response }) {
+            if (!import.meta.server) {
                 const { showMessage } = useNotification()
                 const { logout, authUser } = useAuth()
 
