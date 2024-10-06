@@ -48,7 +48,6 @@ const dropHandler = (ev: DragEvent) => {
 const sendUploadFiles = async (files: FileList) => {
   const promises: Promise<{ base64: string; name: string }>[] = []
   for (const file of files) {
-    console.log('file.name', file.name)
     const reader = new FileReader()
     reader.readAsArrayBuffer(file)
 
