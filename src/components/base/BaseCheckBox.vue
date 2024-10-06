@@ -1,25 +1,17 @@
 <template>
-    <div class="relative cursor-pointer">
-        <input type="checkbox" class="sr-only" :id="id" :name="name" :checked="value" @input="$emit('update:modelValue', ($event.target as HTMLInputElement).checked)" />
-
-        <div class="block h-8 rounded-full w-14" :class="!white ? 'bg-gray-600' : 'bg-white'"></div>
-
-        <div class="absolute w-6 h-6 transition bg-white rounded-full dot left-1 top-1" :class="white ? 'bg-gray-600' : 'bg-white'"></div>
-    </div>
+  <input type="checkbox" class="toggle" :checked="value" :id="id" />
 </template>
 
 <script lang="ts" setup>
 const props = defineProps({
-    value: { type: Boolean, default: false },
-    white: { type: Boolean, default: false },
-    name: { type: String, required: true },
-    id: { type: String, required: true },
+  value: { type: Boolean, default: false },
+  id: { type: String, required: true }
 })
 </script>
 
 <style>
 input:checked ~ .dot {
-    transform: translateX(100%);
-    background-color: #48bb78;
+  transform: translateX(100%);
+  background-color: #48bb78;
 }
 </style>

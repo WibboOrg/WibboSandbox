@@ -1,8 +1,5 @@
 <template>
-  <tr
-    class="border-b bg-gray-800 hover:bg-gray-900 border-gray-700"
-    :class="props.isDeleted ? 'ring ring-red-700 ring-inset bg-red-900 text-white hover:bg-red-800' : props.isUpdated ? 'ring ring-green-700 ring-inset bg-green-900 text-white hover:bg-green-800' : ''"
-  >
+  <tr :class="props.isDeleted ? 'ring ring-red-700 ring-inset bg-red-900 text-white hover:bg-red-800' : props.isUpdated ? 'ring ring-green-700 ring-inset bg-green-900 text-white hover:bg-green-800' : ''">
     <slot></slot>
   </tr>
 </template>

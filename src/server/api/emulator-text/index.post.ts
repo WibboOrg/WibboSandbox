@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
   }
 
   await logSandboxDao.create({
-    method: 'put',
+    method: 'post',
     editName: 'emulator-text',
     editKey: results.map(x => x.id).join(', '),
     user: {

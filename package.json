@@ -12,11 +12,13 @@
     "lint:js": "eslint src --ext .ts,.vue --fix"
   },
   "dependencies": {
+    "@wibbo/prisma": "file:../WibboPrisma",
     "bcryptjs": "^2.4.3",
+    "daisyui": "^4.12.10",
     "jsonwebtoken": "^9.0.2",
     "pako": "^2.1.0",
     "sharp": "^0.33.4",
-    "@wibbo/prisma": "file:../WibboPrisma"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "6.12.0",

@@ -1,22 +1,18 @@
 <template>
-    <div class="relative overflow-hidden break-words rounded shadow shadow-gray-600" :class="{ 'bg-gray-800': !hiddenBackground }">
-        <h4 class="my-2 text-center" v-if="hasTitleSlot">
-            <span class="font-bold">
-                <slot name="title"></slot>
-            </span>
-        </h4>
+  <div class="card bg-base-100 card-bordered" :class="{ '!bg-transparent': hiddenBackground }">
+    <div class="card-body overflow-auto">
+      <h4 class="card-title" v-if="hasTitleSlot"><slot name="title"></slot></h4>
 
-        <div class="overflow-auto">
-            <slot name="body"></slot>
-        </div>
+      <slot name="body"></slot>
     </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
 const slots = useSlots()
 
 defineProps({
-    hiddenBackground: { type: Boolean, default: false },
+  hiddenBackground: { type: Boolean, default: false }
 })
 
 const hasTitleSlot = computed(() => !!slots['title'])

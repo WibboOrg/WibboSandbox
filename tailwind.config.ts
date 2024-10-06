@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import daisyui from 'daisyui'
 
 export default {
     mode: 'jit',
@@ -24,5 +25,5 @@ export default {
             '2xl': '1400px',
           }
         },
-     plugins: [],
+        plugins: [daisyui],
 } satisfies Config
