@@ -1,6 +1,6 @@
 <template>
   <label class="form-control w-full my-2" @drop.prevent="dropHandler" @dragover.prevent="inDrag = true" @dragleave="inDrag = false" @dragend.prevent>
-    <input type="file" class="file-input file-input-bordered w-full" :accept="accept" @change="onChange()" :multiple="multiple" />
+    <input type="file" class="file-input file-input-bordered w-full" ref="upload" :accept="accept" @change="onChange()" :multiple="multiple" />
   </label>
 </template>
 
@@ -37,9 +37,10 @@ const dropHandler = (ev: DragEvent) => {
 
   const files = ev.dataTransfer?.files
 
-  if (!files) return
+  if (!files || !upload.value) return
 
   fileUploads.value = files
+  upload.value.files = files
 
   sendUploadFiles(files)
 }
@@ -47,6 +48,7 @@ const dropHandler = (ev: DragEvent) => {
 const sendUploadFiles = async (files: FileList) => {
   const promises: Promise<{ base64: string; name: string }>[] = []
   for (const file of files) {
+    console.log('file.name', file.name)
     const reader = new FileReader()
     reader.readAsArrayBuffer(file)
 
@@ -76,10 +78,4 @@ const sendUploadFiles = async (files: FileList) => {
 
   emit('upload', results)
 }
-
-const getFilesName = computed(() => {
-  if (!fileUploads.value) return ''
-
-  return [...fileUploads.value].map((f) => f.name).join(', ')
-})
 </script>

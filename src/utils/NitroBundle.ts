@@ -6,7 +6,7 @@ export class NitroBundle {
     static TEXT_DECODER: TextDecoder = new TextDecoder('utf-8')
     static TEXT_ENCODER: TextEncoder = new TextEncoder()
 
-    #files: Record<string, ArrayBuffer> = {}
+    #files: Record<string, Uint8Array<ArrayBufferLike>> = {}
 
     parse(arrayBuffer: ArrayBuffer): void {
         const binaryReader = new BinaryReader(arrayBuffer)
@@ -26,11 +26,11 @@ export class NitroBundle {
         }
     }
 
-    addFile(fileName: string, data: ArrayBuffer) {
+    addFile(fileName: string, data: Uint8Array<ArrayBufferLike>) {
         this.#files[fileName] = data
     }
 
-    async toBufferAsync(): Promise<ArrayBuffer> {
+    async toBufferAsync(): Promise<Uint8Array<ArrayBufferLike>> {
         const buffer = new BinaryWriter()
 
         buffer.writeShort(this.totalFiles)

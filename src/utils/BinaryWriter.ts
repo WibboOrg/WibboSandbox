@@ -74,8 +74,8 @@ export class BinaryWriter {
         this.#position += array.length
     }
 
-    getBuffer(): ArrayBuffer {
-        return this.#buffer.buffer
+    getBuffer(): Uint8Array<ArrayBufferLike> {
+        return new Uint8Array(this.#buffer.buffer)
     }
 
     toString(encoding?: string): string {

@@ -54,7 +54,9 @@ const submitPost = async () => {
     const nitroFileName = nitroJson.value?.name ?? ''
 
     if (nitroFileName === '') {
+      console.log('nitroJson.value', nitroJson.value)
       showMessage({ message: 'Une erreur est survenu' })
+      loading.value = false
       return
     }
 
