@@ -8,11 +8,18 @@ export interface IFurnitureData {
   }
 
 export interface IFurnitureType {
-    id: number
-    classname: string
-    name: string
-    description: string
+    id: number,
+    classname: string,
+    name: string,
+    description: string,
+    offerid: number,
     type?: 's' | 'i'
+}
+
+export interface IProductCode {
+  code: string;
+  name: string;
+  description: string;
 }
 
 export type CategoryKey =

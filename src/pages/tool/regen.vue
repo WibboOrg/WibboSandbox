@@ -22,13 +22,12 @@ const { showMessage } = useNotification()
 const loading = ref(false)
 
 const reloadFurnidata = async () => {
-  return
   if (loading.value) return
 
   loading.value = true
 
   try {
-    await $fetch('FurnitureData', { method: 'patch' })
+    await $fetch('/api/furniture-data', { method: 'post' })
 
     showMessage({ message: 'Le furnitureData.json a été regénérer', success: true })
   } catch (e) {
