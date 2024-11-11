@@ -7,8 +7,6 @@ export default defineEventHandler(async (event) => {
 
   const textExternals = await readBody<{ code: string, text: string }[]>(event)
 
-  console.log('textExternals', textExternals)
-
   for (const { code, text } of textExternals) {
     if (!code || !text) {
       throw createError({ statusCode: 400, message: 'Un champ est manquant' })

@@ -28,7 +28,6 @@ export const uploadApi = async (type: UploadApiType, uploadDatas: UploadApiData[
     const result = await response.text()
 
     if (!result || result !== 'ok') {
-      console.log('result', result)
       return false
     }
   } catch (e: unknown) {

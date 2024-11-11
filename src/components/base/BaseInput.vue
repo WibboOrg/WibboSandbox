@@ -10,7 +10,7 @@
     <input class="input input-bordered w-full" :type="type" :placeholder="placeholder" :autocomplete="autocomplete" :value="modelValue" @input="updateValue($event.target as HTMLInputElement)" @keypress="isValidValue" v-if="!textToEdit" />
     <div
       v-else
-      class="input input-bordered w-full"
+      class="input input-bordered w-full h-auto py-4"
       :class="{ 'text-center': center }"
       @keyup.enter="props.number ? onExit() : null"
       @blur="onExit"

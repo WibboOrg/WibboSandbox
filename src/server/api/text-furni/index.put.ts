@@ -1,5 +1,3 @@
-import { deflate } from 'pako'
-
 export default defineEventHandler(async (event) => {
   const sessionUser = getSessionUser(event)
 
@@ -24,12 +22,11 @@ export default defineEventHandler(async (event) => {
   const data = await fetchServer<IFurnitureData>(urlAssets + 'gamedata-sandbox/FurnitureData.json');
 
   for (const { id, classname, name, description, type } of furniTypes) {
-    const furniTypeLine = type === 's' ? data.roomitemtypes.furnitype.find(x => x.id === id) : data.wallitemtypes.furnitype.find(x => x.id === id)
+    const furniTypeLine = type === 's' ? data.roomitemtypes.furnitype.find(x => x.id === id && x.classname == classname) : data.wallitemtypes.furnitype.find(x => x.id === id && x.classname == classname)
     if (furniTypeLine === undefined) {
       continue
     }
 
-    furniTypeLine.classname = classname
     furniTypeLine.name = name
     furniTypeLine.description = description
   }

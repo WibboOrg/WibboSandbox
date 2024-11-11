@@ -56,8 +56,8 @@ const handleFileUpload = (files: { base64: string; name: string }[]) => (postFor
 const submitPost = async () => {
   if (loading.value) return
 
-  if (postForm.value.file.name === '') {
-    showMessage({ message: 'Vous devez mettre un fichier .nitro' })
+  if (postForm.value.file.name === '' && postForm.value.url === '') {
+    showMessage({ message: 'Vous devez mettre un fichier .nitro ou une url' })
     return
   }
 

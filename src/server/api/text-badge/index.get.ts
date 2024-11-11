@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
 
   const data = await fetchServer<Record<string, string>>(urlAssets + 'gamedata-sandbox/BadgeTexts.json');
 
-  await useStorage().setItem('text-badge', data)
+  // await useStorage().setItem('text-badge', data)
 
   return Object.entries(data).map(([key, value]) => { return { id: key, code: key, text: value } })
 })

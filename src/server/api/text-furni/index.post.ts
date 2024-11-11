@@ -7,60 +7,60 @@ export default defineEventHandler(async (event) => {
 
   throw createError({ statusCode: 400, message: 'Pas disponible' })
 
-  const furniTypes = await readBody<IFurnitureTypeWithType[]>(event)
+  // const furniTypes = await readBody<IFurnitureTypeWithType[]>(event)
 
-  for (const { id, classname, name, description, type } of furniTypes) {
-    if (!id || !classname || !name || !description || !type) {
-      throw createError({ statusCode: 400, message: 'Un champ est manquant' })
-    }
+  // for (const { id, classname, name, description, type } of furniTypes) {
+  //   if (!id || !classname || !name || !description || !type) {
+  //     throw createError({ statusCode: 400, message: 'Un champ est manquant' })
+  //   }
 
-    if (isValidNumber(id) === false || isValidString(classname, name, description, type) === false) {
-      throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
-    }
-  }
+  //   if (isValidNumber(id) === false || isValidString(classname, name, description, type) === false) {
+  //     throw createError({ statusCode: 400, message: 'Un champ est incorrect' })
+  //   }
+  // }
 
-  const { urlAssets } = useRuntimeConfig().public
+  // const { urlAssets } = useRuntimeConfig().public
 
-  const data = await fetchServer<IFurnitureData>(urlAssets + 'gamedata-sandbox/FurnitureData.json');
+  // const data = await fetchServer<IFurnitureData>(urlAssets + 'gamedata-sandbox/FurnitureData.json');
 
-  const results: IFurnitureType[] = []
+  // const results: IFurnitureType[] = []
 
-  for (const { id, classname, name, description, type } of furniTypes) {
-    const furniTypeLine = type === 's' ? data.roomitemtypes.furnitype.find(x => x.id === id) : data.wallitemtypes.furnitype.find(x => x.id === id)
-    if (furniTypeLine !== undefined) {
-      continue
-    }
+  // for (const { id, classname, name, description, type } of furniTypes) {
+  //   const furniTypeLine = type === 's' ? data.roomitemtypes.furnitype.find(x => x.id === id) : data.wallitemtypes.furnitype.find(x => x.id === id)
+  //   if (furniTypeLine !== undefined) {
+  //     continue
+  //   }
 
-    if (type === 's') {
-      data.roomitemtypes.furnitype.push({ id, classname, name, description })
-    }
-    else {
-      data.wallitemtypes.furnitype.push({ id, classname, name, description })
-    }
+  //   if (type === 's') {
+  //     data.roomitemtypes.furnitype.push({ id, classname, name, description })
+  //   }
+  //   else {
+  //     data.wallitemtypes.furnitype.push({ id, classname, name, description })
+  //   }
 
-    results.push({ id, classname, name, description, type })
-  }
+  //   results.push({ id, classname, name, description, type })
+  // }
 
-  const uploadData = [{
-    'action': 'upload',
-    'path': 'gamedata-sandbox/FurnitureData.json',
-    'data': Buffer.from(JSON.stringify(data)).toString('base64'),
-  }]
+  // const uploadData = [{
+  //   'action': 'upload',
+  //   'path': 'gamedata-sandbox/FurnitureData.json',
+  //   'data': Buffer.from(JSON.stringify(data)).toString('base64'),
+  // }]
 
-  if (await uploadApi('assets', uploadData) === false) {
-    throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
-  }
+  // if (await uploadApi('assets', uploadData) === false) {
+  //   throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
+  // }
 
-  await logSandboxDao.create({
-    method: 'post',
-    editName: 'text-furni',
-    editKey: furniTypes.map(x => x.id).join(', '),
-    user: {
-      connect: { id: sessionUser.id }
-    }
-  })
+  // await logSandboxDao.create({
+  //   method: 'post',
+  //   editName: 'text-furni',
+  //   editKey: furniTypes.map(x => x.id).join(', '),
+  //   user: {
+  //     connect: { id: sessionUser.id }
+  //   }
+  // })
 
-  return results
+  // return results
 })
 
 interface IFurnitureTypeWithType extends IFurnitureType {

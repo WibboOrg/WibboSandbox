@@ -50,29 +50,24 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 400, message: 'Mobilier déjà existant' })
     }
 
-    const funidataCode: Record<string, any> = {
-      "id": newFurniId,
-      "classname": furniNameWithColor,
-      "revision": 0,
-      "category": "",
-      "name": `${name}${colorId === -1 ? '' : ` ${colorId}`}` || `${furniNameWithColor} title`,
-      "description": description || `${furniNameWithColor} desc`,
-      "adurl": "",
-      "offerid": 0,
-      "buyout": false,
-      "rentofferid": -1,
-      "rentbuyout": false,
-      "customparams": "",
-      "specialtype": 0,
-      "bc": false,
-      "excludeddynamic": false,
-      "furniline": "",
-      "environment": "",
-      "rare": false,
+    const funidataCode: any = {
+      id: newFurniId,
+      classname: furniNameWithColor,
+      category: "",
+      name: `${name}${colorId === -1 ? '' : ` ${colorId}`}` || `${furniNameWithColor} title`,
+      description: description || `${furniNameWithColor} desc`,
+      adurl: "",
+      offerid: 0,
+      buyout: false,
+      rentofferid: -1,
+      rentbuyout: false,
+      customparams: "",
+      specialtype: 0,
+      bc: false,
+      excludeddynamic: false
     }
 
     if (type === 's') {
-      funidataCode.defaultdir = "0";
       funidataCode.xdim = "0";
       funidataCode.ydim = "0";
       funidataCode.partcolors = { "color": [] };

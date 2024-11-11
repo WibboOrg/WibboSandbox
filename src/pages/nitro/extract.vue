@@ -52,7 +52,7 @@ const submitPost = async () => {
   if (loading.value) return
 
   if (postForm.value.file.name === '' && postForm.value.url === '') {
-    showMessage({ message: 'Vous devez mettre un fichier .nitro' })
+    showMessage({ message: 'Vous devez mettre un fichier .nitro ou une url' })
     return
   }
 

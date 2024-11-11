@@ -10,6 +10,7 @@ export default defineEventHandler(async (event) => {
   const { urlAssets } = useRuntimeConfig().public;
 
   const furniData = await fetchServer<IFurnitureData>(`${urlAssets}gamedata-sandbox/FurnitureData.json`);
+  let newFurniData = { wallitemtypes: { furnitype: [] }, roomitemtypes: { furnitype: [] }} as IFurnitureData
   let product: { productdata: { product: IProductCode[] } } = { productdata: { product: [] } };
 
   const catalogPageCaption: { [key: number]: string | null } = {};
@@ -26,7 +27,9 @@ export default defineEventHandler(async (event) => {
     let { name, description } = item;
 
     const catalogItem = await catalogItemDao.getOneBySpriteIdAndType(id, type);
-    if (!catalogItem) return;
+    if (!catalogItem) {
+      return false;
+    }
 
     if (!name || name.endsWith(' name')) {
       const catalogPageCaption = await getCatalogPageCaption(catalogItem.pageId);
@@ -41,18 +44,20 @@ export default defineEventHandler(async (event) => {
     item.description = description.replace(/Habbo/gi, 'Wibbo');
     item.offerid = catalogItem.id;
 
-    return {
-      code: item.classname,
-      name: item.name,
-      description: item.description
-    };
+    return true
   };
 
   const processItems = async (items: IFurnitureType[], type: ItemBaseType) => {
     for (const item of items) {
-      const productCode = await processItem(item, type);
-      if (productCode) {
-        product.productdata.product.push(productCode);
+      const isProcess = await processItem(item, type);
+      if (isProcess) {
+        if (type === 's') {
+          newFurniData.roomitemtypes.furnitype.push(item);
+        } else {
+          newFurniData.wallitemtypes.furnitype.push(item);
+        }
+
+        product.productdata.product.push({ code: item.classname, name: item.name, description: item.description });
       }
     }
   };
@@ -66,7 +71,7 @@ export default defineEventHandler(async (event) => {
     {
       action: 'upload',
       path: 'gamedata-sandbox/FurnitureData.json',
-      data: Buffer.from(JSON.stringify(furniData)).toString('base64'),
+      data: Buffer.from(JSON.stringify(newFurniData)).toString('base64'),
       compressed: true
     },
     {
