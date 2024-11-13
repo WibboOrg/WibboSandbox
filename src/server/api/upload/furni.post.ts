@@ -25,10 +25,10 @@ export default defineEventHandler(async (event) => {
 
   const furniName = file.name.split(".nitro")[0]
 
-  const furniId = await itemBaseDao.getLastId()
+  const furniId = await itemBaseDao.getLastSpriteId()
 
   if (!furniId) {
-    throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
+    throw createError({ statusCode: 400, message: 'Une erreur est survenue' })
   }
 
   let colorIds = colors
@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const newFurnitures = []
-  let newFurniId = furniId.id
+  let newFurniId = furniId.spriteId
   const funidataCodes = []
   for (const colorId of colorIds) {
     newFurniId++
@@ -93,20 +93,16 @@ export default defineEventHandler(async (event) => {
 
   const uploadData = [
     { 'action': 'upload', 'path': `bundled/furniture/${file.name}`, 'data': file.base64 },
+    { 'action': 'upload', 'path': `icons/${furniName}_icon.png`, 'data': fileIcon.base64 },
     { 'action': 'json', 'path': 'gamedata-sandbox/FurnitureData.json', 'data': JSON.stringify(funidata) }
   ]
-
-  for (const newFurni of newFurnitures) {
-    const color = (newFurni.color == -1) ? '' : '_' + newFurni.color;
-    uploadData.push({ 'action': 'upload', 'path': `icons/${furniName + color}_icon.png`, 'data': fileIcon.base64 })
-  }
 
   if (await uploadApi('assets', uploadData) === false) {
     throw createError({ statusCode: 400, message: 'Problème lors de l\'importation' })
   }
 
   for (const newFurni of newFurnitures) {
-    await itemBaseDao.create({ catalogItem: { create: { id: newFurni.id, catalogName: newFurni.name, pageId: 1546145145 } }, itemName: newFurni.name, spriteId: newFurni.id, canSit: false, canStack: false, isWalkable: false })
+    await itemBaseDao.create({ catalogItem: { create: { id: newFurni.id, catalogName: newFurni.name, pageId: 1546145145 } }, itemName: newFurni.name, spriteId: newFurni.id, canSit: false, canStack: false, isWalkable: false, type: type })
   }
 
   await logSandboxDao.create({
