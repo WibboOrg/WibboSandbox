@@ -3,9 +3,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         onRequest({ options }) {
             const { tokenJwt } = useAuth()
 
-            options.headers = (options.headers || {}) as Record<string, string>
-
-            if (tokenJwt.value) options.headers['Authorization'] = tokenJwt.value
+            if (tokenJwt.value) options.headers.append('Authorization', tokenJwt.value)
         },
         onResponseError({ response }) {
             if (!import.meta.server) {

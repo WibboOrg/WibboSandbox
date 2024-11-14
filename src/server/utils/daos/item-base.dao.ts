@@ -3,7 +3,7 @@ import { Prisma } from "@wibbo/prisma"
 export const itemBaseDao = {
   getAll: async () => prisma.itemBase.findMany(),
   getOne: async (id: number) => prisma.itemBase.findFirst({ where: { id } }),
-  getOneByIdOrName: async (id: number, itemName: string) => prisma.itemBase.findFirst({ where: { OR : [{ id }, { itemName }, { spriteId: id }]} }),
+  getOneBySpriteIdOrName: async (id: number, itemName: string) => prisma.itemBase.findFirst({ where: { OR : [{ itemName }, { spriteId: id }]} }),
   getLastSpriteId: async () => prisma.itemBase.findFirst({ select: { spriteId: true }, orderBy: { spriteId: "desc" }}),
   remove: async (id: number) => prisma.itemBase.delete({ where: { id } }),
   removeAll: async (ids: number[]) => prisma.itemBase.deleteMany({ where: { id: { in: ids } } }),

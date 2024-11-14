@@ -37,21 +37,21 @@ export default defineEventHandler(async (event) => {
   }
 
   const newFurnitures = []
-  let newFurniId = furniId.spriteId
+  let lastSpriteId = furniId.spriteId
   const funidataCodes = []
   for (const colorId of colorIds) {
-    newFurniId++
+    lastSpriteId++
 
     const furniNameWithColor = colorId === -1 ? furniName : `${furniName}*${colorId}`
 
-    const furniExist = await itemBaseDao.getOneByIdOrName(newFurniId, furniNameWithColor)
+    const furniExist = await itemBaseDao.getOneBySpriteIdOrName(lastSpriteId, furniNameWithColor)
 
     if (furniExist !== null) {
       throw createError({ statusCode: 400, message: 'Mobilier déjà existant' })
     }
 
     const funidataCode: any = {
-      id: newFurniId,
+      id: lastSpriteId,
       classname: furniNameWithColor,
       category: "",
       name: `${name}${colorId === -1 ? '' : ` ${colorId}`}` || `${furniNameWithColor} title`,
@@ -77,7 +77,7 @@ export default defineEventHandler(async (event) => {
     }
 
     funidataCodes.push(funidataCode)
-    newFurnitures.push({ id: newFurniId, name: furniNameWithColor, color: colorId })
+    newFurnitures.push({ spriteId: lastSpriteId, name: furniNameWithColor, color: colorId })
   }
 
   const funidata: Record<string, object> = {}
@@ -102,13 +102,13 @@ export default defineEventHandler(async (event) => {
   }
 
   for (const newFurni of newFurnitures) {
-    await itemBaseDao.create({ catalogItem: { create: { id: newFurni.id, catalogName: newFurni.name, pageId: 1546145145 } }, itemName: newFurni.name, spriteId: newFurni.id, canSit: false, canStack: false, isWalkable: false, type: type })
+    await itemBaseDao.create({ catalogItem: { create: { catalogName: newFurni.name, pageId: 1546145145 } }, itemName: newFurni.name, spriteId: newFurni.spriteId, canSit: false, canStack: false, isWalkable: false, type: type })
   }
 
   await logSandboxDao.create({
     method: 'post',
     editName: 'upload-furni',
-    editKey: newFurnitures.map(x => x.id).join(', '),
+    editKey: newFurnitures.map(x => x.name).join(', '),
     user: {
       connect: { id: sessionUser.id }
     }
