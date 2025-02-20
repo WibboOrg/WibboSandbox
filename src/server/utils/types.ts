@@ -48,5 +48,5 @@ export type CategoryKey =
 export type CategoryValue = {
   path: string;
   categoryType: string;
-  ext: string;
+  ext: string | string[];
 };

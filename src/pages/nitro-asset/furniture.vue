@@ -4,6 +4,11 @@
       <label class="text-xl font-bold">Recherche</label>
       <BaseInput placeholder="Filter les resultats" v-model="pageSearch" :delay="500" />
     </div>
+    <div class="col-span-1">
+      <label class="text-xl font-bold">Importer des fichiers (.nitro)</label>
+      <BaseUploadFile accept=".nitro" @upload="handleFileUpload" ref="baseUploadFileRef" multiple />
+      <BaseButton @click="uploadFiles(fileUploads).then(() => baseUploadFileRef?.reset())">Importer</BaseButton>
+    </div>
     <div class="col-span-1 sticky top-0 z-10 backdrop-blur">
       <label class="text-xl font-bold">Choisir une option</label>
       <div class="flex flex-row gap-2 mt-2">
@@ -49,11 +54,17 @@
 </template>
 
 <script lang="ts" setup>
-const { isLoading, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, updateFileIds, saveAllfiles, fileNeedSaveCount } = await useFetchData<ApiData>('/api/asset/furniture', true)
+import type { LazyBaseUploadFile } from '#build/components'
+
+const baseUploadFileRef = ref<InstanceType<typeof LazyBaseUploadFile> | null>(null)
+const { isLoading, getFiles, filesPage, pageCount, pageId, pageSearch, updatePageCurrent, updateFileIds, saveAllfiles, fileNeedSaveCount, uploadFiles } = await useFetchData<ApiData>('/api/asset/furniture', true)
 
 const { urlAssets } = useRuntimeConfig().public
 
 const getFileName = (url: string) => url.split('/').pop()?.split('.').slice(0, -1).join('.') || ''
+
+const fileUploads = ref<{ base64: string; name: string }[]>([])
+const handleFileUpload = (files: { base64: string; name: string }[]) => (fileUploads.value = files)
 
 interface ApiData {
   keyIndex?: number

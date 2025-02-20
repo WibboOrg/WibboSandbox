@@ -29,6 +29,10 @@ export default defineEventHandler(async (event) => {
 
   const imageMetadata = await sharp(imageBuffer).metadata()
 
+  if (imageMetadata.format !== 'gif') {
+    throw createError({ statusCode: 400, message: 'Le fichier doit etre au format gif' })
+  }
+
   if (imageMetadata.width !== 40 || imageMetadata.height !== 40) {
     throw createError({ statusCode: 400, message: 'La taille du badge dois être 40x40' })
   }

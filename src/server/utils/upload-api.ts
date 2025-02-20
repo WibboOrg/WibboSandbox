@@ -7,7 +7,6 @@ export const uploadApi = async (type: UploadApiType, uploadDatas: UploadApiData[
   try {
     const payload = new URLSearchParams()
 
-
     uploadDatas.forEach((uploadData, index) => {
 
       payload.append(`${index}[action]`, uploadData.action)
@@ -28,9 +27,11 @@ export const uploadApi = async (type: UploadApiType, uploadDatas: UploadApiData[
     const result = await response.text()
 
     if (!result || result !== 'ok') {
+      console.error('uploadApi', result)
       return false
     }
   } catch (e: unknown) {
+    console.error('uploadApi', e)
     return false
   }
 
@@ -49,7 +50,7 @@ export const uploadCategoryPath: Record<CategoryKey, CategoryValue> = {
   banner: { path: 'images/banner', categoryType: 'assets', ext: 'png' },
   backgrounds: { path: 'c_images/backgrounds', categoryType: 'assets', ext: 'png' },
   badge: { path: 'c_images/album1584', categoryType: 'assets', ext: 'gif' },
-  catalogue: { path: 'c_images/catalogue', categoryType: 'assets', ext: 'png' },
+  catalogue: { path: 'c_images/catalogue', categoryType: 'assets', ext: ['png', 'gif'] },
   navigator: { path: 'c_images/navigator', categoryType: 'assets', ext: 'png' },
   reception: { path: 'c_images/reception', categoryType: 'assets', ext: 'png' },
   web_promo_small: { path: 'c_images/web_promo_small', categoryType: 'assets', ext: 'png' },

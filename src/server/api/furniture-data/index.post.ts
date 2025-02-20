@@ -10,6 +10,16 @@ export default defineEventHandler(async (event) => {
   const { urlAssets } = useRuntimeConfig().public;
 
   const furniData = await fetchServer<IFurnitureData>(`${urlAssets}gamedata-sandbox/FurnitureData.json`);
+
+  // const roomClassIds = furniData.roomitemtypes.furnitype.map((value) => {
+  //   return { id: value.id, classname: value.classname, type: 's' };
+  // });
+  // const wallClassIds = furniData.wallitemtypes.furnitype.map((value) => {
+  //   return { id: value.id, classname: value.classname, type: 'i' };
+  // });
+
+  // const classIds = [...roomClassIds, ...wallClassIds];
+
   let newFurniData = { wallitemtypes: { furnitype: [] }, roomitemtypes: { furnitype: [] }} as IFurnitureData
   let product: { productdata: { product: IProductCode[] } } = { productdata: { product: [] } };
 
@@ -24,10 +34,18 @@ export default defineEventHandler(async (event) => {
 
   const processItem = async (item: IFurnitureType, type: ItemBaseType) => {
     const id = item.id;
-    let { name, description } = item;
+    let { name, description, classname } = item;
+
+    // const itemCount = classIds.filter(x => x.classname == classname && x.type == type);
+    // if (itemCount && itemCount.length > 1) {
+    //   classIds.splice(classIds.indexOf(itemCount[0]), 1);
+    //   console.log('duplicate classname', classname, itemCount.length);
+    //   return false;
+    // }
 
     const catalogItem = await catalogItemDao.getOneBySpriteIdAndType(id, type);
     if (!catalogItem) {
+      console.log('catalogItem not found', id, classname);
       return false;
     }
 

@@ -1,4 +1,0 @@
-packages:
-  # if required, exclude some directories
-  - '!**/test/**'
-  - '!**/.output/**'

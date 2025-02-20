@@ -14,18 +14,19 @@
   "dependencies": {
     "@wibbo/prisma": "file:../WibboPrisma",
     "bcryptjs": "^2.4.3",
-    "daisyui": "^4.12.14",
+    "daisyui": "^4.12.23",
+    "file-type": "^20.1.0",
     "jsonwebtoken": "^9.0.2",
     "pako": "^2.1.0",
     "sharp": "^0.33.5",
-    "zod": "^3.23.8"
+    "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "6.12.2",
+    "@nuxtjs/tailwindcss": "6.13.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9",
-    "@types/node": "^22.9.0",
+    "@types/node": "^22.13.1",
     "@types/pako": "^2.0.3",
-    "nuxt": "^3.14.159"
+    "nuxt": "^3.15.4"
   }
 }
